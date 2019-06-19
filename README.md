@@ -12,5 +12,5 @@ We hope that, through digital humanities techniques like Topic Modeling, we can 
 
 ## Mission 2: Nietszchean Philosophy in Faulkner
 
-j
+## Mission 3: Themes in Children's Storytelling
 
