@@ -4,6 +4,8 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.stem.porter import PorterStemmer
 import collections
 from collections import Counter
+import sys
+from test import simpleTokenize
 
 # Getting the text, converting and cleaning
 from test import cleanText
@@ -20,12 +22,13 @@ def freqPlot(words):
 	
 # Sentence Length Histogram
 from test import sentenceLength
-#def senPlot(words):
+def senLen(text):
+	s = sentenceLength(text)
+	plt.plot(list(range(len(s))), s) 
+	
 
 
 # STUDY ON SHORT STORIES
-import sys
-from test import simpleTokenize
 
 # Generates an array of words that are found in the same context
 # as a chosen array of words
@@ -66,6 +69,8 @@ def wordProgression(words, word):
 t = nltk.Text(word.lower() for word in simpleTokenize("CatcherSalinger.txt"))
 y = wordProgression( t , "glass")
 x =  list(range( int(len(t)/100) +1))
+
+senLen(t)
 
 plt.plot(x,y)
 plt.show()
