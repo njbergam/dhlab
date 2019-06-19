@@ -88,9 +88,12 @@ def cleanText(fileName):
 			w = lem.lemmatize(w,"v")
 			filteredDict.append(w)
 	return filteredDict
+	
+
 
 # Returns a dictionary with the proportions of different types of speech
-def POSDensity(array):
+# This uses simplified tags, so it only contains nouns, verbs, adjectives, pronouns, and adverbs
+def POSDensitySimple(array):
 	tagged = nltk.pos_tag(array);
 	simplifiedTags = [(word, nltk.map_tag('en-ptb', 'universal', tag)) for word, tag in tagged]
 	s = len(array)
@@ -99,7 +102,23 @@ def POSDensity(array):
 	#counts = collections.UserDict(counts)
 	for k in counts.keys():
 		counts[k] *= 1.0/s
+		counts[k] = '%.4f'%(counts[k])
 	return (counts)
+	
+# Returns a dictionary with the proportions of different types of speech
+# This uses more complex tags like foreign words ('FW') and interjection ('UH')
+# See this link for full list of tags --> http://www.nltk.org/book_1ed/ch05.html
+def POSDensity(array):
+	tagged = nltk.pos_tag(array);
+	s = len(array)
+	print(s)
+	counts = dict( Counter(tag for word, tag in tagged))
+	#counts = collections.UserDict(counts)
+	for k in counts.keys():
+		counts[k] *= 1.0/s
+		counts[k] = '%.4f'%(counts[k])		
+	return (counts)
+	
 	
 # Returns array of the length of each sentence
 def sentenceLength(array):
@@ -113,13 +132,30 @@ def sentenceLength(array):
 			senlen += 1
 	return lens
 	
+# Returns the percent of a given text that is within quotes
+def percentQuotes (array):
+    count = 0
+    length = len(array)
+    for i in range(length):
+        if array[i] == "``":
+            i += 1
+            while i < length and array[i] != "''":
+                count += 1
+                i += 1    
+            count += 2 
+    percent = count*1.0/length 
+    return percent
+	
 	
 text = nltk.Text(word.lower() for word in simpleTokenize("SoundAndFury.txt") )
 print( text.similar('quentin') )
+print( text.similar('benjy') )
+print( text.similar('caddy') )
+print( text.similar('jason') )
+print( text.similar('dilsey') )
 
-#print( sentenceLength( simpleTokenize("SoundAndFury.txt")))
-	
 
 
 
-#print( POSDensity ( cleanText("SoundAndFury.txt") ) )
+
+print( POSDensity ( cleanText("SoundAndFury.txt") ) )
