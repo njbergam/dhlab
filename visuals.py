@@ -47,7 +47,7 @@ tw = ['teddy', 'poet', 'gift horse', 'nephritis', 'spritual', 'diary', 'orphan',
 #generateSimilarWords("CatcherSalinger.txt", "teddyWords.txt", tw)
 
 
-def wordProgression(words, word):
+def wordProgression(words, wordlist):
     occurences = []
     section = list(range(100))
     ocount = 0
@@ -56,7 +56,7 @@ def wordProgression(words, word):
     while i < len(words):
         j = i
         while i < j + 100 and i < len(words):
-            if words[i] == word:
+            if words[i] is in wordlist:
                 ocount += 1
             i += 1
         occurences.append(ocount)
