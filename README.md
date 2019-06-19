@@ -8,6 +8,15 @@ We believe there are some convincing thematic and character similarities between
      2) Holden Caulfield and Teddy: How do they relate time with
      
 We hope that, through digital humanities techniques like Topic Modeling, we can illuminate these connections qualitatively and furthermore establish new connections.
+
+Our experimental design is as follows:
+1. Generate key words and phrases from individual short stories through human reading (e.g. “glass” or “fish” from “A Perfect Day For Bananafish“)
+2. Generate a second generation of similar words from this initial human reading list
+    1. Currently, we are using nltk’s text.similar(), which uses word context and part of speech to generate list of words
+    2. However, we are hoping we can use more advanced machine learning designs (taking information and context from other texts) to generate better second generation batch
+3. Using the frequency of these words across Catcher in the Rye (as well as some sort of weighting system between first and second gen words, as well as within generations) to produce a heat map of the word frequencies of keywords for each short story in relation to Catcher
+4. Using human reading, divide Catcher in the Rye into certain chapters and mark this on the heat map (e.g. “first taxi driver”, “Mr. Antonelli”, “fight with Stradlater”)
+5. Use these heat maps to confirm hypotheses / find new connections
      
 
 ## Mission 2: Nietszchean Philosophy in Faulkner
