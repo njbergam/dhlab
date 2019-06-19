@@ -37,7 +37,15 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.stem.porter import PorterStemmer
+import collections
 from collections import Counter
+
+# Given a filename, returns an array of tokens (words, punctuation are separated)
+def simpleTokenize(fileName):
+	file = open(fileName, "r")
+	words = nltk.word_tokenize(file.read())
+	return words
+
 # This function should, given a fileName, 1) tokenize the text file 
 # 2) remove three or fewer characters, 3) Removing stopwords
 # 4) Lemmatization (third person-->first person, past to present tense)
@@ -55,16 +63,38 @@ def cleanText(fileName):
 			w = lem.lemmatize(w,"v")
 			filteredDict.append(w)
 	return filteredDict
-	
-# print( cleanText("SoundAndFury.txt") )
 
-
-# Returns a dictionary with the density
+# Returns a dictionary with the proportions of different types of speech
 def POSDensity(array):
 	tagged = nltk.pos_tag(array);
 	simplifiedTags = [(word, nltk.map_tag('en-ptb', 'universal', tag)) for word, tag in tagged]
-	s = sum(simplifiedTags.values())
-	counts = Counter (tag for word, tag in simplifiedTags*1.0/s)
+	s = len(array)
+	print(s)
+	counts = dict( Counter(tag for word, tag in simplifiedTags))
+	#counts = collections.UserDict(counts)
+	for k in counts.keys():
+		counts[k] *= 1.0/s
 	return (counts)
 	
-print( POSDensity (cleanText("SoundandFury.txt")) )
+# Returns array of the length of each sentence
+def sentenceLength(array):
+	lens = []
+	senlen = 0
+	for word in array:
+		if word == ".":
+			lens.append(senlen)
+			senlen = 0
+		else:
+			senlen += 1
+	return lens
+	
+	
+text = nltk.Text(word.lower() for word in simpleTokenize("SoundAndFury.txt") )
+print( text.similar('quentin') )
+
+#print( sentenceLength( simpleTokenize("SoundAndFury.txt")))
+	
+
+
+
+#print( POSDensity ( cleanText("SoundAndFury.txt") ) )
