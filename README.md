@@ -14,3 +14,5 @@ We hope that, through digital humanities techniques like Topic Modeling, we can 
 
 ## Mission 3: Themes in Children's Storytelling
 
+## Future
+Up to this point, we have treated texts as a “bag of words”; we’ve split up novels into arrays of singular words and focused on the frequency and similarity of individual words rather than how these words might interact with each other. Although it has allowed us to write a variety useful functions, our current method of analysis is constrained by it’s superficiality.  By creating algorithms which examine larger word combinations and phrases, we may be able to gain  more “human” understandings of texts and ultimately draw more accurate meaningful observations. We plan to use the research of people who have taken on this endevour to inspire our own.
