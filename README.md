@@ -4,11 +4,11 @@ We are the digital humanities pioneers for the Pingry School's Humanities Indepe
 ## Mission 1: The "Infinity Stones" of Salinger's Short Stories
 
 We believe there are some convincing thematic and character similarities between the 'Nine Stories' and the various 'episodes' of Holden's journey in 'The Catcher in the Rye.' These are specific comparisons we have in mind, from our own reading. 
-     1) Mr. Antonelli and Seymour Glass: Why is Salinger pressuring the reader to assume these men are pedophiles?
-     2) Holden and Teddy: Advanced Wisdom or Fatal Naivete?
-     3) Buddhism and the Void in American Culture: Caulfield vs de-Daumier Smith
-     4) PTSD: Addressed directly for 'Esme', perhaps indirectly for 'Catcher'
-     5) The Death of Youthful Constructs: 'Laughing Man' and the 'Rye' poem
+     1. Mr. Antonelli and Seymour Glass: Why is Salinger pressuring the reader to assume these men are pedophiles?
+     2. Holden and Teddy: Advanced Wisdom or Fatal Naivete?
+     3. Buddhism and the Void in American Culture: Caulfield vs de-Daumier Smith
+     4. PTSD: Addressed directly for 'Esme', perhaps indirectly for 'Catcher'
+     5. The Death of Youthful Constructs: 'Laughing Man' and the 'Rye' poem
      
 Through digital humanities techniques like Topic Modeling, we can illuminate these connections qualitatively and furthermore establish new connections.
 
