@@ -1,27 +1,33 @@
-FirstGen Words: ['chief', 'museum', 'baseball', 'laugh', 'descendant']
-SecondGen Words: ['teddy', 'poet', 'gift', 'horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad']
 
 
 
 Title: The Laughing Man
+FirstGen Words: ['chief', 'museum', 'baseball', 'laugh', 'descendant']
+SecondGen Words: ['back']
+
+
 Number 0
 --> Score: 8
---> Z-Score: 7.9437772895448
---> Average Score 0.2012987012987013
+--> Z-Score: 7.230966031557636
+--> Average Score 0.33225108225108224
 Number of FirstGen Words: 2
 Number of SecondGen Words: 0
 . This is about a goddam baseball glove ."`` So what?"I said . Cold as hell .``Wuddaya mean so what? I told ya it had to be about a goddam room or a house or something ."`` You said it had to be descriptive . What the hell's the difference if it's about a baseball glove?"`` God damn it ."He was sore as hell . He was really furious .``You always do everything backasswards ."He looked at me.
+
+
 Number 1
 --> Score: 8
---> Z-Score: 8.234552058414033
---> Average Score 0.19284940411700974
+--> Z-Score: 7.448944872243881
+--> Average Score 0.323943661971831
 Number of FirstGen Words: 0
 Number of SecondGen Words: 0
 A throw, or till noon? I gotta know ."`` Just a throw ."`` Okay, what room ya in?"I looked at the red thing with my number on it, on my key .``Twelve twenty-two ,"I said . I was already sort of sorry I'd let the thing start rolling, but it was too late now .``Okay . I'll send a girl up in about fifteen minutes ."He opened the doors and I got out .``Hey ,
+
+
 Number 2
 --> Score: 8
---> Z-Score: 8.559788645553946
---> Average Score 0.1843817787418655
+--> Z-Score: 7.6879051074539575
+--> Average Score 0.3156182212581345
 Number of FirstGen Words: 1
-Number of SecondGen Words: 0
+Number of SecondGen Words: 1
 All right, chief, let's have it . I gotta get back to work ."`` I told you about ten times, I don't owe you a cent . I already gave her the five --"`` Cut the crap, now . Let's have it ."`` Why should I give her another five bucks?"I said . My voice was cracking all over the place .``You're trying to chisel me ."Old Maurice unbuttoned his whole uniform coat . All he had on
