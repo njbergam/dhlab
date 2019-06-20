@@ -26,7 +26,7 @@ def wpReport(filename, firstgen, secgen, ssName, numTop, writeTo):
 	for i in range(numTop):
 		topIndex = arr.index(max(arr))
 		topWords = text[topIndex*100:topIndex*100+100]
-		print("Number " + str(i))
+		print("\n\nNumber " + str(i))
 		print( "--> Score: " + str( arr[topIndex]) + "\n--> Z-Score: " + str(stats.zscore(arr)[topIndex]))
 		print("--> Average Score " + str(statistics.mean(arr))) 
 		fg=0
@@ -56,14 +56,18 @@ twArray = generateSimilarWords("CatcherSalinger.txt", "teddyWords.txt", tw)
 lw = ['chief','museum', 'baseball', 'laugh', 'descendant']
 lwArray = generateSimilarWords("CatcherSalinger.txt", "laughingWords.txt", lw)
 
-
 # For Esme – With Love and Squalor
 ew = ['esme', 'love', 'squalor', 'wedding', 'faculties', 'war']
 ewArray = generateSimilarWords("CatcherSalinger.txt", "esmeWords.txt", ew)
+
+# Daumier-Smith
+dw = ['el greco', 'french', 'tokyo', 'art', 'buddhism', 'lying',  'harvard', 'nun', 'magdalene']
+dwArray = generateSimilarWords("CatcherSalinger.txt", "daumierWords.txt", dw)
 	
 wpReport("CatcherSalinger.txt", bw, bwArray, "A Perfect Day for Bananafish", 3, "bananaWords.txt") 
 wpReport("CatcherSalinger.txt", lw, lwArray, "The Laughing Man", 3, "laughingWords.txt") 
 wpReport("CatcherSalinger.txt", ew, ewArray, "For Esme––With Love and Squalor", 2, "esmeWords.txt") 
 wpReport("CatcherSalinger.txt", tw, twArray, "Teddy", 1, "teddyWords.txt") 
+wpReport("CatcherSalinger.txt", dw, dwArray, "Daumier-Smith", 1, "daumierWords.txt") 
 
 

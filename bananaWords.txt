@@ -1,27 +1,18 @@
-FirstGen Words: ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
-SecondGen Words: ['yellow', 'to', 'fish', 'hell', 'glass', 'stuff', 'foot', 'got', 'beach', 'parents', 'suicide']
+yellow
+to
+
+fish
+hell
+
+glass
+stuff
+
+foot
+got
+
+beach
+parents
+
+suicide
 
 
-
-Title: A Perfect Day for Bananafish
-Number 0
---> Score: 17
---> Z-Score: 7.268238142856374
---> Average Score 2.725108225108225
-Number of FirstGen Words: 4
-Number of SecondGen Words: 5
-'' I said . He was sore about it or something .``Who's sore? Nobody's sore ."I stopped having a conversation with him, if he was going to get so damn touchy about it . But he started it up again himself . He turned all the way around again, and said ,"The fish don't go no place . They stay right where they are, the fish . Right in the goddam lake ."`` The fish--that's different . The fish is different.
-Number 1
---> Score: 11
---> Z-Score: 4.34502789857827
---> Average Score 2.7096424702058504
-Number of FirstGen Words: 0
-Number of SecondGen Words: 1
-you calling me a crook?"Then, instead of saying,``You're goddam right I am, you dirty crooked bastard!"all I probably would've said would be,``All I know is my goddam gloves were in your goddam galoshes ."Right away then, the guy would know for sure that I wasn't going to take a sock at him, and he probably would've said,``Listen . Let's get this straight . Are you calling me a thief?"Then I probably would
-Number 2
---> Score: 11
---> Z-Score: 4.392588433630036
---> Average Score 2.700650759219089
-Number of FirstGen Words: 0
-Number of SecondGen Words: 1
-n't that I was bored or anything--I wasn't--but I was so damn sleepy all of a sudden .``Something else an academic education will do for you . If you go along with it any considerable distance, it'll begin to give you an idea what size mind you have . What it'll fit and, maybe, what it won't . After a while, you'll have an idea what kind of thoughts your particular size mind should be wearing . For one thing, it may save you
