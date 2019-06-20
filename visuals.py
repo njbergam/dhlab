@@ -10,7 +10,6 @@ from test import simpleTokenize
 # Getting the text, converting and cleaning
 from test import cleanText
 words = cleanText("CatcherSalinger.txt")
-
 import matplotlib.pyplot as plt
 
 
@@ -25,52 +24,88 @@ from test import sentenceLength
 def senLen(text):
 	s = sentenceLength(text)
 	plt.plot(list(range(len(s))), s) 
-	
 
 
 # STUDY ON SHORT STORIES
 
-# Generates an array of words that are found in the same context
-# as a chosen array of words
+# Generates an second generation of words, based on the context in rootTextNae
+# and a given array of first gen words picked out by human reading. 
 def generateSimilarWords(rootTextName, newDocName, words):
 	text = nltk.Text(word.lower() for word in simpleTokenize(rootTextName) )
 	sys.stdout = open(newDocName, 'w')
 	for i in range(len(words)):
 		print(words[i])
-		text.similar(words[i])
+		text.similar(words[i], 1)
 		print()
-	return cleanText(newDocName)
+	sys.stdout = sys.__stdout__
+	m = simpleTokenize(newDocName)
+	n = m.copy()
+	for i in range(len(m)):
+		if m[i] == "No" and m[i+1] == "matches":
+			n.remove("No")
+			n.remove("matches")
+	return n
 
 # Banana Fish
-bw = ['yellow', 'fish', 'glass', 'day', 'perfect', 'foot', 'beach']
-#bwArray = simpleTokenize( generateSimilarWords("CatcherSalinger.txt", "bananaWords.txt", bw) )
+bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
+bwArray = generateSimilarWords("CatcherSalinger.txt", "bananaWords.txt", bw) 
 
 # Teddy 
 tw = ['teddy', 'poet', 'gift horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad' ]
-#generateSimilarWords("CatcherSalinger.txt", "teddyWords.txt", tw)
+twArray = generateSimilarWords("CatcherSalinger.txt", "teddyWords.txt", tw)
 
+# The Laughing Man
+lw = ['chief','museum', 'baseball', 'laugh', 'descendant']
+lwArray = generateSimilarWords("CatcherSalinger.txt", "laughingWords.txt", tw)
 
-def wordProgression(words, word):
+# For Esme – With Love and Squalor
+ew = ['esme', 'love', 'squalor', 'wedding', 'faculties', 'war']
+ewArray = generateSimilarWords("CatcherSalinger.txt", "esmeWords.txt", tw)
+
+# Given a text as an array of words, takes in a first and sec gen words
+# and outputs the frequencies of words within that wordlist
+# Each entry in the list represents the frequency in consecutive
+# hundred words
+def wordProgression(words, firstgen, secgen):
     occurences = []
     section = list(range(100))
     ocount = 0
     i = 0
-    print (len(words))
     while i < len(words):
         j = i
         while i < j + 100 and i < len(words):
-            if words[i] == word:
-                ocount += 1
+            if words[i] in firstgen:
+                ocount += 4
+            elif words[i] in secgen:
+            	ocount += 1
             i += 1
         occurences.append(ocount)
         ocount = 0
     return occurences
 
-t = nltk.Text(word.lower() for word in simpleTokenize("CatcherSalinger.txt"))
-y = wordProgression( t , "glass")
-x =  list(range( int(len(t)/100) +1))
 
-senLen(t)
 
-plt.plot(x,y)
+
+fig, axs = plt.subplots(4)
+fig.suptitle('Short Story Readings on Salinger')
+
+def plotChronoMap(textName, firstgen, secgen, title, graphNum):
+	t = nltk.Text(word.lower() for word in simpleTokenize(textName))
+	y = wordProgression( t , firstgen, secgen)
+	x =  list(range( int(len(t)/100) +1))
+		# If you want to make separate plots
+		#a, f = plt.subplots(1)
+		#a.suptitle(title)
+		#f.plot(x,y)
+	axs[graphNum].plot(x, y)
+	axs[graphNum].set_title(title)
+
+plotChronoMap("CatcherSalinger.txt", bw, bwArray, "Bananafish Words in Catcher", 0)
+plotChronoMap("CatcherSalinger.txt", tw, twArray, "Teddy Words in Catcher", 1)
+plotChronoMap("CatcherSalinger.txt", lw, lwArray, "Laughing Man Words in Catcher", 2)
+plotChronoMap("CatcherSalinger.txt", ew, ewArray, "Esme Words in Catcher", 3)
+
+#uniform_data = np.random.rand(1, 1)
+#axs[2] = sns.heatmap(uniform_data, linewidth=0.5)
+plt.tight_layout()
 plt.show()
