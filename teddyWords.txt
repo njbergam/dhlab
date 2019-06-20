@@ -1,0 +1,13 @@
+FirstGen Words: ['teddy', 'poet', 'gift horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad']
+SecondGen Words: ['teddy', 'poet', 'gift', 'horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad']
+
+
+
+Title: Teddy
+Number 0
+--> Score: 4
+--> Z-Score: 12.646246043679563
+--> Average Score 0.0367965367965368
+Number of FirstGen Words: 1
+Number of SecondGen Words: 1
+spells it``Hazle ."Old Hazle Weatherfield is a girl detective . She's supposed to be an orphan, but her old man keeps showing up . Her old man's always a``tall attractive gentleman about 20 years of age ."That kills me . Old Phoebe . I swear to God you'd like her . She was smart even when she was a very tiny little kid . When she was a very tiny little kid, I and Allie used to take her to the park with us, especially on

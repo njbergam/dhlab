@@ -1,0 +1,20 @@
+FirstGen Words: ['esme', 'love', 'squalor', 'wedding', 'faculties', 'war']
+SecondGen Words: ['esme', 'love', 'said', 'squalor', 'wedding', 'faculties', 'war', 'room']
+
+
+
+Title: For Esme––With Love and Squalor
+Number 0
+--> Score: 13
+--> Z-Score: 8.71313648072377
+--> Average Score 1.0205627705627707
+Number of FirstGen Words: 3
+Number of SecondGen Words: 4
+goddam years . He was in the war, too--he landed on D-Day and all--but I really think he hated the Army worse than the war . I was practically a child at the time, but I remember when he used to come home on furlough and all, all he did was lie on his bed, practically . He hardly ever even came in the living room . Later, when he went overseas and was in the war and all, he didn't get wounded or anything and he did n't
+Number 1
+--> Score: 12
+--> Z-Score: 8.34131338110567
+--> Average Score 1.0075839653304441
+Number of FirstGen Words: 3
+Number of SecondGen Words: 3
+where I was supposed to meet old Carl Luce, and while I walked I sort of thought about war and all . Those war movies always do that to me . I don't think I could stand it if I had to go to war . I really couldn't . It wouldn't be too bad if they'd just take you out and shoot you or something, but you have to stay in the Army so goddam long . That's the whole trouble . My brother D.B . was in the Army for four
