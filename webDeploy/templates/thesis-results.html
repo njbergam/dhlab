@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Results of Thesis Analysis </h1>
+
+  <br>
+  {%  for e in vector.keys(): %}
+    <p> {{e}} : {{ vector[e] }}  % </p>
+  {% endfor%}
+  <div> </div>
+
+
+{% endblock %}

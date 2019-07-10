@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Double-Text Analysis </h1>
+
+  <h3> Word Generationality <h3>
+
+  <p>
+    The concept behind this method is that we can track the presence of themes and
+	possible allusions between a root text (where themes are recognized by humans) and the
+	base text (where themes from that root text are examined). <br>
+ </p>
+
+
+  <p> Base Text: {% include '/includes/_upload.html' %} </p>
+  <p> Root Text: {% include '/includes/_upload.html' %} </p>
+  First Generation Words: <br> <input type="text" name="firstgen" value="firstgen"><br>
+  
+{% endblock %}

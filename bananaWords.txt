@@ -1,18 +1,33 @@
-yellow
-to
-
-fish
-hell
-
-glass
-stuff
-
-foot
-got
-
-beach
-parents
-
-suicide
 
 
+
+Title: A Perfect Day for Bananafish
+FirstGen Words: ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
+SecondGen Words: ['hell', 'stuff', 'got', 'parents']
+
+
+Number 0
+--> Score: 16
+--> Z-Score: 11.110881058130753
+--> Average Score 0.8636363636363636
+Number of FirstGen Words: 4
+Number of SecondGen Words: 0
+'' I said . He was sore about it or something .``Who's sore? Nobody's sore ."I stopped having a conversation with him, if he was going to get so damn touchy about it . But he started it up again himself . He turned all the way around again, and said ,"The fish don't go no place . They stay right where they are, the fish . Right in the goddam lake ."`` The fish--that's different . The fish is different.
+
+
+Number 1
+--> Score: 10
+--> Z-Score: 7.2147702745585836
+--> Average Score 0.847237269772481
+Number of FirstGen Words: 0
+Number of SecondGen Words: 1
+an extraordinary amount of time trying on ideas that don't suit you, aren't becoming to you . You'll begin to know your true measurements and dress your mind accordingly ."Then, all of a sudden, I yawned . What a rude bastard, but I couldn't help it! Mr. Antolini just laughed, though .``C'mon ,"he said, and got up .``We'll fix up the couch for you ."I followed him and he went over to this closet and tried to take
+
+
+Number 2
+--> Score: 9
+--> Z-Score: 6.620445987627463
+--> Average Score 0.8373101952277657
+Number of FirstGen Words: 1
+Number of SecondGen Words: 3
+. He didn't answer me, though . I guess he was still thinking . I asked him again, though . He was a pretty good guy . Quite amusing and all .``I ain't got no time for no liquor, bud ,"he said .``How the hell old are you, anyways? Why ain'tcha home in bed?"`` I'm not tired ."When I got out in front of Ernie's and paid the fare, old Horwitz brought up the fish again . He certainly

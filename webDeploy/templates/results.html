@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Results of Single-Text Analysis </h1>
+
+  <p> Percent Quotes: {{pq}} </p>
+  <p> Average Sentence Length:  {{sen[0]}} </p>
+  <img src = {{ '/static/graphs/' + pos + '.png'  }} alt = 'figure' >
+
+  <br><br>
+  <img src = {{ '/static/graphs/' + top + '.png'  }} alt = 'figure' >
+
+  <div> </div>
+
+
+{% endblock %}

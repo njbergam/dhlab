@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Thesis Analysis </h1>
+
+  <form action = '/thesis-result' method = "POST">
+    <p> Thesis: </p> <p>  <input type="text" name="thesis" style="width:400px; height:100px;"><br> </p>
+    <p> Critical Nouns: </p> <p>    <input type="text" name="cn"  style="width:400px; height:50px;">  <br> </p>
+    <p> Critical Verbs: </p> <p>   <input type="text" name="cv"  style="width:400px; height:50px;">  <br> </p>
+    <input type="submit" value="Submit">
+  </form>
+
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Single-Text Analysis </h1>
+  <p> Gives introductory information about <br>
+  - Sentence Length Statistics <br>
+  - Top word frequencies <br>
+  - Part of speech density <br>
+  - Character sampling <br>
+  - Word generationality rebound <p>
+
+  {% include '/includes/_upload.html' %}
+  <p> <br>  *please tokenize answers below with commas* <br> </p>
+
+  <p> Major Characters: </p> <p>   <input type="text" name="cv"  style="width:400px; height:50px;">  <br> </p>
+  <p> First Generation Words: </p> <p>   <input type="text" name="cv"  style="width:400px; height:50px;">  <br> </p>
+
+
+{% endblock %}

@@ -1,13 +1,33 @@
-FirstGen Words: ['teddy', 'poet', 'gift horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad']
-SecondGen Words: ['teddy', 'poet', 'gift', 'horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad']
 
 
 
 Title: Teddy
+FirstGen Words: ['teddy', 'poet', 'gift horse', 'nephritis', 'spritual', 'diary', 'orphan', 'triumvirate', 'myriad']
+SecondGen Words: ['gift', 'horse']
+
+
 Number 0
 --> Score: 4
 --> Z-Score: 12.646246043679563
 --> Average Score 0.0367965367965368
 Number of FirstGen Words: 1
-Number of SecondGen Words: 1
+Number of SecondGen Words: 0
 spells it``Hazle ."Old Hazle Weatherfield is a girl detective . She's supposed to be an orphan, but her old man keeps showing up . Her old man's always a``tall attractive gentleman about 20 years of age ."That kills me . Old Phoebe . I swear to God you'd like her . She was smart even when she was a very tiny little kid . When she was a very tiny little kid, I and Allie used to take her to the park with us, especially on
+
+
+Number 1
+--> Score: 4
+--> Z-Score: 13.916009693356148
+--> Average Score 0.032502708559046585
+Number of FirstGen Words: 0
+Number of SecondGen Words: 0
+in this store autographing books . She tells old Alec he's really a duke and all, but he doesn't believe her and doesn't want to go with her to visit his mother and all . His mother's blind as a bat . But the other girl, the homey one, makes him go . She's very noble and all . So he goes . But he still doesn't get his memory back, even when his great Dane jumps all over him and his mother sticks her fingers all over his face
+
+
+Number 2
+--> Score: 4
+--> Z-Score: 15.665602359444712
+--> Average Score 0.028199566160520606
+Number of FirstGen Words: 0
+Number of SecondGen Words: 0
+goddam years . He was in the war, too--he landed on D-Day and all--but I really think he hated the Army worse than the war . I was practically a child at the time, but I remember when he used to come home on furlough and all, all he did was lie on his bed, practically . He hardly ever even came in the living room . Later, when he went overseas and was in the war and all, he didn't get wounded or anything and he did n't
