@@ -83,10 +83,12 @@ def uploaded_file(filename):
 def single():
 	return render_template('oneText.html')
 
+
 @app.route('/report', methods=['GET', 'POST'])
 def get_file():
     # need to retrieve the uploaded file here for further processing
-    print(request)
+
+    print(request.form)
     filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
 
     print( filename)
@@ -105,7 +107,6 @@ def get_file():
     genReport = wpReport(text, bw, secgen, 10)
 
     charReport = sampleCharacter(text, 'Caddy', 3, 100)
-
 
 
     return render_template('results.html', pq = percentQuotes(text), sen = senlenStats(text), pos = pos, top = top, genGraph=genGraph,genReport=genReport, charReport=charReport)
@@ -135,14 +136,14 @@ def student():
 @app.route('/thesis-result', methods = ['GET', 'POST'])
 def result():
     e = request.form.to_dict()
-
     verbs = deList( e['cv'] )
     nouns = deList( e['cn'] )
     thesis = e['thesis']
-
+    thisWarning = False
+    if 'this' in thesis:
+        thisWarning = True
     vector = thesisVector(thesis, nouns, verbs)
-
-    return render_template('thesis-results.html', vector = vector)
+    return render_template('thesis-results.html', thesis=thesis, vector = vector, thisWarning=thisWarning)
   # if request.method == 'POST':
       #result = request.form
       #return request.form

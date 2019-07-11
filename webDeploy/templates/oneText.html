@@ -8,15 +8,20 @@
   - Part of speech density <br>
   - Character sampling <br>
   - Word generationality rebound <p>
-    {% include '/includes/_upload.html' %}
 
-  <form action = '/results' method = "POST">
+  {% include '/includes/_upload.html' %}
 
+  <form action = '/temp' method = "POST" >
+
+
+    <h3> Reader-Responsible Information </h3>
     <p> <br>  *please tokenize answers below with commas* <br> </p>
 
-    <p> Major Characters: </p> <p>   <input type="text" name="cv"  style="width:400px; height:50px;">  <br> </p>
-    <p> First Generation Words: </p> <p>   <input type="text" name="cv"  style="width:400px; height:50px;">  <br> </p>
-  <input type="submit" value="Submit">
+    <p> Major Characters: </p> <p>   <input type="text" name="char"  style="width:400px; height:50px;">  <br> </p>
+    <p> First Generation Words: </p> <p>   <input type="text" name="gen"  style="width:400px; height:50px;">  <br> </p>
+
+
+    <input type="submit" value="Submit">
   </form>
 
 {% endblock %}
