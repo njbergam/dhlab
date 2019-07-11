@@ -10,6 +10,25 @@
   <br><br>
   <img src = {{ '/static/graphs/' + top + '.png'  }} alt = 'figure' >
 
+
+
+  <br><br><h3> Word Generation Report </h3>
+  <img src = {{ '/static/graphs/' + genGraph + '.png'  }} alt = 'figure' >
+  <div style="height:400px;width:800px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+  {% for rep in genReport %}
+    {{ rep }} <br> <br>
+  {% endfor%}
+  </div>
+
+  <br><br><h3> Character Sampling </h3>
+
+  <div style="height:400px;width:800px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+  {% for ind, rep in charReport.items() %}
+    {{ rep }} <br> <br>
+  {% endfor%}
+  </div>
+
+
   <div> </div>
 
 

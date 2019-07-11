@@ -17,6 +17,11 @@ from thesis import thesisVector
 from twoText import wpReport
 from twoText import plotChronoMap
 
+from reports import wpReport
+from reports import similarContext
+from reports import saveChronoMap
+from reports import sampleCharacter
+
 import random
 import string
 
@@ -70,8 +75,7 @@ from flask import send_from_directory
 
 @app.route('/Users/nbergam/Desktop/AmericanModernism/webDeploy/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 #---Single Text
 
@@ -82,13 +86,29 @@ def single():
 @app.route('/report', methods=['GET', 'POST'])
 def get_file():
     # need to retrieve the uploaded file here for further processing
-    text = simpleTokenize("/Users/nbergam/Desktop/AmericanModernism/webDeploy/uploads/SoundAndFury.txt")
-    text2  = cleanText('/Users/nbergam/Desktop/AmericanModernism/webDeploy/uploads/SoundAndFury.txt')
+    print(request)
+    filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
+
+    print( filename)
+    text = simpleTokenize( 'uploads/' + filename )
+    text2  = cleanText( 'uploads/' + filename )
     pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
     savePOSPiChart(text2, pos)
     top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
     saveTopWords(text2, top)
-    return render_template('results.html', pq = percentQuotes(text), sen = senlenStats(text), pos = pos, top = top)
+
+
+    bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
+    genGraph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    secgen = similarContext( text,  bw)
+    saveChronoMap(text, bw, secgen, genGraph)
+    genReport = wpReport(text, bw, secgen, 10)
+
+    charReport = sampleCharacter(text, 'Caddy', 3, 100)
+
+
+
+    return render_template('results.html', pq = percentQuotes(text), sen = senlenStats(text), pos = pos, top = top, genGraph=genGraph,genReport=genReport, charReport=charReport)
 
 #---Double Text
 
