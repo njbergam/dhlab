@@ -1,6 +1,33 @@
 {% extends 'layout.html' %}
 
-{% block body %}
+{% block style %}
+input[type=text], select {
+  margin: 100px 0;
+}
+#wordProgWords {
+    display:none;
+}
+#wordProgBox:checked ~ #wordProgWords {
+    display:block;
+}
+.div2 {
+  border-radius: 5px;
+  background-color: #DBFBFD;
+  padding: 20px;
+  margin: auto;
+  width:50%;
+  margin-top:40px;
+}
+textCenter {
+  text-align:center;
+}
+.long {
+  width: 100%;
+}
+{% endblock %}
+{% block body2 %}
+<textCenter>
+<div class = "div2">
   <h1> Single-Text Analysis </h1>
   <p> Gives introductory information about <br>
   - Sentence Length Statistics <br>
@@ -8,20 +35,25 @@
   - Part of speech density <br>
   - Character sampling <br>
   - Word generationality rebound <p>
-
+</div>
+<div class = "div2">
   {% include '/includes/_upload.html' %}
-
-  <form action = '/temp' method = "POST" >
-
-
-    <h3> Reader-Responsible Information </h3>
-    <p> <br>  *please tokenize answers below with commas* <br> </p>
-
-    <p> Major Characters: </p> <p>   <input type="text" name="char"  style="width:400px; height:50px;">  <br> </p>
-    <p> First Generation Words: </p> <p>   <input type="text" name="gen"  style="width:400px; height:50px;">  <br> </p>
-
-
-    <input type="submit" value="Submit">
+</div>
+</textCenter>
+<div class = "div2">
+  <textCenter>
+  <h3 style> Reader-Responsible Information </h3>
+  <p style>  *please tokenize answers below with commas* <br> </p>
+  </textCenter>
+  <!--<p> Major Characters: </p> <p>   <input type="text" name="char"  style="width:400px; height:50px;">  <br> </p>
+  <p> First Generation Words: </p> <p>   <input type="text" name="gen"  style="width:400px; height:50px;">  <br> </p>-->
+  <form action = '/report' method = "POST" style = "margin-left: 4%;">
+      <p> Choose tests: </p>
+      <input type="checkbox" name="SLength"> Sentence Length <br>
+      <input type="checkbox" name="POS"> Part of Speech Distribution <br>
+      <input type="checkbox" name="WordProg" id = "wordProgBox"> Word Progression <br>
+      <input type="input" class = "long" name="WordProgWords" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
+      <input type="submit" value="Submit">
   </form>
-
+</div>
 {% endblock %}
