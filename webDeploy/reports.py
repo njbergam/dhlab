@@ -15,7 +15,7 @@ import random
 
 punct = ['.', ',', '\"', '?']
 
-def wordProgression(text, firstgen, secgen):
+def wordProgressionWeighted(text, firstgen, secgen):
     occurences = []
     section = list(range(100))
     ocount = 0
@@ -32,15 +32,33 @@ def wordProgression(text, firstgen, secgen):
         ocount = 0
     return occurences
 
-def cleanText(words):
+def wordProgression (text, words):
+    occurences = []
+    section = list(range(100))
+    ocount = 0
+    i = 0
+    while i < len(text):
+        j = i
+        while i < j + 100 and i < len(text):
+            if text[i] in words:
+                ocount += 1
+            i += 1
+        occurences.append(ocount)
+        ocount = 0
+    return occurences
+
+
+
+def cleanText(fileName):
 	lem = WordNetLemmatizer()
-	s = PorterStemmer()
+	stem = PorterStemmer()
+	file = open(fileName, "r")
+	words = nltk.word_tokenize(file.read())
 	stop_words=set(stopwords.words("english"))
 	filteredDict = []
 	for w in words:
 		if w not in stop_words and len(w)>3:
 			w = lem.lemmatize(w,"v")
-			#w = s.stem(w)
 			filteredDict.append(w)
 	return filteredDict
 
@@ -73,6 +91,7 @@ def firstgen(fileName):
 		w.pop(rand)
 	return ret
 
+
 # Our (better) version of NLTK.similar()
 # Goes through each word w, finds w1-w-w2
 # Goes through text and looks for words also in that sandwich
@@ -84,18 +103,21 @@ def similarContext(text, firstgen):
     for i in range(len(text)):
         if text[i] in firstgen and text[i-1] != '.' and text[i+1] != ',' and text[i-1] not in stopwords.words("english"):
             pairs.append( [text[i-1], text[i+1]] )
+
     firsts = [ pair[0] for pair in pairs]
     seconds = [ pair[1] for pair in pairs]
     for i in range(len(text)):
         if text[i] in firsts and text[i+2] in seconds:
             similar.append(text[i+1])
-    return list(set( cleanText(similar)))
+    return list(set(similar))
 
+numWordsPerSection = 100
 
 # Word Progression Report
 # Giving stats and info from the word progression, specifically the 100 word blocks
 # with the highest scores
 def wpReport(text, firstgen, secgen, numTop):
+    global numWordsPerSection
     list = []
     list.append( "FirstGen Words: " + str(firstgen)+ "\n")
     list.append( "DocumentContext Words: " + str(secgen) + "\n")
@@ -104,7 +126,7 @@ def wpReport(text, firstgen, secgen, numTop):
     for i in range(numTop):
         s = ''
         topIndex = arr.index(max(arr))
-        topWords = text[topIndex*100:topIndex*100+100]
+        topWords = text[topIndex*numWordsPerSection:topIndex*numWordsPerSection+numWordsPerSection]
         s+="\n\n\nNumber " + str(i) + "\n"
         s+= "--> Score: " + str( arr[topIndex]) + "\n--> Z-Score: " + str(stats.zscore(arr)[topIndex]) + "\n"
         s+="--> Average Score " + str(statistics.mean(arr)) + "\n"
@@ -122,13 +144,33 @@ def wpReport(text, firstgen, secgen, numTop):
         list.append(s)
     return list
 
+def plotChronoMap (text, wordlists, title):
+    y = []
+    x =  list(range( int(len(text)/numWordsPerSection) +1))
+    for i in range(len(wordlists)):
+        #print (i)
+        y.append(wordProgression(text, wordlists[i]))
+        #print (y)
+        plt.title("Word Group Progressions through Novel")
+        plt.ylabel("Num occurances per 100 words")
+        plt.xlabel("Progression of novel (by every 100 words)")
+        lbl = str(wordlists[i][0])
+        if len(wordlists[i]) > 1:
+            lbl += ", ..."
+        print(lbl)
+        plt.bar(x, y[i], label = lbl)
+        plt.legend()
+    plt.show()
+
+text = cleanText("CatcherSalinger.txt")
+plotChronoMap(text, [["hate"], ["love"]], "Test")
+
 def saveChronoMap(text, firstgen, secgen, title):
     y = wordProgression( text , firstgen, secgen)
-    x =  list(range( int(len(text)/100) +1))
+    x =  list(range( int(len(text)/numWordsPerSection) +1))
     plt.plot(x,y)
     plt.savefig('templates/static/graphs/' + title + '.png')
     plt.close()
-
 
 
 
