@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<style>
+
+center {
+  margin-right: 120px;
+  margin-left: 120px;
+}
+.div2 {
+  border-radius: 5px;
+  background-color: #DBFBFD;
+  padding: 20px;
+  margin: auto;
+  width:50%;
+  margin-top:40px;
+}
+{% block style%} {% endblock %}
+
+</style>
+
+<html>
+  <head>
+    <meta charset = 'utf-8'>
+    <title> Digital Humanities Pingry </title>
+    <link rel='stylesheet' href = 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    {% include '/includes/_navbar.html' %}
+  </head>
+
+<body >
+
+  <center>
+  {% block body%} {% endblock %}
+</center>
+  {% block body2%} {% endblock %}
+  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+
+</body>
+
+</html>
