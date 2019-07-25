@@ -209,6 +209,21 @@ def saveSenLenHistogram(text, title):
 	plt.plot(list(range(lens)), lens, 'ro')
 	plt.show()
 
+def findFreq (text, word):
+    count = 0
+    for w in text:
+        if w == word:
+            count+=1
+    return count
+    
+def compareFreq (text, words):
+    wordFreqs = []
+    for word in words:
+        wordFreqs.append(findFreq(text, word))
+    print (wordFreqs)
+    plt.bar(words, wordFreqs)
+    plt.show()
+
 #saveSenLenHistogram(cleanText('CatcherSalinger.txt'), 'cool.png')
 #savePOSPiChart(cleanText('CatcherSalinger.txt'))
 
