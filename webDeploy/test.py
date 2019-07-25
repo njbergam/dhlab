@@ -151,15 +151,23 @@ def POSDensity(array):
 
 
 # Returns array of the length of each sentence
-def sentenceLength(array):
+punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
+def sentenceLength(tokenizedText):
 	lens = []
 	senlen = 0
-	for word in array:
-		if word == ".":
+	i = 0
+	while i < len(tokenizedText):
+		if tokenizedText[i] == ".":
 			lens.append(senlen)
 			senlen = 0
-		else:
+		elif tokenizedText[i] == "?" or tokenizedText[i]== "!":
+			while i< len(tokenizedText)-1 and (tokenizedText[i+1] == "?" or tokenizedText[i+1]== "!"):
+				i+=1
+			lens.append(senlen)
+			senlen = 0
+		elif tokenizedText[i] not in punct:
 			senlen = senlen + 1
+		i+=1
 	return lens
 
 def senlenStats(text):
