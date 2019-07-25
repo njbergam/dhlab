@@ -151,8 +151,8 @@ def POSDensity(array):
 
 
 # Returns array of the length of each sentence
-punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
 def sentenceLength(tokenizedText):
+	punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
 	lens = []
 	senlen = 0
 	i = 0
