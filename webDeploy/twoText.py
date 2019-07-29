@@ -5,7 +5,7 @@ from nltk.stem.porter import PorterStemmer
 import collections
 from collections import Counter
 import sys
-from test import simpleTokenize
+from simpleFunctions import simpleTokenize
 import wikipedia
 import statistics
 from scipy import stats

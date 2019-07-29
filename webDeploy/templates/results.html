@@ -1,35 +1,53 @@
 {% extends 'layout.html' %}
+{% block style %}
+
+{% endblock %}
 
 {% block body %}
-  <h1> Results of Single-Text Analysis </h1>
+<textCenter><h1> Results of Single-Text Analysis </h1></textCenter>
 
+<div class = "div2" id = "pqID">
   <p> Percent Quotes: {{pq}} </p>
-  <p> Average Sentence Length:  {{sen[0]}} </p>
-  <img src = {{ '/static/graphs/' + pos + '.png'  }} alt = 'figure' >
+</div>
+<div class = "div2" id = "senID">
+  <p> Average Sentence Length: {{sen}} </p>
+</div>
+<script>
+function displayNum(divID,val) {
+  var x = document.getElementById(divID.id);
+  if (val  > 0.0){
+    x.style.display = "block";
+  }  else{
+    x.style.display = "none";
+  }
+}
+displayNum(pqID,{{pq}});
+displayNum(senID,{{sen}});
 
-  <br><br>
-  <img src = {{ '/static/graphs/' + top + '.png'  }} alt = 'figure' >
-
-
-
-  <br><br><h3> Word Generation Report </h3>
-  <img src = {{ '/static/graphs/' + genGraph + '.png'  }} alt = 'figure' >
-  <div style="height:400px;width:800px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-  {% for rep in genReport %}
-    {{ rep }} <br> <br>
-  {% endfor%}
-  </div>
-
-  <br><br><h3> Character Sampling </h3>
-
-  <div style="height:400px;width:800px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
-  {% for ind, rep in charReport.items() %}
-    {{ rep }} <br> <br>
-  {% endfor%}
-  </div>
-
-
-  <div> </div>
-
-
+</script>
+<div class = "div2" id = "posID" style = "width:80%">
+  <h3 style> Part of Speech Distribution </h3>
+  <img src = {{ '/static/graphs/' + pos + '.png'  }} width = 70% alt = 'figure' >
+</div>
+<div class = "div2" id = "topID" style = "width:80%">
+  <h3 style> Graph of Top Words </h3>
+  <img src = {{ '/static/graphs/' + top + '.png'  }} width = 70% alt = 'figure' >
+</div>
+<div class = "div2" id = "wpID" style = "width:80%">
+  <h3 style> Graph of Word Progression </h3>
+  <img src = {{ '/static/graphs/' + wp + '.png'  }} width = 70% alt = 'figure' >
+</div>
+<script>
+function displayGraph(divID,val) {
+  var x = document.getElementById(divID.id);
+  if(val == 1.0){//string comparison not working and val == 1 didn't work
+    x.style.display = "none";
+  }  else{
+    x.style.display = "block";
+  }
+}
+displayGraph(posID,{{pos}});
+displayGraph(topID,{{top}});
+displayGraph(wpID,{{wp}});
+</script>
 {% endblock %}

@@ -17,10 +17,7 @@ import random
 import string
 
 import nltk
-nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
-nltk.download('universal_tagset')
+
 
 branch = '/Users/JulianMacBookPro/Desktop/AmericanModernism/webDeploy'
 
@@ -49,28 +46,34 @@ def allowed_file(filename):
 def home():
     return render_template('hello.html')
 
+failedUpload = 0
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     global fname
+    global failedUpload
+    global priorUrl
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            failedUpload = 1
+            return redirect(priorUrl)
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
+            failedUpload = 1
+            return redirect(priorUrl)
         if file and allowed_file(file.filename):
             fname = secure_filename(file.filename)
             print( fname)
+            failedUpload = 0
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             # where you go after uploading
-            global priorUrl
             return redirect(priorUrl)
-    return redirect(request.url)#render_template(type+'.html')
+    failedUpload = 1
+    return redirect(priorUrl)#render_template(type+'.html')
 
 from flask import send_from_directory
 
@@ -82,10 +85,14 @@ def uploaded_file(filename):
 
 @app.route('/single')
 def single():
+    global failedUpload
     dict = getWordFreqDict(200)
     global priorUrl
     priorUrl = '/single'
-    return render_template('oneText.html')
+    uploadFailed = failedUpload
+    failedUpload = 0
+    print(uploadFailed);
+    return render_template('oneText.html',fail = uploadFailed)
 
 
 @app.route('/report', methods=['GET', 'POST'])
