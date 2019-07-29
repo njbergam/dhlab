@@ -101,9 +101,16 @@ def single():
     print(uploadFailed);
     return render_template('oneText.html',fail = uploadFailed)
 
+class txtResult:
+  def __init__(self, pq, sen, wp, pos, top):
+    self.pq = pq
+    self.sen = sen
+    self.wp = wp
+    self.pos = pos
+    self.top = top
 
 @app.route('/report', methods=['GET', 'POST'])
-def get_file():
+def report():
     global fname
     # need to retrieve the uploaded file here for further processing
     print( fname)
@@ -111,23 +118,18 @@ def get_file():
     #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
     text = simpleTokenize( 'uploads/' + fname )
     text2  = cleanText( 'uploads/' + fname )
+    textRst = txtResult(-1,-1,"1","1","1")
     if "PercentQuotes" in dict:
-        pq = percentQuotes(text)
-    else:
-        pq = -1
+        textRst.pq = percentQuotes(text)
     if "SLength" in dict:
-        sen = senlenStats(text)
-    else:
-        sen = -1
+        textRst.sen = senlenStats(text)
     if "POS" in dict:
         print("creating pos chart")
-        pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
-        savePOSPiChart(text2, pos)
-    else:
-        pos = "1"
+        textRst.pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
+        savePOSPiChart(text2, textRst.pos)
     if "TopWords" in dict:
         print("creating top words chart")
-        top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        testRst.top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         #os.unlink(os.path.join( app.config['GRAPHS_FOLDER'], top + ".png"))
         #os.unlink(branch+"/templates/static/graphs/" + top + ".png")
         #item_id = branch+"/templates/static/graphs/" + top + ".png"
@@ -135,45 +137,25 @@ def get_file():
         #self.session.delete(item)
         #db.session.commit()
         #os.remove(branch+"/templates/static/graphs/" + top + ".png");
-        saveTopWords(text2, top)
-    else:
-        top = "1"
+        saveTopWords(text2, testRst.top)
     if "WordProg" in dict:
         print("creating word progression chart")
-        wp = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        textRst.wp = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         arr = dict["WordProgWords"].replace(" ", "").split(';')
         groups = []
         for i in range(len(arr)):
             groups.append(arr[i].split(','))
-        oneTextPlotChronoMap(text2,groups,wp)
-    """
-    bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
-    genGraph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-    secgen = similarContext( text,  bw)
-    print("c")
-    saveChronoMap(text, bw, secgen, genGraph)
-    genReport = wpReport(text, bw, secgen, 10)
-
-    charReport = sampleCharacter(text, 'Caddy', 3, 100)
-    print("d")"""
-
-    return render_template('results.html', pq = pq, sen = sen, wp = wp, pos = pos, top = top)#mpld3.fig_to_html(topFig))
-#---Double Text
-
-@app.route('/double')
-def double():
-	return render_template('twoText.html')
-
-@app.route('/double-results', methods=['GET', 'POST'])
-def doubleResults():
-    return render_template('double-results.html')
-
+        oneTextPlotChronoMap(text2,groups,textRst.wp)
+    return render_template('results.html', result = textRst)#mpld3.fig_to_html(topFig))
 #---Multi Text
 
 @app.route('/multi')
 def multi():
     return render_template('multiText.html')
 
+@app.route('/reportMulti', methods=['GET', 'POST'])
+def multiReport():
+    return render_template('multiText.html')
 #---Thesis
 
 @app.route('/thesis')
