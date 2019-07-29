@@ -1,6 +1,6 @@
-"""
-#This document will largely be walking through some of the different functions
+import os
 
+"""
 import nltk
 
 # Opening local text files, turning text into array of tokens
@@ -20,35 +20,7 @@ fdist = nltk.FreqDist(words)
 
 
 # Getting useless "stop words" out of the mix (a, an, the, is, being)
-
-
 """
-
-"""
-Names Of Salinger Stories
-
-
-A Perfect Day for Bananafish
-
-Uncle Wiggily in Connecticut
-
-Just Before the War with the Eskimos
-
-The Laughing Man
-
-Down at the Dinghy
-
-For Esme:--with Love and Squalor
-
-Pretty Mouth and Green Eyes
-
-De Daumier-Smith's Blue Period
-
-Teddy
-"""
-
-
-
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -57,10 +29,23 @@ import collections
 from collections import Counter
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 import statistics
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
 
+def getWordFreqDict(numWords):
+	wordFreqDict = {}
+	file = open("wordFreq.txt", "r")
+	s = file.readline()
+	while s != '' and numWords > 0:
+		arr = []
+		arr = s.split()
+		wordFreqDict[arr[1]] = int(arr[2])
+		wordFreqDict[arr[1]+'s'] = int(arr[2])
+		wordFreqDict[arr[1]+'es'] = int(arr[2])
+		s = file.readline()
+		numWords = numWords - 1
+	return wordFreqDict
 
 # This function should, given a fileName, 1) tokenize the text file
 # 2) remove three or fewer characters, 3) Removing stopwords
@@ -95,8 +80,11 @@ def detokenize(text):
 	return TreebankWordDetokenizer().detokenize(text)
 
 def saveTopWords(text, title):
-
+	wfDict = getWordFreqDict(500)#ignore the most common 500 words: never display them
 	counts = Counter(text)
+	for w in counts.keys():
+		if w.lower() in wfDict:
+			counts[w] = 0
 	labels, values = zip(*counts.items())
 	# sort your values in descending order
 	indSort = np.argsort(values)[::-1]
@@ -111,9 +99,14 @@ def saveTopWords(text, title):
 
 	# add labels
 	plt.xticks(indexes + bar_width, labels, rotation='vertical')
-
+	plt.tight_layout()
+	#fig = plt.figure()
+	#if os.path.isfile('templates/static/graphs/' + title + '.png'):
+	#	print("asdufb3oewj")
+	#	os.remove('templates/static/graphs/' + title + '.png')
 	plt.savefig('templates/static/graphs/' + title + '.png')
 	plt.close()
+	#return fig
 
 
 
@@ -141,7 +134,6 @@ def POSDensitySimple(array):
 def POSDensity(array):
 	tagged = nltk.pos_tag(array);
 	s = len(array)
-	print(s)
 	counts = dict( Counter(tag for word, tag in tagged))
 	#counts = collections.UserDict(counts)
 	for k in counts.keys():
@@ -149,35 +141,26 @@ def POSDensity(array):
 		counts[k] = '%.4f'%(counts[k])
 	return (counts)
 
-
 # Returns array of the length of each sentence
-def sentenceLength(tokenizedText):
-	punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
+def sentenceLength(array):
 	lens = []
 	senlen = 0
-	i = 0
-	while i < len(tokenizedText):
-		if tokenizedText[i] == ".":
+	for word in array:
+		if word == ".":
 			lens.append(senlen)
 			senlen = 0
-		elif tokenizedText[i] == "?" or tokenizedText[i]== "!":
-			while i< len(tokenizedText)-1 and (tokenizedText[i+1] == "?" or tokenizedText[i+1]== "!"):
-				i+=1
-			lens.append(senlen)
-			senlen = 0
-		elif tokenizedText[i] not in punct:
+		else:
 			senlen = senlen + 1
-		i+=1
 	return lens
 
 def senlenStats(text):
 	senlen = sentenceLength(text)
-	arr = []
-	arr.append( statistics.mean(senlen) )
+	#arr = []
+	#arr.append( statistics.mean(senlen) )
 	#arr.append( statistics.median(senlen) )
 	#arr.append( statistics.mode(senlen) )
 	#arr.append( statistics.stdev(senlen) )
-	return arr
+	return statistics.mean(senlen)
 
 # Returns the percent of a given text that is within quotes
 def percentQuotes(array):
@@ -203,12 +186,14 @@ def savePOSPiChart(text, title):
 	last = 'others'
 	labels.append(last)
 	sizes.append(rest)
-
 	colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'grey', 'brown']
 	plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
-	plt.title('Part of Speech Density')
+	#plt.title('Part of Speech Density')
+	plt.tight_layout()
 	plt.savefig('templates/static/graphs/' + title + '.png')
 	plt.close()
+#text = cleanText("CatcherSalinger.txt")
+#print (savePOSPiChart(text, "test"))
 
 
 
@@ -216,21 +201,6 @@ def saveSenLenHistogram(text, title):
 	lens = sentenceLength(text)
 	plt.plot(list(range(lens)), lens, 'ro')
 	plt.show()
-
-def findFreq (text, word):
-    count = 0
-    for w in text:
-        if w == word:
-            count+=1
-    return count
-    
-def compareFreq (text, words):
-    wordFreqs = []
-    for word in words:
-        wordFreqs.append(findFreq(text, word))
-    print (wordFreqs)
-    plt.bar(words, wordFreqs)
-    plt.show()
 
 #saveSenLenHistogram(cleanText('CatcherSalinger.txt'), 'cool.png')
 #savePOSPiChart(cleanText('CatcherSalinger.txt'))
