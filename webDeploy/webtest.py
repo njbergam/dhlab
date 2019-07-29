@@ -3,25 +3,14 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from flask import render_template
 
-from simpleFunctions import cleanText
-from simpleFunctions import simpleTokenize
-from simpleFunctions import detokenize
-from simpleFunctions import percentQuotes
-from simpleFunctions import senlenStats
-from simpleFunctions import savePOSPiChart
-from simpleFunctions import deList
-from simpleFunctions import saveTopWords
-from simpleFunctions import getWordFreqDict
+from simpleFunctions import *
 
 from thesis import thesisVector
 
 from twoText import wpReport
 from twoText import plotChronoMap
 
-from reports import wpReport
-from reports import similarContext
-from reports import saveChronoMap
-from reports import sampleCharacter
+from reports import *
 import matplotlib.pyplot as plt, mpld3
 
 import random
@@ -135,6 +124,14 @@ def get_file():
         saveTopWords(text2, top)
     else:
         top = "1"
+    if "WordProg" in dict:
+        print("creating word progression chart")
+        wp = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        arr = dict["WordProgWords"].replace(" ", "").split(';')
+        groups = []
+        for i in range(len(arr)):
+            groups.append(arr[i].split(','))
+        oneTextPlotChronoMap(text2,groups,wp)
     """
     bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
     genGraph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
@@ -146,7 +143,7 @@ def get_file():
     charReport = sampleCharacter(text, 'Caddy', 3, 100)
     print("d")"""
 
-    return render_template('results.html', pq = pq, sen = sen, pos = pos, top = top)#mpld3.fig_to_html(topFig))
+    return render_template('results.html', pq = pq, sen = sen, wp = wp, pos = pos, top = top)#mpld3.fig_to_html(topFig))
 #---Double Text
 
 @app.route('/double')

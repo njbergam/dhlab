@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+input[type=text], select {
+  margin: 100px 0;
+}
+#wordProgWords {
+    display:none;
+}
+#wordProgBox:checked ~ #wordProgWords {
+    display:block;
+}
+textCenter {
+  text-align:center;
+}
+.long {
+  width: 100%;
+}
+.description {
+  width: 100%;
+  background-color: lightblue;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+{% endblock %}
+{% block body2 %}
+<textCenter>
+<div class = "div2">
+  <h1> Single-Text Analysis </h1>
+  <p> Gives introductory information about <br>
+  - Sentence Length Statistics <br>
+  - Top word frequencies <br>
+  - Part of speech density <br>
+  - Character sampling <br>
+  - Word generationality rebound <p>
+</div>
+<div class = "div2">
+  {% include '/includes/_upload.html' %}
+</div>
+
+
+<script>
+function displayDesc(btnID,divID) {
+  var x = document.getElementById(divID.id);
+  var btnText = document.getElementById(btnID.id);
+  if (x.style.display == "none") {
+    btnText.innerHTML = "-";
+    x.style.display = "block";
+  } else {
+    btnText.innerHTML = "+";
+    x.style.display = "none";
+  }
+}
+</script>
+<style>
+#myDIV {
+  width: 100%;
+  padding: 50px 0;
+  text-align: center;
+  background-color: lightblue;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}2
+</style>
+</textCenter>
+<div class = "div2">
+  <textCenter>
+  <h3 style> Reader-Responsible Information </h3>
+  <p style>  *please tokenize answers below with commas* <br> </p>
+  </textCenter>
+  <!--<p> Major Characters: </p> <p>   <input type="text" name="char"  style="width:400px; height:50px;">  <br> </p>
+  <p> First Generation Words: </p> <p>   <input type="text" name="gen"  style="width:400px; height:50px;">  <br> </p>-->
+  <form action = '/report' method = "POST" style = "margin-left: 4%;">
+      <p> Choose tests: </p>
+      <input type="checkbox" name="SLength"> Sentence Length
+      <button type="button" onclick="displayDesc(aBtn,SLengthID)" id="aBtn">+</button> <br>
+      <div class = "description" id="SLengthID" style = "display: none" >
+          Finds the average sentence length for every sentence in the text.
+      </div>
+
+      <input type="checkbox" name="PercentQuotes"> Percent Quotes
+      <button type="button" onclick="displayDesc(bBtn,PercentQuotesID)" id="bBtn">+</button> <br>
+      <div class = "description" id="PercentQuotesID" style = "display: none">
+          Finds the percent of the text that is in quotes.
+      </div>
+      <input type="checkbox" name="POS"> Part of Speech Distribution
+      <button type="button" onclick="displayDesc(cBtn,POSID)" id="cBtn">+</button> <br>
+      <div class = "description" id="POSID" style = "display: none" >
+          Displays a pi chart for the distribution of the parts of speeches in the text.
+      </div>
+      <input type="checkbox" name="TopWords"> Frequent Words
+      <button type="button" onclick="displayDesc(dBtn,TopWordsID)" id="dBtn">+</button> <br>
+      <div class = "description" id="TopWordsID" style = "display: none" >
+          Displays a bar graph with frequently used words in the novel and their corresponding frequencies.
+      </div>
+      <input type="checkbox" name="WordProg" id = "wordProgBox"> Word Progression
+      <button type="button" onclick="displayDesc(eBtn,WordProgID)" id="eBtn">+</button> <br>
+      <div class = "description" id="WordProgID" style = "display: none" >
+          Plots frequency of given group(s) of words over the course of the novel. <br>
+          Put words to be examined: <br>
+          1. words in the same group should be separated by commas.<br>
+          2. words in different groups should be separated by semi-colons.
+      </div>
+      <input type="input" class = "long" name="WordProgWords" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
+      <input type="submit" value="Submit">
+  </form>
+</div>
+{% endblock %}

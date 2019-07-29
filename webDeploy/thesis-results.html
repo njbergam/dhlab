@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Results of Thesis Analysis </h1>
+
+<!--
+  <br>
+    <h8>Your Thesis: <i>  {{thesis}} </i> </h8>
+  <br><br>
+  <h8> Consider these statistics as you edit your thesis.  <h8>
+
+  <br>
+  {%  for i in range(vector|length) %}
+    <br> <br>
+    {%  for j in range(vector[i]|length) %}
+      {% if j == 0 %}
+        <b> {{ vector[i][j] }} </b>
+      {% else %}
+        <br> {{ vector[i][j] }} <br>
+      {% endif %}
+
+    {% endfor%}
+    <br >{{ thesis }} <br><br>
+  {% endfor%}
+
+  {% if thisWarning: %}
+    <p> Warning! Watch out for the word 'this'! </p>
+  {% endif%}
+
+  <div> </div> -->
+
+
+{% endblock %}

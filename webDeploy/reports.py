@@ -5,7 +5,7 @@ from nltk.stem.porter import PorterStemmer
 import collections
 from collections import Counter
 import sys
-from test import simpleTokenize
+from simpleFunctions import simpleTokenize
 import wikipedia
 import statistics
 from scipy import stats
@@ -144,26 +144,26 @@ def wpReport(text, firstgen, secgen, numTop):
         list.append(s)
     return list
 
-def plotChronoMap (text, wordlists, title):
+def oneTextPlotChronoMap (text, wordlists, title):
     y = []
     x =  list(range( int(len(text)/numWordsPerSection) +1))
     for i in range(len(wordlists)):
         #print (i)
         y.append(wordProgression(text, wordlists[i]))
         #print (y)
-        plt.title("Word Group Progressions through Novel")
+        #plt.title("Word Group Progressions through Novel")
         plt.ylabel("Num occurances per 100 words")
         plt.xlabel("Progression of novel (by every 100 words)")
         lbl = str(wordlists[i][0])
-        if len(wordlists[i]) > 1:
-            lbl += ", ..."
-        print(lbl)
+        for j in range(1,len(wordlists[i])):
+            lbl += ", " + str(wordlists[i][j])
         plt.bar(x, y[i], label = lbl)
         plt.legend()
-    plt.show()
+    plt.savefig('templates/static/graphs/' + title + '.png')
+    #plt.show()
 
-text = cleanText("CatcherSalinger.txt")
-plotChronoMap(text, [["hate"], ["love"]], "Test")
+#text = cleanText("CatcherSalinger.txt")
+#plotChronoMap(text, [["hate"], ["love"]],"test")
 
 def saveChronoMap(text, firstgen, secgen, title):
     y = wordProgression( text , firstgen, secgen)

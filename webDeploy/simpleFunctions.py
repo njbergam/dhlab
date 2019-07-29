@@ -124,6 +124,12 @@ def saveTopWords(text, title):
 	#return fig
 
 
+
+
+
+
+
+
 # Returns a dictionary with the proportions of different types of speech
 # This uses simplified tags, so it only contains nouns, verbs, adjectives, pronouns, and adverbs
 def POSDensitySimple(array):
