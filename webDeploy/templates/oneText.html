@@ -29,9 +29,12 @@ textCenter {
 {% endblock %}
 {% block body2 %}
 <script>
-function displayError(failedUpload) {
-  if(failedUpload == 1.0){
+function displayError(failed) {
+  if(failed == 1.0){
     alert("Failed Upload");
+  }
+  else if(failed == 2.0){
+    alert("No file uploaded");
   }
 }
 displayError({{fail}});
