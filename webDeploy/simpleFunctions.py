@@ -32,6 +32,17 @@ import statistics
 import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
+from PyPDF2 import PdfFileReader
+
+def text_extractor(pdfFile):
+	with open(pdfFile, 'rb') as f:
+		pdf = PdfFileReader(pdfFile)
+		text = ""
+		for i in range(pdf.getNumPages()):
+			page = pdf.getPage(i)
+			text += page.extractText()
+	return text
+
 
 def findFreq (text, word):
     count = 0

@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
 UPLOAD_FOLDER = branch + '/uploads'
 GRAPHS_FOLDER = branch + '/templates/static/graphs'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdf'])
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -66,10 +66,17 @@ def upload_file():
             failedUpload = 1
             return redirect(priorUrl)
         if file and allowed_file(file.filename):
-            fname = secure_filename(file.filename)
-            print( fname)
             failedUpload = 0
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+            fname = secure_filename(file.filename)
+            if fname[len(fname)-4:] == ".pdf":
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+                txt = text_extractor(UPLOAD_FOLDER+"/"+fname)
+                fname = fname[:len(fname)-4] + ".txt"
+                with open(UPLOAD_FOLDER + "/"+ fname,"w") as fo:
+                   fo.write(txt)
+                   fo.close()
+            else:
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             # where you go after uploading
             return redirect(priorUrl)
     failedUpload = 1
