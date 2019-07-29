@@ -33,6 +33,21 @@ import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
 
+def findFreq (text, word):
+    count = 0
+    for w in text:
+        if w == word:
+            count+=1
+    return count
+
+def compareFreq (text, words):
+    wordFreqs = []
+    for word in words:
+        wordFreqs.append(findFreq(text, word))
+    print (wordFreqs)
+    plt.bar(words, wordFreqs)
+    plt.show()
+
 def getWordFreqDict(numWords):
 	wordFreqDict = {}
 	file = open("wordFreq.txt", "r")
@@ -107,12 +122,6 @@ def saveTopWords(text, title):
 	plt.savefig('templates/static/graphs/' + title + '.png')
 	plt.close()
 	#return fig
-
-
-
-
-
-
 
 
 # Returns a dictionary with the proportions of different types of speech
