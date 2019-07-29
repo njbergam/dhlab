@@ -22,6 +22,7 @@ from reports import wpReport
 from reports import similarContext
 from reports import saveChronoMap
 from reports import sampleCharacter
+import matplotlib.pyplot as plt, mpld3
 
 import random
 import string
@@ -44,12 +45,12 @@ if __name__ == '__main__':
     app.secret_key = "vkjgvkgv"
 
 UPLOAD_FOLDER = branch + '/uploads'
-GRAPHS_FOLDER = branch + 'graphs'
+GRAPHS_FOLDER = branch + '/templates/static/graphs'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.config['GRAPHS_FOLDER'] = GRAPHS_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -103,23 +104,37 @@ def get_file():
     global fname
     # need to retrieve the uploaded file here for further processing
     print( fname)
-    print(request.form)
     dict = request.form.to_dict()
     #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
     text = simpleTokenize( 'uploads/' + fname )
     text2  = cleanText( 'uploads/' + fname )
-    print("creating pos chart")
-    pos = "posChart"#title of the generated chart
-    #savePOSPiChart(text2, pos)
-    print("creating top words chart")
-    top = "topWordChart"
-    #os.unlink(branch+"/templates/static/graphs/" + top + ".png")
-    #item_id = branch+"/templates/static/graphs/" + top + ".png"
-    #item = self.session.query(Item).get(item_id)
-    #self.session.delete(item)
-    #db.session.commit()
-    #os.remove(branch+"/templates/static/graphs/" + top + ".png");
-    saveTopWords(text2, top)
+    if "PercentQuotes" in dict:
+        pq = percentQuotes(text)
+    else:
+        pq = -1
+    if "SLength" in dict:
+        sen = senlenStats(text)
+    else:
+        sen = -1
+    if "POS" in dict:
+        print("creating pos chart")
+        pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
+        savePOSPiChart(text2, pos)
+    else:
+        pos = "1"
+    if "TopWords" in dict:
+        print("creating top words chart")
+        top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        #os.unlink(os.path.join( app.config['GRAPHS_FOLDER'], top + ".png"))
+        #os.unlink(branch+"/templates/static/graphs/" + top + ".png")
+        #item_id = branch+"/templates/static/graphs/" + top + ".png"
+        #item = self.session.query(Item).get(item_id)
+        #self.session.delete(item)
+        #db.session.commit()
+        #os.remove(branch+"/templates/static/graphs/" + top + ".png");
+        saveTopWords(text2, top)
+    else:
+        top = "1"
     """
     bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
     genGraph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
@@ -131,7 +146,7 @@ def get_file():
     charReport = sampleCharacter(text, 'Caddy', 3, 100)
     print("d")"""
 
-    return render_template('results.html', pq = percentQuotes(text), sen = senlenStats(text), pos = pos, top = top)
+    return render_template('results.html', pq = pq, sen = sen, pos = pos, top = top)#mpld3.fig_to_html(topFig))
 #---Double Text
 
 @app.route('/double')
