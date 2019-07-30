@@ -1,26 +1,6 @@
+# Noah: We should find a way to make sure all these graph making functions are saving to the right place
+
 import os
-
-"""
-import nltk
-
-# Opening local text files, turning text into array of tokens
-file = open("SoundAndFury.txt", "r")
-words = nltk.word_tokenize(file.read())
-#print(words)
-
-
-# Getting most common words frequency distribution
-fdist = nltk.FreqDist(words)
-#print(fdist)
-#print(fdist.most_common(10))
-
-
-# It is very easy to plot most common words with matplotlib
-
-
-
-# Getting useless "stop words" out of the mix (a, an, the, is, being)
-"""
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -34,6 +14,7 @@ import numpy as np
 from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
 
+# Reads pdf file and returns the text as a String
 def text_extractor(pdfFile):
 	with open(pdfFile, 'rb') as f:
 		pdf = PdfFileReader(pdfFile)
@@ -43,7 +24,7 @@ def text_extractor(pdfFile):
 			text += page.extractText()
 	return text
 
-
+# Returns the frequency of a given word in a text
 def findFreq (text, word):
     count = 0
     for w in text:
@@ -51,6 +32,7 @@ def findFreq (text, word):
             count+=1
     return count
 
+# Creates a bar graph showing different freuqencies of different words within a given text (text in list form)
 def compareFreq (text, words):
     wordFreqs = []
     for word in words:
@@ -59,6 +41,7 @@ def compareFreq (text, words):
     plt.bar(words, wordFreqs)
     plt.show()
 
+# Creates and returns a dictionary
 def getWordFreqDict(numWords):
 	wordFreqDict = {}
 	file = open("wordFreq.txt", "r")
@@ -92,6 +75,7 @@ def cleanText(fileName):
 			filteredDict.append(w)
 	return filteredDict
 
+# Tokenizes a comma-delimited string into a list
 def deList(str):
 	str = str.replace(" ", "")
 	return str.split(",")
@@ -102,11 +86,13 @@ def simpleTokenize(fileName):
 	words = nltk.word_tokenize(file.read())
 	return words
 
+# Given a piece of text as a list, detokenizes and returns it back into a string
 def detokenize(text):
 	return TreebankWordDetokenizer().detokenize(text)
 
+# Creates and saves a bar graph of the most common words in a text
 def saveTopWords(text, title):
-	wfDict = getWordFreqDict(500)#ignore the most common 500 words: never display them
+	wfDict = getWordFreqDict(500) #ignore the most common 500 words: never display them
 	counts = Counter(text)
 	for w in counts.keys():
 		if w.lower() in wfDict:
@@ -120,7 +106,6 @@ def saveTopWords(text, title):
 	indexes = np.arange(len(labels))
 
 	bar_width = 0.35
-
 	plt.bar(indexes, values)
 
 	# add labels
@@ -133,12 +118,6 @@ def saveTopWords(text, title):
 	plt.savefig('templates/static/graphs/' + title + '.png')
 	plt.close()
 	#return fig
-
-
-
-
-
-
 
 
 # Returns a dictionary with the proportions of different types of speech
@@ -179,6 +158,7 @@ def sentenceLength(array):
 			senlen = senlen + 1
 	return lens
 
+# Returns an array of different one-variable parameters regarding sentence length
 def senlenStats(text):
 	senlen = sentenceLength(text)
 	#arr = []
@@ -222,21 +202,10 @@ def savePOSPiChart(text, title):
 #print (savePOSPiChart(text, "test"))
 
 
-
+# Shows a histogram of sentence lengths
+# STILL NEEDS TO SAVE THEM
 def saveSenLenHistogram(text, title):
 	lens = sentenceLength(text)
 	plt.plot(list(range(lens)), lens, 'ro')
 	plt.show()
 
-#saveSenLenHistogram(cleanText('CatcherSalinger.txt'), 'cool.png')
-#savePOSPiChart(cleanText('CatcherSalinger.txt'))
-
-"""
-text = nltk.Text(word.lower() for word in simpleTokenize("SoundAndFury.txt") )
-print( text.similar('quentin') )
-print( text.similar('benjy') )
-print( text.similar('caddy') )
-print( text.similar('jason') )
-print( text.similar('dilsey') )
-"""
-#print( POSDensity ( cleanText("SoundAndFury.txt") ) )
