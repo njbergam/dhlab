@@ -1,4 +1,4 @@
-# AmericanModernism (N. Bergam, J. Li)
+# AmericanModernism (N. Bergam, J. Li, J. Lee)
 We are the digital humanities pioneers for the Pingry School's Humanities Independent Research program. We are working to create algorithms for our own research projects as well as for public use. 
 
 ## Mission 1: The "Infinity Stones" of Salinger's Short Stories
