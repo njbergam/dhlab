@@ -3,27 +3,42 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from flask import render_template
 
-from simpleFunctions import *
+from simpleFunctions import cleanText
+from simpleFunctions import simpleTokenize
+from simpleFunctions import detokenize
+from simpleFunctions import percentQuotes
+from simpleFunctions import senlenStats
+from simpleFunctions import savePOSPiChart
+from simpleFunctions import deList
+from simpleFunctions import saveTopWords
+from simpleFunctions import getWordFreqDict
 
 from thesis import thesisVector
 
 from twoText import wpReport
 from twoText import plotChronoMap
 
-from reports import *
+from reports import wpReport
+from reports import similarContext
+from reports import saveChronoMap
+from reports import sampleCharacter
 import matplotlib.pyplot as plt, mpld3
 
 import random
 import string
+import json
 
 import nltk
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+nltk.download('universal_tagset')
 
-
-branch = '/Users/JulianMacBookPro/Desktop/AmericanModernism/webDeploy'
+branch = '/Users/Justin/Desktop/AmericanModernism/webDeploy'
 
 
 priorUrl = '/single'
-fname = ""
+fname = "abc"
 app = Flask(__name__, static_folder=os.path.abspath(branch+'/templates/static') )
 if __name__ == '__main__':
     app.run(debug=True)
@@ -32,7 +47,7 @@ if __name__ == '__main__':
 
 UPLOAD_FOLDER = branch + '/uploads'
 GRAPHS_FOLDER = branch + '/templates/static/graphs'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -46,41 +61,28 @@ def allowed_file(filename):
 def home():
     return render_template('hello.html')
 
-failedSingle = 0
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     global fname
-    global failedSingle
-    global priorUrl
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            failedSingle = 1
-            return redirect(priorUrl)
+            return redirect(request.url)
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
-            failedSingle = 1
-            return redirect(priorUrl)
+            return redirect(request.url)
         if file and allowed_file(file.filename):
-            failedSingle = 0
             fname = secure_filename(file.filename)
-            if fname[len(fname)-4:] == ".pdf":
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
-                txt = text_extractor(UPLOAD_FOLDER+"/"+fname)
-                fname = fname[:len(fname)-4] + ".txt"
-                with open(UPLOAD_FOLDER + "/"+ fname,"w") as fo:
-                   fo.write(txt)
-                   fo.close()
-            else:
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+            print( fname)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             # where you go after uploading
+            global priorUrl
             return redirect(priorUrl)
-    failedSingle = 1
-    return redirect(priorUrl)#render_template(type+'.html')
+    return redirect(request.url)#render_template(type+'.html')
 
 from flask import send_from_directory
 
@@ -89,49 +91,41 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 #---Single Text
+
 @app.route('/single')
 def single():
-    global failedSingle
     dict = getWordFreqDict(200)
     global priorUrl
     priorUrl = '/single'
-    fail = failedSingle
-    failedSingle = 0
-    return render_template('oneText.html',fail = fail)
+    return render_template('oneText.html')
 
-class txtResult:
-  def __init__(self, name, pq, sen, wp, pos, top):
-    self.name = name
-    self.pq = pq
-    self.sen = sen
-    self.wp = wp
-    self.pos = pos
-    self.top = top
 
 @app.route('/report', methods=['GET', 'POST'])
-def report():
+def get_file():
     global fname
-    global failedSingle
-    if fname == "":
-        failedSingle = 2
-        return redirect('/single')
     # need to retrieve the uploaded file here for further processing
+    print( fname)
     dict = request.form.to_dict()
     #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
     text = simpleTokenize( 'uploads/' + fname )
     text2  = cleanText( 'uploads/' + fname )
-    textRst = txtResult(fname,-1,-1,"1","1","1")
     if "PercentQuotes" in dict:
-        textRst.pq = percentQuotes(text)
+        pq = percentQuotes(text)
+    else:
+        pq = -1
     if "SLength" in dict:
-        textRst.sen = senlenStats(text)
+        sen = senlenStats(text)
+    else:
+        sen = -1
     if "POS" in dict:
         print("creating pos chart")
-        textRst.pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
-        savePOSPiChart(text2, textRst.pos)
+        pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
+        savePOSPiChart(text2, pos)
+    else:
+        pos = "1"
     if "TopWords" in dict:
         print("creating top words chart")
-        textRst.top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         #os.unlink(os.path.join( app.config['GRAPHS_FOLDER'], top + ".png"))
         #os.unlink(branch+"/templates/static/graphs/" + top + ".png")
         #item_id = branch+"/templates/static/graphs/" + top + ".png"
@@ -139,60 +133,126 @@ def report():
         #self.session.delete(item)
         #db.session.commit()
         #os.remove(branch+"/templates/static/graphs/" + top + ".png");
-        saveTopWords(text2, textRst.top)
-    if "WordProg" in dict:
-        print("creating word progression chart")
-        textRst.wp = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-        arr = dict["WordProgWords"].replace(" ", "").split(';')
-        groups = []
-        for i in range(len(arr)):
-            groups.append(arr[i].split(','))
-        oneTextPlotChronoMap(text2,groups,textRst.wp)
-    fname = ""
-    return render_template('results.html', result = textRst)#mpld3.fig_to_html(topFig))
+        saveTopWords(text2, top)
+    else:
+        top = "1"
+    """
+    bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
+    genGraph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    secgen = similarContext( text,  bw)
+    print("c")
+    saveChronoMap(text, bw, secgen, genGraph)
+    genReport = wpReport(text, bw, secgen, 10)
+    charReport = sampleCharacter(text, 'Caddy', 3, 100)
+    print("d")"""
+
+    return render_template('results.html', pq = pq, sen = sen, pos = pos, top = top)#mpld3.fig_to_html(topFig))
+#---Double Text
+
+@app.route('/double')
+def double():
+	return render_template('twoText.html')
+
+@app.route('/double-results', methods=['GET', 'POST'])
+def doubleResults():
+    return render_template('double-results.html')
+
 #---Multi Text
 
-@app.route('/multi')
-def multi():
-    return render_template('multiText.html')
+global files
+files = []
 
-@app.route('/reportMulti', methods=['GET', 'POST'])
-def multiReport():
+@app.route('/multi-comp')
+def multi():
+    global priorUrl
+    priorUrl = '/multi-comp'
+    print(files)
+    return render_template('multi-comp.html', files = files)
+
+@app.route('/upload_multifile', methods=['GET', 'POST'])
+def upload_multifile():
+    global fname
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            fname = secure_filename(file.filename)
+            files.append(fname)
+            print(files)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+            # where you go after uploading
+            global priorUrl
+            return redirect(priorUrl)
+    return redirect(request.url)#render_template(type+'.html')
+
+@app.route('/removefile', methods = ['GET'])
+def worker():
     global files
+    # read json + reply
+    removedfile=request.args.get('filename')
+    print (removedfile)
+    files.remove(removedfile)
+    return redirect('/multi-comp')
+
+
+@app.route('/multireport', methods=['GET', 'POST'])
+def get_multifile():
+    global fname
+    # need to retrieve the uploaded file here for further processing
+    print( fname)
     dict = request.form.to_dict()
-    text = []
-    text2 = []
-    textRsts = []
-    for i in range(len(files)):
-        text.append(simpleTokenize( 'uploads/' + files[i] ))
-        text2.append(cleanText( 'uploads/' + files[i] ))
-        textRsts.append(txtResult(fname,-1,-1,"1","1","1"))
+    #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
+    text = simpleTokenize( 'uploads/' + fname )
+    text2  = cleanText( 'uploads/' + fname )
     if "PercentQuotes" in dict:
-        for i in range(len(files)):
-            textRsts[i].pq = percentQuotes(text[i])
+        pq = percentQuotes(text)
+    else:
+        pq = -1
     if "SLength" in dict:
-        for i in range(len(files)):
-            textRsts[i].sen = senlenStats(text[i])
+        sen = senlenStats(text)
+    else:
+        sen = -1
     if "POS" in dict:
         print("creating pos chart")
-        for i in range(len(files)):
-            textRsts[i].pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
-            savePOSPiChart(text2[i], textRsts[i].pos)
+        pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
+        savePOSPiChart(text2, pos)
+    else:
+        pos = "1"
     if "TopWords" in dict:
         print("creating top words chart")
-        for i in range(len(files)):
-            textRsts[i].top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-            saveTopWords(text2[i], textRsts[i].top)
-    if "WordProg" in dict:
-        print("creating word progression chart")
-        for i in range(len(files)):
-            textRsts[i].wp = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-            arr = dict["WordProgWords"].replace(" ", "").split(';')
-            groups = []
-            for j in range(len(arr)):
-                groups.append(arr[j].split(','))
-            oneTextPlotChronoMap(text2[i],groups,textRsts[i].wp)
-    return render_template('multiText.html',results = textRsts)
+        top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        #os.unlink(os.path.join( app.config['GRAPHS_FOLDER'], top + ".png"))
+        #os.unlink(branch+"/templates/static/graphs/" + top + ".png")
+        #item_id = branch+"/templates/static/graphs/" + top + ".png"
+        #item = self.session.query(Item).get(item_id)
+        #self.session.delete(item)
+        #db.session.commit()
+        #os.remove(branch+"/templates/static/graphs/" + top + ".png");
+        saveTopWords(text2, top)
+    else:
+        top = "1"
+    """
+    bw = ['yellow', 'fish', 'glass', 'foot', 'beach', 'suicide']
+    genGraph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    secgen = similarContext( text,  bw)
+    print("c")
+    saveChronoMap(text, bw, secgen, genGraph)
+    genReport = wpReport(text, bw, secgen, 10)
+    charReport = sampleCharacter(text, 'Caddy', 3, 100)
+    print("d")"""
+
+    return render_template('results.html', pq = pq, sen = sen, pos = pos, top = top)#mpld3.fig_to_html(topFig))
+
+
 #---Thesis
 
 @app.route('/thesis')
