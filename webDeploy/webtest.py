@@ -15,9 +15,13 @@ import matplotlib.pyplot as plt, mpld3
 
 import random
 import string
+import json
 
 import nltk
-
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+nltk.download('universal_tagset')
 
 branch = '/Users/JulianMacBookPro/Desktop/AmericanModernism/webDeploy'
 
@@ -35,7 +39,7 @@ if __name__ == '__main__':
 
 UPLOAD_FOLDER = branch + '/uploads'
 GRAPHS_FOLDER = branch + '/templates/static/graphs'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -70,15 +74,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             failedSingle = 0
             fname = secure_filename(file.filename)
-            if fname[len(fname)-4:] == ".pdf":
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
-                txt = text_extractor(UPLOAD_FOLDER+"/"+fname)
-                fname = fname[:len(fname)-4] + ".txt"
-                with open(UPLOAD_FOLDER + "/"+ fname,"w") as fo:
-                   fo.write(txt)
-                   fo.close()
-            else:
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+            print( fname)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             # where you go after uploading
             return redirect(priorUrl)
     failedSingle = 1
@@ -110,7 +107,7 @@ class txtResult:
     self.top = top
 
 @app.route('/report', methods=['GET', 'POST'])
-def report():
+def get_file():
     global fname
     global failedSingle
     if fname == "":
@@ -125,12 +122,16 @@ def report():
     textRst = txtResult(fname,-1,-1,"1","1","1")
     if "PercentQuotes" in dict:
         textRst.pq = percentQuotes(text)
+        print("getting percent quotes")
     if "SLength" in dict:
         textRst.sen = senlenStats(text)
+        print("sentence length")
     if "POS" in dict:
         print("creating pos chart")
         textRst.pos = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))#title of the generated chart
         savePOSPiChart(text2, textRst.pos)
+    else:
+        pos = "1"
     if "TopWords" in dict:
         print("creating top words chart")
         textRst.top = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
@@ -248,6 +249,7 @@ def multiReport():
             oneTextPlotChronoMap(text2[i],groups,textRsts[i].wp)
     for i in range(len(textRsts)):
         print(textRsts[i].pq)
+        print("a")
     return render_template('multiResults.html',results = textRsts)
 #---Thesis
 
@@ -255,17 +257,20 @@ def multiReport():
 def student():
     return render_template('thesis.html')
 
+
+
 @app.route('/thesis-result', methods = ['GET', 'POST'])
 def result():
     e = request.form.to_dict()
     verbs = deList( e['cv'] )
     nouns = deList( e['cn'] )
     thesis = e['thesis']
+    posColorThesis = POSColor(thesis)
     thisWarning = False
     if 'this' in thesis:
         thisWarning = True
     vector = thesisVector(thesis, nouns, verbs)
-    return render_template('thesis-results.html', thesis=thesis, vector = vector, thisWarning=thisWarning)
+    return render_template('thesis-results.html', colorThesis = posColorThesis, thesis=thesis, vector = vector, thisWarning=thisWarning)
   # if request.method == 'POST':
       #result = request.form
       #return request.form
