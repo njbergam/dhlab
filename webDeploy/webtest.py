@@ -98,7 +98,7 @@ def single():
     priorUrl = '/single'
     fail = failedSingle
     failedSingle = 0
-    return render_template('oneText.html',fail = fail)
+    return render_template('oneText.html',fail = fail, fname=fname)
 
 class txtResult:
   def __init__(self, name, pq, sen, wp, pos, top):
