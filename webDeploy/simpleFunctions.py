@@ -188,7 +188,29 @@ def saveTopWords(text, title):
 
 
 
-
+def POSColor(thesis):
+	words = thesis.split(" ")
+	tagged = nltk.pos_tag(words)
+	simplifiedTags = [(word, nltk.map_tag('en-ptb', 'universal', tag)) for word, tag in tagged]
+	print(simplifiedTags)
+	colorTags = []
+	for i in range(len(simplifiedTags)):
+		word = []
+		word.append(simplifiedTags[i][0])
+		if simplifiedTags[i][1] == 'NOUN':
+			word.append('006600')
+		elif simplifiedTags[i][1] == 'ADJ':
+			word.append('0000FF')
+		elif simplifiedTags[i][1] == 'VERB':
+			word.append('990099')
+		elif simplifiedTags[i][1] == 'PRON':
+			word.append('FF8000')
+		elif simplifiedTags[i][1] == 'ADV':
+			word.append('CC0000')
+		else:
+			word.append('000000')
+		colorTags.append(word)
+	return colorTags
 
 
 # Returns a dictionary with the proportions of different types of speech
