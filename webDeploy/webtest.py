@@ -10,6 +10,8 @@ from thesis import thesisVector
 from twoText import wpReport
 from twoText import plotChronoMap
 
+from character import sampleCharacter
+
 from reports import *
 import matplotlib.pyplot as plt, mpld3
 
@@ -259,7 +261,8 @@ def multiReport():
         print(textRsts[i].pq)
         print("a")
     return render_template('multiResults.html',results = textRsts)
-#---Thesis
+
+#---Thesis and Essay Help
 
 @app.route('/thesis')
 def student():
@@ -267,6 +270,10 @@ def student():
 
 @app.route('/passage')
 def passage():
+    return render_template('passage.html')
+
+@app.route('/passage-results')
+def passageResults():
     return render_template('dev.html')
 
 
