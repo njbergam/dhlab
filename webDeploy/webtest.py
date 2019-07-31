@@ -272,9 +272,9 @@ def student():
 def passage():
     return render_template('passage.html')
 
-@app.route('/passage-results')
+@app.route('/passage-results', methods = ['GET', 'POST'])
 def passageResults():
-    return render_template('dev.html')
+    return str(request.form.to_dict())
 
 
 @app.route('/thesis-result', methods = ['GET', 'POST'])
