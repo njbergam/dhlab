@@ -23,7 +23,7 @@ nltk.download('maxent_ne_chunker')
 nltk.download('words')
 nltk.download('universal_tagset')
 
-branch = '/Users/JulianMacBookPro/Desktop/AmericanModernism/webDeploy'
+branch = '/Users/nbergam/Desktop/AmericanModernism/webDeploy'
 
 #error checking
 failedSingle = 0
@@ -158,6 +158,14 @@ def get_file():
 global files
 files = []
 
+@app.route('/allusions')
+def allusions():
+    return render_template('dev.html')
+
+@app.route('/overlap')
+def overlap():
+    return render_template('dev.html')
+
 @app.route('/multi-comp')
 def multi():
     global failedMulti
@@ -257,6 +265,9 @@ def multiReport():
 def student():
     return render_template('thesis.html')
 
+@app.route('/passage')
+def passage():
+    return render_template('dev.html')
 
 
 @app.route('/thesis-result', methods = ['GET', 'POST'])
@@ -279,7 +290,10 @@ def result():
 def layout():
     return render_template('layout.html')
 
-
 @app.route('/projects')
 def projects():
     return render_template('projects.html')
+
+@app.route('/downloads')
+def downloads():
+    return render_template('dev.html')
