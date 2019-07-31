@@ -34,6 +34,47 @@ import numpy as np
 from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
 
+def extract_entity_names(t):#pulled from https://www.mapping-tools.com/howto/maptitude/programming-topics/using-python3-to-draw-annotation/
+	entity_names = []
+	if hasattr(t, 'label') and t.label:
+		if t.label() == 'NE':
+			entity_names.append(' '.join([child[0] for child in t]))
+		else:
+			for child in t:
+				entity_names.extend(extract_entity_names(child))
+	return entity_names
+
+def getNames(in_file):#too slow
+	main_text = ""
+	with open(in_file, 'r') as f:
+		for line in f:
+			main_text = main_text + line
+	sentences = nltk.sent_tokenize(main_text)
+	i = 0
+	k = len(sentences)
+	for j in range(1,k):#speed up: only look at every 5th sentence
+		i += 1
+		if i % 10 != 0:
+			del sentences[k-j]
+	# Tokenize the sentences - ie. split them into words
+	tokenized_sents = [nltk.word_tokenize(sentence) for sentence in sentences]
+	# Tag these words with Part-of-Speech tags (noun, verb, etc)
+	tagged_sents = [nltk.pos_tag(sentence) for sentence in tokenized_sents]
+	# Create named entity chunks from these tagged words
+	chunked_sents = nltk.ne_chunk_sents(tagged_sents, binary=True)
+	# Extract a list of named entities (people, places, etc)
+	entities = []
+	for tree in chunked_sents:
+		entities.extend(extract_entity_names(tree))
+	print(entities)
+
+def removeProperNouns(text):
+	maxLen = len(text)
+	for i in range(1,maxLen+1):
+		if text[maxLen - i][0].isupper():
+			del text[maxLen - i]
+	return text
+
 def text_extractor(pdfFile):
 	with open(pdfFile, 'rb') as f:
 		pdf = PdfFileReader(pdfFile)
@@ -58,6 +99,13 @@ def compareFreq (text, words):
     print (wordFreqs)
     plt.bar(words, wordFreqs)
     plt.show()
+
+def txtToLower (text):
+	lowerText = []
+	for i in range(len(text)):
+		lowerText.append(text[i].lower())
+	return lowerText
+
 
 def getWordFreqDict(numWords):
 	wordFreqDict = {}
@@ -106,6 +154,8 @@ def detokenize(text):
 	return TreebankWordDetokenizer().detokenize(text)
 
 def saveTopWords(text, title):
+	text = removeProperNouns(text)
+	text = txtToLower(text)
 	wfDict = getWordFreqDict(500)#ignore the most common 500 words: never display them
 	counts = Counter(text)
 	for w in counts.keys():
@@ -168,15 +218,27 @@ def POSDensity(array):
 	return (counts)
 
 # Returns array of the length of each sentence
-def sentenceLength(array):
+def sentenceLength(tokenizedText):
+	punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
 	lens = []
 	senlen = 0
-	for word in array:
-		if word == ".":
+	i = 0
+	while i < len(tokenizedText):
+		if tokenizedText[i] == ".":
+			prevI = i
+			while i< len(tokenizedText)-1 and tokenizedText[i+1] == ".":#ellipses
+				i+=1
+			if prevI == i:
+				lens.append(senlen)
+				senlen = 0
+		elif tokenizedText[i] == "?" or tokenizedText[i]== "!":
+			while i< len(tokenizedText)-1 and (tokenizedText[i+1] == "?" or tokenizedText[i+1]== "!"):
+				i+=1
 			lens.append(senlen)
 			senlen = 0
-		else:
+		elif tokenizedText[i] not in punct:
 			senlen = senlen + 1
+		i+=1
 	return lens
 
 def senlenStats(text):
