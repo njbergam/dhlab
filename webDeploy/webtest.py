@@ -301,6 +301,50 @@ def layout():
 def projects():
     return render_template('projects.html')
 
+#---School texts
+
+class textInfo ():
+    def __init__(self, title, author, txtName, pdfName, image):
+        self.title = title
+        self.author = author
+        self.txtName = txtName
+        self.pdfName = pdfName
+        self.image = image
+
+ninthTexts=[
+    textInfo("The Absolutely True Diary of a Part-Time Indian", "Sherman Alexie", "PartTimeIndian.txt", "PartTimeIndian.pdf", ""),
+    textInfo("Catcher in the Rye", "JD Salinger", "CatcherSalinger.txt", "CatcherSalinger.pdf", "https://images-na.ssl-images-amazon.com/images/I/51EqnTkohBL._SX307_BO1,204,203,200_.jpg"),
+    textInfo("As I Lay Dying", "William Faulkner", "AILDFaulkner.txt", "AILDFaulkner.pdf", "https://images-na.ssl-images-amazon.com/images/I/91yR2PB%2B2KL.jpg"),
+    textInfo("Othello", "William Shakespeare", "othello.text","othello.pdf", ""),
+    textInfo("Oedipus Rex", "Sophocles", "oedipusRex.txt", "oedipusRex.pdf", ""),
+    textInfo("Oedipus at Colonus", "Sophocles", "oedipusColonus.txt", "oedipusColonus.pdf", ""),
+    textInfo("Antigone", "Sophocles", "antigone.txt", "antigone.pdf", ""),
+    textInfo("Master Harold and the Boys", "Athol Fugard", "masterHarold.txt", "masterHarold.pdf", ""),
+    textInfo("Death of a Salesman", "Arthur Miller", "deathOfASalesman.txt", "deathOfASalesman.pdf", ""),
+    textInfo("Their Eyes Were Watching God", "Zora Neale Hurston", "theirEyesWereWatchingGod.txt", "theirEyesWereWatchingGod.pdf", ""),
+]
+tenthTexts=[
+    textInfo("Balzac and the Little Chinese Seamstress", "Dai Sijie", "balzac.txt", "balzac.pdf", ""),
+    textInfo("White Tiger", "Aravind Adiga", "WhiteTiger.txt", "whitetiger.pdf", ""),
+    textInfo("Beowulf", "Unknown Author", "beowulf.txt", "beowulf.pdf", ""),
+    textInfo("Go Tell It On The Mountain", "James Baldwin", "goTellItOnTheMountain.txt", "goTellItOnTheMountain.txt", ""),
+    textInfo("Jane Eyre", "Charlotte Brontë", "janeeyre.txt", "janeeyre.pdf", ""),
+    textInfo("Grendel", "John Gardner", "grendel.txt", "grendel.pdf", ""),
+    textInfo("Wide Sargasso Sea", "Jean Rhys", "wideSargassoSea.txt", "wideSargassoSea.pdf", ""),
+    textInfo("Macbeth", "William Shakespeare", "macbeth.txt", "macbeth.pdf", ""),
+    textInfo("Blood Dazzler", "Patricia Smith", "bloodDazzler.txt", "bloodDazzler.pdf", ""),
+    textInfo("Heidi Chronicles", "Wendy Wasserstein", "heidiChronicles.txt", "heidiChronicles.pdf", ""),
+    textInfo("A Streetcar Named Desire", "Tennessee Williams", "astreecarNamedDesire.txt", "astreecarNamedDesire.pdf", "")
+]
+eleventhTexts=[]
+twelfth=[]
+
 @app.route('/downloads')
 def downloads():
-    return render_template('dev.html')
+    return render_template('downloads.html', ninthTexts = ninthTexts, tenthTexts=tenthTexts,eleventhTexts=eleventhTexts )
+
+@app.route('/downloadbooks/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    return send_from_directory(directory=app.config['UPLOAD_FOLDER'], filename = filename)
+
+
