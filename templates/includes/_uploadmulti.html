@@ -1,0 +1,18 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<h3> Upload new Files </h3>
+
+<form action = '/upload_multifile' method=post enctype=multipart/form-data>
+  <input type=file id= "file-upload" name=file>
+  <input type=submit value="submit">
+  {% for file in files %}
+    <p>{{file}}
+    <!--<button type="button" onclick="removeFile('SoundAndFury.txt')" id="removeBtn"><rb></rb>remove</button> <br>-->
+    <a href="/removefile?filename={{file}}" onclick=removeFile()>remove</a>
+    <p>
+  {% endfor %}
+</form>
+<script>
+  function removeFile(){
+      $(this).parent().remove();
+  }
+</script>

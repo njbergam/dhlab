@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Results of Thesis Analysis </h1>
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> bd07537c1c63bb57d6bee1895d0e0355948590fe
+  <br>
+    <h8>Your Thesis: </h8>
+    <p>
+    {% for word in colorThesis %}
+    <font color="{{word[1]}}"> {{word[0]}} </font>
+    {% endfor %}
+     </p>
+  <br><br>
+  <h8> Consider these statistics as you edit your thesis.  <h8>
+
+  <br>
+  {%  for i in range(vector|length) %}
+    <br> <br>
+    {%  for j in range(vector[i]|length) %}
+      {% if j == 0 %}
+        <b> {{ vector[i][j] }} </b>
+      {% else %}
+        <br> {{ vector[i][j] }} <br>
+      {% endif %}
+
+    {% endfor%}
+    <br >{{ thesis }} <br><br>
+  {% endfor%}
+
+  {% if thisWarning: %}
+    <p> Warning! Watch out for the word 'this'! </p>
+  {% endif%}
+
+<<<<<<< HEAD
+  <div> </div>
+=======
+  <div> </div> 
+>>>>>>> bd07537c1c63bb57d6bee1895d0e0355948590fe
+
+
+{% endblock %}
