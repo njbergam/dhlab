@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Passage Sampling </h1>
+  <p> This method is meant to allow you to sample passages of your text by certain keywords and themes.
+   This is also good for randomly sampling a character and the contexts in which their name shows up.
+ Play around and brainstorm!
+     <p>
+
+
+
+
+  <form action = '/passage-results' method=post enctype=multipart/form-data>
+
+    <h3 style = text-align:center> Upload new File </h3>
+    <p> Acceptable formats: .txt, .pdf </p>
+
+      <input type=file name=file>
+      <p>{{fname}} <p>
+
+
+  <br> <h5> Please enter your keyword/n-gram: </h5>
+  <input type="input" class = "long" name="term" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
+
+  <br><br><h5> Number of Samples: </h5>
+  <input type="input" class = "long" name="numSamp" placeholder = "Number of samples" style ="width = 100%" id = "wordProgWords">
+
+  <br><br><h5> Word Count of Samples: </h5>
+  <input type="input" class = "long" name="wordCount" placeholder = "Word count of samples" style ="width = 100%" id = "wordProgWords">
+
+  <br><br>
+  <input type="submit" value="Submit">
+
+  </form>
+
+{% endblock %}

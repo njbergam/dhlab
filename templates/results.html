@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+<textCenter><h1> Results of Single-Text Analysis </h1></textCenter>
+
+<div class = "div2" id = "pqID">
+  <p> Percent Quotes: {{result.pq}} </p>
+</div>
+<div class = "div2" id = "senID">
+  <p> Average Sentence Length: {{result.sen}} </p>
+</div>
+<script>
+function displayNum(divID,val) {
+  var x = document.getElementById(divID.id);
+  if (val  > -0.1){
+    x.style.display = "block";
+  }  else{
+    x.style.display = "none";
+  }
+}
+displayNum(pqID,{{result.pq}});
+</script>
+<script>
+displayNum(senID,{{result.sen}});
+</script>
+<div class = "div2" id = "posID" style = "width:80%">
+  <h3 style> Part of Speech Distribution </h3>
+  <img src = {{ '/static/graphs/' + result.pos + '.png'  }} width = 70% alt = 'figure' >
+</div>
+<div class = "div2" id = "topID" style = "width:80%">
+  <h3 style> Graph of Top Words </h3>
+  <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 70% alt = 'figure' >
+</div>
+<div class = "div2" id = "wpID" style = "width:80%">
+  <h3 style> Graph of Word Progression </h3>
+  <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 70% alt = 'figure' >
+</div>
+<script>
+function displayGraph(divID,val) {
+  var x = document.getElementById(divID.id);
+  if(val != 1.0){//string comparison not working and val == 1 didn't work
+    x.style.display = "block";
+  }  else{
+    x.style.display = "none";
+  }
+}
+displayGraph(posID,{{result.pos}});
+</script>
+<script>
+displayGraph(wpID,{{result.wp}});
+</script>
+<script>
+displayGraph(topID,{{result.top}});
+</script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Allusion Analysis </h1>
+
+  <h3> Word Generationality </h3>
+
+  <p>
+    The concept behind this method is that we can track the presence of themes and
+	possible allusions between a root text (where themes are recognized by humans) and the
+	base text (where themes from that root text are examined). <br>
+ </p>
+
+
+  <p> <h3> Base Text: </h3> {% include '/includes/_upload.html' %} </p>
+
+  <h5 style = text-align:center> Upload new File </h5>
+  <p> Acceptable formats: .txt, .pdf </p>
+  <form action = '/upload_file' method=post enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value="submit">
+    <p>{{fname}} <p>
+  </form>
+
+  First Generation Words: <br> (from root text, where you pull themes) <br>
+
+
+
+{% endblock %}
