@@ -17,7 +17,7 @@ from twoText import wpReport
 from twoText import plotChronoMap
 from twoText import overlap
 
-from character import sampleCharacter
+from character import samplePassage
 
 
 from reports import *
@@ -282,14 +282,19 @@ def multiReport():
 def student():
     return render_template('thesis.html')
 
-@app.route('/passage')
+@app.route('/passage', methods=['GET', 'POST'])
 def passage():
+    flask.session['priorUrl'] = '/passage'
     return render_template('passage.html')
 
-@app.route('/passage-results', methods = ['GET', 'POST'])
+@app.route('/passage-results', methods=['GET', 'POST'])
 def passageResults():
-    return str(request.form.to_dict())
-
+    fname = flask.session['fname']
+    print (fname)
+    dict = request.form.to_dict()
+    print (dict)
+    passages = samplePassage(simpleTokenize("uploads/" + fname), dict["term"], dict["numSamp"], dict["wordCount"])
+    return render_template('passageResults.html', passages = passages)
 
 @app.route('/thesis-result', methods = ['GET', 'POST'])
 def result():
