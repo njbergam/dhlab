@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Results</h1>
+  {% for passage in passages %}
+    <p> {{passage}} </p>
+    <br>
+  {% endfor %}
+{% endblock %}
