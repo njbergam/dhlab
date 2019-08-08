@@ -36,7 +36,7 @@ nltk.download('maxent_ne_chunker')
 nltk.download('words')
 nltk.download('universal_tagset')"""
 
-branch = '/Users/JulianMacBookPro/Desktop/webDeploy'
+branch = '/Users/Justin/Desktop/webDeployv1.2'
 
 app = flask.Flask(__name__, static_folder=os.path.abspath(branch+'/templates/static') )
 app.secret_key = "vkjgvkgv"
@@ -80,6 +80,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             flask.session['failedSingle'] = 0
             flask.session['fname'] = secure_filename(file.filename)
+            flask.session['fnameDisplay'] = flask.session['fname']
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], flask.session['fname']))
             # where you go after uploading
             return redirect(flask.session['priorUrl'])
@@ -103,7 +104,12 @@ def single():
     flask.session['failedSingle'] = 0
     if 'fname' not in flask.session:
         flask.session['fname'] = ""
-    return render_template('oneText.html',fail = fail, fname=flask.session['fname'])
+    if "fnameDisplay" not in flask.session:
+        fnameDisplay = ''
+    else:
+        fnameDisplay = flask.session['fnameDisplay']
+    flask.session['fnameDisplay'] =''
+    return render_template('oneText.html',fail = fail, fname=fnameDisplay)
 
 class txtResult:
   def __init__(self, name, pq, sen, wp, pos, top):
@@ -284,8 +290,14 @@ def student():
 
 @app.route('/passage', methods=['GET', 'POST'])
 def passage():
+    fname = flask.session['fname']
     flask.session['priorUrl'] = '/passage'
-    return render_template('passage.html')
+    if "fnameDisplay" not in flask.session:
+        fnameDisplay = ''
+    else:
+        fnameDisplay = flask.session['fnameDisplay']
+    flask.session['fnameDisplay'] =''
+    return render_template('passage.html', fname =  fnameDisplay)
 
 @app.route('/passage-results', methods=['GET', 'POST'])
 def passageResults():
