@@ -14,30 +14,54 @@ import matplotlib.pyplot as plt
 import random
 import numpy as np
 from simpleFunctions import simpleTokenize
+from simpleFunctions import detokenize
 from vector import vectorize2
 
 # Randomly n text samples of word length l,
 # of passage surrounding character char in given text
-def sampleCharacter(text, char, n, l):
+
+#sorry that this code is shit
+def samplePassage(text, term, n, l):
+	n = int(n)
+	l = int(l)
 	indices = []
 	for i in range(len(text)):
-		if text[i] ==  char:
+		if text[i] ==  term:
 			indices.append(i)
 	master = []
 	while n > 0 and len(indices) > 0:
 		x = indices[ random.randint(0, len(indices)-1 ) ]
 		start  = int(x-l/2)
+		while text[start-1] != '.' and text[start-1] != '?' and text[start-1] != '!' :
+			start-= 1
 		if start < 0:
 			start = 0
 		new = []
-		for i in range(l):
-			if i + start < len(text):
-				new.append(text[i + start])
+		i=0
+		while i + start < len(text) and i < l:
+			new.append(text[i + start])
+			i+=1
+		while i + start < len(text) and text[i+start] != '.' and text[i+ start] != '?' and text[i+ start] != '!':
+			new.append(text[i + start])
+			i+=1
+		new.append('.')
 		master.append(new)
 		n = n-1
 		indices.remove( x )
+
+	for i in range(len(master)): 		#detokenize() adds '\' before some quotes, taking them out manually
+		passage=detokenize(master[i])
+		master[i]=passage
+		if master[i][0] == "\\":
+			master[i] = master[i][1::]
 	return master
 
+sampledPassages = samplePassage(simpleTokenize('CatcherSalinger.txt'), "Spencer", 10, 50)
+
+#print (detokenize(simpleTokenize('CatcherSalinger.txt')))
+for passage in sampledPassages:
+	print (passage)
+	print ("\n")
 # Given an array of character names, does comparative analysis on the surrounding
 # text of the characters
 def characterCompare(text, chars):
