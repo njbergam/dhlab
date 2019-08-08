@@ -4,19 +4,16 @@
   <h1> Passage Sampling </h1>
   <p> This method is meant to allow you to sample passages of your text by certain keywords and themes.
    This is also good for randomly sampling a character and the contexts in which their name shows up.
- Play around and brainstorm!
-     <p>
+ Play around and brainstorm!<p>
 
 
+   <div class = "div2">
+     {% include '/includes/_upload.html' %}
+   </div>
 
 
   <form action = '/passage-results' method=post enctype=multipart/form-data>
 
-    <h3 style = text-align:center> Upload new File </h3>
-    <p> Acceptable formats: .txt, .pdf </p>
-
-      <input type=file name=file>
-      <p>{{fname}} <p>
 
 
   <br> <h5> Please enter your keyword/n-gram: </h5>
