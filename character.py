@@ -54,14 +54,10 @@ def samplePassage(text, term, n, l):
 		master[i]=passage
 		if master[i][0] == "\\":
 			master[i] = master[i][1::]
+
 	return master
 
-sampledPassages = samplePassage(simpleTokenize('CatcherSalinger.txt'), "Spencer", 10, 50)
 
-#print (detokenize(simpleTokenize('CatcherSalinger.txt')))
-for passage in sampledPassages:
-	print (passage)
-	print ("\n")
 # Given an array of character names, does comparative analysis on the surrounding
 # text of the characters
 def characterCompare(text, chars):

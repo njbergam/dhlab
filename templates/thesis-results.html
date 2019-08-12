@@ -1,45 +1,55 @@
+<!-- Params: colorThesis, thesis, intro, conclusion-->
+
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h1> Results of Thesis Analysis </h1>
+  <h1> Results of Essay Analysis </h1>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> bd07537c1c63bb57d6bee1895d0e0355948590fe
   <br>
-    <h8>Your Thesis: </h8>
+    <h8>Your Thesis, colored by parts of speech: </h8>
     <p>
     {% for word in colorThesis %}
     <font color="{{word[1]}}"> {{word[0]}} </font>
     {% endfor %}
      </p>
-  <br><br>
-  <h8> Consider these statistics as you edit your thesis.  <h8>
 
-  <br>
-  {%  for i in range(vector|length) %}
-    <br> <br>
-    {%  for j in range(vector[i]|length) %}
-      {% if j == 0 %}
-        <b> {{ vector[i][j] }} </b>
-      {% else %}
-        <br> {{ vector[i][j] }} <br>
-      {% endif %}
+  <br> <br>
 
-    {% endfor%}
-    <br >{{ thesis }} <br><br>
-  {% endfor%}
+    <h4> Readability Metrics </h4>
+    <p> The following information reports on the different
+    parts of your essay in terms of readability. Make no mistake, the
+    idea of readability and the complexity of writing is highly subjective; nevertheless, there have been indices established in
+    order to give an objective idea of how 'sophisticated' a certain piece of
+    writing might be, based on the lengths of words and sentences. Here are a few of them. </p>
 
-  {% if thisWarning: %}
-    <p> Warning! Watch out for the word 'this'! </p>
-  {% endif%}
+    <h6> Flesch Reading Ease </h6>
+    <p> 206.83 - 1.015(avg_sentence_length) - 84.6(avg_syllable_count) </p>
 
-<<<<<<< HEAD
-  <div> </div>
-=======
-  <div> </div> 
->>>>>>> bd07537c1c63bb57d6bee1895d0e0355948590fe
+    <h6> Flesch-Kincaid Grade Level </h6>
+    <p> 0.39(avg_sentence_length) + 11.8(avg_syllable_count) - 15.59  </p>
+
+    <h6> Gunning-Fog Index </h6>
+    <p> 0.4(avg_sentence_length + percent_hard_words)
+    <br> Hard words are defined as words that are greater than three syllables and are
+  neither proper nouns, the combination of simpler words, nor 2 syllable words that are extended syllabically
+by -es or -ed.</p>
+
+    <br>
+    {% for part in readability %}
+    <br>
+      <table border=1px> <tr>
+      {% for test in part %}
+        <th><center>
+        {{ test }}
+        {% if part.index(test) == 0 or (part.index(test) - 1) %2 == 1 %}
+        <tr>
+        {% endif %}
+        </center></th>
+      {% endfor %}
+      </tr> </table>
+    {% endfor %}
+
+
 
 
 {% endblock %}

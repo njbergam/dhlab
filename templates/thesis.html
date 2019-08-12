@@ -3,14 +3,15 @@
 {% block body %}
   <h1> Thesis Analysis </h1>
 
-  <h5> Please enter in a one- or two-sentence thesis for your paper, as well as some supplementary information. </h5>
-  <h8> In the future, once our dataset grows, we will be able to compare your thesis with other successful theses from fellow students (and perhaps even famous essayists!).
+  <h5> Please enter in these key parts of your essay. </h5>
+  <h8> In the future, once our dataset grows, we will be able to compare the stats of your intro, thesis, and conclusion with other successful theses from fellow students (and perhaps even famous essayists!).
     For now, the statistics will only apply to the information you enter below. It is not stored. </h8> <br><br>
 
   <form action = '/thesis-result' method = "POST">
-    <p> Thesis: </p> <p>  <input name="thesis" cols="40" rows="5" style="width:400px; height:100px;">  </input> <br> </p>
-    <p> Critical Nouns: </p> <p>    <input type="text" name="cn"  style="width:400px; height:50px;">  <br> </p>
-    <p> Critical Verbs: </p> <p>   <input type="text" name="cv"  style="width:400px; height:50px;">  <br> </p>
+    <p> Intro (without thesis): </p> <p>  <textarea name="intro" cols="40" rows="50" style="width:400px; height:200px;">  </textarea> <br> </p>
+    <p> Thesis: </p> <p>  <textarea name="thesis" cols="40" rows="20" style="width:400px; height:200px;">  </textarea> <br> </p>
+    <p> Conclusion: </p> <p>  <textarea name="conclusion" cols="50" rows="5" style="width:400px; height:200px;">  </textarea> <br> </p>
+
     <input type="submit" value="Submit">
   </form>
 

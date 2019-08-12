@@ -19,6 +19,9 @@ from twoText import overlap
 
 from character import samplePassage
 
+from readability import flesch_read
+from readability import flesch_kincaid_read
+from readability import fog_read
 
 from reports import *
 import matplotlib.pyplot as plt, mpld3
@@ -36,7 +39,7 @@ nltk.download('maxent_ne_chunker')
 nltk.download('words')
 nltk.download('universal_tagset')"""
 
-branch = '/Users/Justin/Desktop/webDeployv1.2'
+branch = '/Users/nbergam/Desktop/AmericanModernism'
 
 app = flask.Flask(__name__, static_folder=os.path.abspath(branch+'/templates/static') )
 app.secret_key = "vkjgvkgv"
@@ -310,19 +313,18 @@ def passageResults():
 
 @app.route('/thesis-result', methods = ['GET', 'POST'])
 def result():
-    e = request.form.to_dict()
-    verbs = deList( e['cv'] )
-    nouns = deList( e['cn'] )
-    thesis = e['thesis']
-    posColorThesis = POSColor(thesis)
-    thisWarning = False
-    if 'this' in thesis:
-        thisWarning = True
-    vector = thesisVector(thesis, nouns, verbs)
-    return render_template('thesis-results.html', colorThesis = posColorThesis, thesis=thesis, vector = vector, thisWarning=thisWarning)
-  # if request.method == 'POST':
-      #result = request.form
-      #return request.form
+    raw_text = request.form.to_dict()
+    posColorThesis = POSColor(raw_text['thesis'])
+    readability = [ read_score(name, text) for name, text in raw_text.items() ]
+    return render_template('thesis-results.html', colorThesis = posColorThesis, raw_text=raw_text, readability=readability)
+
+# Returns array of all reading scores for a given text
+def read_score(name,text):
+    ret = [ name]
+    ret.extend( ['Flesch Readability', flesch_read(text)] )
+    ret.extend( ['Flesch-Kincaid Readability', flesch_kincaid_read(text)] )
+    ret.extend( ['Fog Readability', fog_read(text)] )
+    return ret
 
 @app.route('/layout')
 def layout():
@@ -385,15 +387,6 @@ def downloads():
 @app.route('/downloadbooks/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     return send_from_directory(directory=app.config['UPLOAD_FOLDER'], filename = filename)
-
-
-
-
-
-
-
-
-
 
 
 
