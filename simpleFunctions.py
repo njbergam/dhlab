@@ -169,7 +169,7 @@ def saveTopWords(text, title):
 	#return fig
 
 def POSColor(thesis):
-	words = thesis.split(" ")
+	words = nltk.word_tokenize(str(thesis))
 	tagged = nltk.pos_tag(words)
 	simplifiedTags = [(word, nltk.map_tag('en-ptb', 'universal', tag)) for word, tag in tagged]
 	print(simplifiedTags)

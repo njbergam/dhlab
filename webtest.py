@@ -314,9 +314,11 @@ def passageResults():
 @app.route('/thesis-result', methods = ['GET', 'POST'])
 def result():
     raw_text = request.form.to_dict()
-    posColorThesis = POSColor(raw_text['thesis'])
+    print(raw_text.keys())
+    print(POSColor(raw_text['thesis']))
+    pos_text = [POSColor(raw_text[name]) for name in raw_text.keys()]
     readability = [ read_score(name, text) for name, text in raw_text.items() ]
-    return render_template('thesis-results.html', colorThesis = posColorThesis, raw_text=raw_text, readability=readability)
+    return render_template('thesis-results.html', pos_text=pos_text,raw_text=raw_text, readability=readability)
 
 # Returns array of all reading scores for a given text
 def read_score(name,text):

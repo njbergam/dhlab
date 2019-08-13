@@ -6,12 +6,35 @@
   <h1> Results of Essay Analysis </h1>
 
   <br>
-    <h8>Your Thesis, colored by parts of speech: </h8>
+    <h4> Your work, colored by parts of speech: </h4> <br>
+
+
+    <p> <b> How this can help you: </b> Splitting your writing by parts of speech in this sort of hyper-visual manner
+    can allow you to quickly notice patterns in your writing. What are the tones of your adjectives?
+    What nouns stand out from the rest? Do your pronouns have clear antecedents? How heavy is your writing on descriptors?
+    As always with these sorts of tools, there isn't some obvious correct answer––we are merely providing you
+    with an objective lens, a new perspective, to see your writing.</p>
+
+    <br>
+    <font color='006600'> Nouns </font>
+    <font color='990099'> Verbs </font>
+    <font color='0000FF'> Adjectives </font>
+    <font color='CC0000'> Adverbs </font>
+    <font color='FF8000'> Pronouns </font> <br> <br>
+
     <p>
-    {% for word in colorThesis %}
-    <font color="{{word[1]}}"> {{word[0]}} </font>
+    {% for text in pos_text %}
+      {% for word in text %}
+      <font color="{{word[1]}}"> {{word[0]}} </font>
+
+
+      {% endfor %}
+      <br><br>
     {% endfor %}
      </p>
+
+     <br>
+
 
   <br> <br>
 
