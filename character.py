@@ -15,6 +15,7 @@ import random
 import numpy as np
 from simpleFunctions import simpleTokenize
 from simpleFunctions import detokenize
+from simpleFunctions import findFreq
 from vector import vectorize2
 
 # Randomly n text samples of word length l,
@@ -28,6 +29,9 @@ def samplePassage(text, term, n, l):
 	for i in range(len(text)):
 		if text[i] ==  term:
 			indices.append(i)
+	if n>len(indices):
+		n = len(indices)
+	print (n)
 	master = []
 	while n > 0 and len(indices) > 0:
 		x = indices[ random.randint(0, len(indices)-1 ) ]
@@ -36,11 +40,13 @@ def samplePassage(text, term, n, l):
 			start-= 1
 		if start < 0:
 			start = 0
+		end = int(x+l/2)
 		new = []
 		i=0
-		while i + start < len(text) and i < l:
+		while i + start < len(text) and i + start < end:
 			new.append(text[i + start])
 			i+=1
+
 		while i + start < len(text) and text[i+start] != '.' and text[i+ start] != '?' and text[i+ start] != '!':
 			new.append(text[i + start])
 			i+=1
@@ -54,10 +60,14 @@ def samplePassage(text, term, n, l):
 		master[i]=passage
 		if master[i][0] == "\\":
 			master[i] = master[i][1::]
-
 	return master
 
+#sampledPassages = samplePassage(simpleTokenize('CatcherSalinger.txt'), "Spencer", 10, 50)
 
+#print (detokenize(simpleTokenize('CatcherSalinger.txt')))
+#for passage in sampledPassages:
+#	print (passage)
+#	print ("\n")
 # Given an array of character names, does comparative analysis on the surrounding
 # text of the characters
 def characterCompare(text, chars):
