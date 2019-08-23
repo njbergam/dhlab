@@ -130,10 +130,14 @@ def get_file():
         return redirect('/single')
     # need to retrieve the uploaded file here for further processing
     dict = request.form.to_dict()
-    #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
-    text = simpleTokenize( 'uploads/' + flask.session['fname'] )
-    #getNames('uploads/' + fname)
-    text2  = cleanText( 'uploads/' + flask.session['fname'] )
+    if flask.session['fname'][-4:] == '.pdf':
+        text = text_extractor('uploads/' +flask.session['fname'])
+        text2 = cleanText2(text)
+    else:
+        #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
+        text = simpleTokenize( 'uploads/' + flask.session['fname'] )
+        #getNames('uploads/' + fname)
+        text2  = cleanText( 'uploads/' + flask.session['fname'] )
     textRst = txtResult(flask.session['fname'],-1,-1,"1","1","1")
     if "PercentQuotes" in dict:
         textRst.pq = percentQuotes(text)
@@ -169,6 +173,7 @@ def get_file():
     print(textRst.wp);
     print(textRst.top);
     return render_template('results.html', result = textRst)#mpld3.fig_to_html(topFig))
+
 #---Multi Text
 
 @app.route('/allusions')
@@ -234,8 +239,14 @@ def multiReport():
     text2 = []
     textRsts = []
     for i in range(len(flask.session['files'])):
-        text.append(simpleTokenize( 'uploads/' + flask.session['files'][i] ))
-        text2.append(cleanText( 'uploads/' + flask.session['files'][i] ))
+        print("HOLLAA")
+        print(flask.session['fname'][i])
+        if flask.session['fname'][i][-4:] == '.pdf':
+            text.append(text_extractor( 'uploads/' + flask.session['files'][i] ))
+            text2.append(cleanText2( 'uploads/' + flask.session['files'][i] ))
+        else:
+            text.append(simpleTokenize( 'uploads/' + flask.session['fname'][i] ))
+            text2.append(cleanText( 'uploads/' + flask.session['fname'][i] ))
         textRsts.append(txtResult(flask.session['files'][i],-1,-1,"1","1","1"))
     if "PercentQuotes" in dict:
         for i in range(len(flask.session['files'])):
@@ -420,7 +431,7 @@ def authorize():
 
 @app.route('/oauth_callback')
 def oauth_callback():
-    state = flask.session['state']
+    #state = flask.session['state']
     oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file('client_secret.json',scopes=['https://www.googleapis.com/auth/drive.file'])
     flow = google_auth_oauthlib.flow.Flow(oauth2_session, client_type='web', client_config=client_config, redirect_uri='http://localhost:5000/oauth_callback', code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
     authorization_response = flask.request.url

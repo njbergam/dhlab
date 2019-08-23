@@ -63,7 +63,7 @@ def text_extractor(pdfFile):
 		for i in range(pdf.getNumPages()):
 			page = pdf.getPage(i)
 			text += page.extractText()
-	return text
+	return nltk.word_tokenize(text)
 
 # Returns the frequency of a given word in a text
 def findFreq (text, word):
@@ -113,6 +113,23 @@ def cleanText(fileName):
 	s = PorterStemmer()
 	file = open(fileName, "r")
 	words = nltk.word_tokenize(file.read())
+	stop_words=set(stopwords.words("english"))
+	filteredDict = []
+	for w in words:
+		if w not in stop_words and len(w)>3:
+			w = lem.lemmatize(w,"v")
+			#w = s.stem(w)
+			filteredDict.append(w)
+	return filteredDict
+
+# This function should, given a fileName, 1) tokenize the text file
+# 2) remove three or fewer characters, 3) Removing stopwords
+# 4) Lemmatization (third person-->first person, past to present tense)
+# 5) Stemming (root form of word)
+# Return the tokenized array
+def cleanText2(words):
+	lem = WordNetLemmatizer()
+	s = PorterStemmer()
 	stop_words=set(stopwords.words("english"))
 	filteredDict = []
 	for w in words:

@@ -32,7 +32,7 @@ def flesch_read(str):
     words = nltk.word_tokenize(str)
     ASL = statistics.mean( sentenceLength(words) )
     ASW = statistics.mean( [syllable_count(word) for word in words] )
-    return 206.835-(1.015 * ASL)-(84.6 * ASW)
+    return round( 206.835-(1.015 * ASL)-(84.6 * ASW) , 3)
 
 def flesch_kincaid_read(str):
     """
@@ -42,7 +42,7 @@ def flesch_kincaid_read(str):
     words = nltk.word_tokenize(str)
     ASL = statistics.mean( sentenceLength(words) )
     ASW = statistics.mean( [syllable_count(word) for word in words] )
-    return round( (0.39 * ASL) - (84.6 * ASW), 3)
+    return round( (0.39 * ASL) + (11.8 * ASW) - 15.59, 3)
 
 
 def fog_read(str):
