@@ -413,6 +413,7 @@ def getUser():
     #attrs = vars(userInfo)
     #for item in attrs.items():
     #    print(item)
+    flask.session['priorUrl'] = '/downloads'
     print(userInfo["user"]["emailAddress"])
     flask.session['email'] = userInfo["user"]["emailAddress"]
     return flask.redirect(flask.session['priorUrl'])
