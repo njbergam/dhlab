@@ -1,27 +1,17 @@
 # AmericanModernism (N. Bergam, J. Li, J. Lee)
 We are the digital humanities pioneers for the Pingry School's Humanities Independent Research program. We are working to create algorithms for our own research projects as well as for public use. 
 
-## Mission 1: The "Infinity Stones" of Salinger's Short Stories
+## Purpose
 
-We believe there are some convincing thematic and character similarities between the 'Nine Stories' and the various 'episodes' of Holden's journey in 'The Catcher in the Rye'––in some ways these stories tye up loose ends and complete some of the thoughts that were touched upon in the larger story of Holden. The following are specific comparisons we have in mind, from our own reading. 
-     1. Mr. Antonelli and Seymour Glass: Why is Salinger pressuring the reader to assume these men are pedophiles?
-     2. Holden and Teddy: Advanced Wisdom or Fatal Naivete?
-     3. Buddhism and the Void in American Culture: Caulfield, de-Daumier Smith, Teddy
-     4. PTSD: Addressed directly for 'Esme', perhaps indirectly for 'Catcher'
-     5. The Death of Youthful Constructs: 'Laughing Man' and the 'Rye' poem
-     
-Through digital humanities techniques like Topic Modeling, we can illuminate these connections qualitatively and furthermore establish new connections.
+The beauty of natural language processing and digital humanities is often hidden from the general population of writers and readers, and we believe that is a problem. While, of course, a computer can never read and analyze text to the extent that a human can, it has the capacity to make interesting connections and see large scale patterns through objective, numerical analyses. As such, the capability of computers in regards to text analysis should be available to everyone. We designed these algorithms on an interactive web format in order to bridge the gap, to allow all readers and writers to witness for themselves the potential of language processing.
 
-Our experimental design is as follows:
-1. Generate key words and phrases from individual short stories through human reading (e.g. “glass” or “fish” from “A Perfect Day For Bananafish“)
-2. Generate a second generation of similar words from this initial human reading list
-    1. Currently, we are using nltk’s text.similar(), which uses word context and part of speech to generate list of words
-    2. However, we are hoping we can use more advanced machine learning designs (taking information and context from other texts) to generate better second generation batch
-3. Using the frequency of these words across Catcher in the Rye (as well as some sort of weighting system between first and second gen words, as well as within generations) to produce a heat map of the word frequencies of keywords for each short story in relation to Catcher
-4. Using human reading, divide Catcher in the Rye into certain chapters and mark this on the heat map (e.g. “first taxi driver”, “Mr. Antonelli”, “fight with Stradlater”)
-5. Use these heat maps to confirm hypotheses / find new connections. Conduct further tests to measure similarity in writing style (sentence length, word strength, etc.)
+## Libraries Used
+Matplotlib
+Numpy
+Scipy
+NLTK (natural language toolkit)
+Flask 
 
-## Mission 2: Themes in Children's Storytelling
 
 ## Future
 
