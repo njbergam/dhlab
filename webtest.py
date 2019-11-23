@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import os
 import flask
 import requests
@@ -39,7 +41,7 @@ nltk.download('maxent_ne_chunker')
 nltk.download('words')
 nltk.download('universal_tagset')"""
 
-branch = '/Desktop/AmericanModernism'
+branch = '/var/www/html/AmericanModernism'
 
 app = flask.Flask(__name__, static_folder=os.path.abspath(branch+'/templates/static') )
 app.secret_key = "vkjgvkgv"

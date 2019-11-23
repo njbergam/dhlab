@@ -1,3 +1,5 @@
+# coding=utf-8
+
 # Looking at theses, storing, better understanding
 
 # How can you quantify/vectorize a thesis?

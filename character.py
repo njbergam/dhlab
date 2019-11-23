@@ -1,3 +1,5 @@
+# coding=utf-8
+
 # Character Study
 import nltk
 from nltk.corpus import stopwords

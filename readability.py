@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import nltk
 import statistics
 from simpleFunctions import sentenceLength

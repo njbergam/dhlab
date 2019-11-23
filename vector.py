@@ -1,3 +1,6 @@
+
+# coding=utf-8
+
 # Vector Creation
 import nltk
 from nltk.corpus import stopwords

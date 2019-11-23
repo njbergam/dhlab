@@ -1,3 +1,5 @@
+# coding=utf-8
+
 # Noah: We should find a way to make sure all these graph making functions are saving to the right place
 
 import os
