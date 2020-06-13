@@ -6,40 +6,25 @@ import requests
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
-
-from googleapiclient.discovery import build
-from werkzeug.utils import secure_filename
-from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
-
-from simpleFunctions import *
-
-from thesis import thesisVector
-
-from twoText import wpReport
-from twoText import plotChronoMap
-from twoText import overlap
-
-from character import samplePassage
-
-from readability import flesch_read
-from readability import flesch_kincaid_read
-from readability import fog_read
-
-from reports import *
 import matplotlib.pyplot as plt, mpld3
-
 import random
 import string
 import json
-
 import nltk
+from googleapiclient.discovery import build
+from werkzeug.utils import secure_filename
+from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
+from simpleFunctions import *
+from twoText import plotChronoMap
+from twoText import overlap
+from character import samplePassage
+from readability import flesch_read
+from readability import flesch_kincaid_read
+from readability import fog_read
+from reports import *
+
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'#necessary to run locally
-
-"""nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
-nltk.download('universal_tagset')"""
 
 branch = '/var/www/html/AmericanModernism'
 
@@ -178,9 +163,9 @@ def get_file():
 
 #---Multi Text
 
-@app.route('/allusions')
+"""@app.route('/allusions')
 def allusions():
-    return render_template('dev.html')
+    return render_template('dev.html')"""
 
 @app.route('/multi-comp')
 def multi():
