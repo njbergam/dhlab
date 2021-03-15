@@ -17,7 +17,7 @@ from .tools.TOOLS import *
 
 #branch = "/Users/mirobergam/Desktop/dhlab/flaskr"
 branch = "/var/www/html"
-# ^ CHANGE THIS WHEN YOU RUN ON LOCAL
+# ^ CHANGE THIS WHEN YOU RUN ON YOUR LOCAL DEVICE
 UPLOAD_FOLDER = branch + '/uploads'
 GRAPHS_FOLDER = branch + '/templates/static/graphs'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
