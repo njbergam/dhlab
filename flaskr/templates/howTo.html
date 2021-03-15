@@ -1,0 +1,59 @@
+<style>
+.column {
+  float: left;
+  width: 50%;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.purp-box{
+  background-color: af6ef0;
+  height:6%
+}
+</style>
+
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+  <h4> The Do's and Don't's of DHLab for critical essays: <h4> <br><br>
+
+  <h6>DO find patterns and explore them! </h6><br>
+  <p>Critical writing is all about looking at patterns and making conclusions based on those patterns.
+     The beauty of DHLab is that it makes the search for these patterns much easier. Take advantage of that! </p>
+  <br><br><h6>DON’T rely too heavily on text statistics in your essays.</h6><br>
+  <p>Numbers aren’t going to do the heavy lifting of your analysis––you are!
+    For example, if you assert that an author uses the dichotomy between light and dark to
+    compare two characters, all our algorithms can do is show the prevalence of these themes
+     and help you find passages about them. It’s up to you to actually analyze those passages
+     on a deeper level. </p>
+  <br><br><h6>DO make sure your input file (.txt) is clean</h6><br>
+  <p>Sometimes there are recurring pieces of text in certain .txt files,
+    like the title of the novel or page numbers. You don’t want those. These
+     can mess up some of your statistics.</p>
+  <br><br><h6>DON’T put statistics about your essay in your essay</h6><br>
+  <p>The statistics you get from Thesis Analysis should be for your personal writing purposes.
+    Don’t try flexing the quantitative complexity of your work!</p>
+  <br><br><h6>DO let us know if you have ideas for more algorithms to put on the website!</h6><br>
+  <p>Email nbergam2021@pingry.org, jli2021@pingry.org, or jlee2021@pingry.org</p>
+
+  <br><br>
+  <h4> Some examples of where text statistics can come in handy.</h4>
+
+
+ <h6>Example use of a DHLab feature to prove a quick point: </h6>
+  Throughout his novel, McCarthy almost incessantly uses the verb “watching” to note the observational
+  role of various characters (Fig. 1).
+
+
+
+
+
+{% endblock %}

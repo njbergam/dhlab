@@ -1,0 +1,98 @@
+<!-- Params: colorThesis, thesis, intro, conclusion-->
+
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Results of Essay Analysis </h1>
+
+  <br>
+    <h4> Your work, colored by parts of speech: </h4> <br>
+
+
+    <p> <b> How this can help you: </b> Splitting your writing by parts of speech in this sort of hyper-visual manner
+    can allow you to quickly notice patterns in your writing. What are the tones of your adjectives?
+    What nouns stand out from the rest? Do your pronouns have clear antecedents? How heavy is your writing on descriptors?
+    As always with these sorts of tools, there isn't some obvious correct answer––we are merely providing you
+    with an objective lens, a new perspective, to see your writing.</p>
+
+    <br>
+    <font color='006600'> Nouns </font>
+    <font color='990099'> Verbs </font>
+    <font color='0000FF'> Adjectives </font>
+    <font color='CC0000'> Adverbs </font>
+    <font color='FF8000'> Pronouns </font> <br> <br>
+
+    <p>
+    {% for text in pos_text %}
+      {% for word in text %}
+      <font color="{{word[1]}}"> {{word[0]}} </font>
+
+
+      {% endfor %}
+      <br><br>
+    {% endfor %}
+     </p>
+
+     <br>
+
+
+  <br> <br>
+
+    <h4> Readability Metrics </h4>
+    <p> The following information reports on the different
+    parts of your essay in terms of readability. Make no mistake, the
+    idea of readability and the complexity of writing is highly subjective; nevertheless, there have been indices established in
+    order to give an objective idea of how 'sophisticated' a certain piece of
+    writing might be, based on the lengths of words and sentences.  </p>
+
+    <p> <b> How this can help you: </b> Compare the readability between these parts of your essay.
+    If one part has an abnormal score, try to find out why, and ask yourself is this a stylistic
+    choice or perhaps an inconsistency of tone in your essay.  </p>
+
+
+
+    <br>
+
+    <h5> Flesch Reading Ease </h5>
+    <p> <b> Formula: </b> 206.83 - 1.015(avg_sentence_length) - 84.6(avg_syllable_count) </p>
+    <p> Higher scores indicate text is easier to read. Designed to be a 0-100 scale, where
+    100 to 70 is middle school level, 70 to 50 is high school level, 50 to 30 is undergrad,
+    and 30 to 0 is graduate level. Negative scores are possible.</p>
+
+    <br>
+
+    <h5> Flesch-Kincaid Grade Level </h5>
+    <p> <b> Formula: </b>0.39(avg_sentence_length) + 11.8(avg_syllable_count) - 15.59  </p>
+    <p> Meant to present a score in terms of a US grade level, 0-12. Can also be seen
+    as the number of years of education needed to understand a text.</p>
+
+    <br>
+
+    <h5> Gunning-Fog Index </h5>
+    <p> <b> Formula: </b> 0.4(avg_sentence_length + percent_hard_words)
+      <br><br>Like Flesch-Kincaid, models number of years of education/grade level needed to understand a text.
+      <br> *Hard words are defined as words that are greater than three syllables and are
+  neither proper nouns, the combination of simpler words, nor 2 syllable words that are extended syllabically
+by -es or -ed.*</p>
+
+  <br>
+
+    <br>
+    {% for part in readability %}
+    <br>
+      <table border=1px> <tr>
+      {% for test in part %}
+        <th><center>
+        {{ test }}
+        {% if part.index(test) == 0 or (part.index(test) - 1) %2 == 1 %}
+        <tr>
+        {% endif %}
+        </center></th>
+      {% endfor %}
+      </tr> </table>
+    {% endfor %}
+
+
+
+
+{% endblock %}

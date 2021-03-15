@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <img src="static/logo.png" alt="Logo" width="30%" height="auto">
+  <h3> In order to view these texts, please login using your Pingry account. </h3>
+  <a href="/authorize" class="btn btn-primary"> Login </a>
+  <script>
+  function displayError(failed) {
+    if(failed == 1.0){
+      alert("Please login using a pingry email.");
+    }
+  }
+  displayError({{fail}});
+  </script>
+
+{% endblock %}
