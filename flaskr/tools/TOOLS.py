@@ -11,6 +11,26 @@ import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
+import ssl
+import random
+
+branch = os.path.abspath(__file__)
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+nltk.download('stopwords')
+nltk.download('word_tokenize')
+nltk.download('wordnet')
+nltk.download('universal_tagset')
 
 def extract_entity_names(t):#pulled from https://www.mapping-tools.com/howto/maptitude/programming-topics/using-python3-to-draw-annotation/
 	entity_names = []
@@ -88,7 +108,7 @@ def txtToLower (text):
 
 def getWordFreqDict(numWords):
 	wordFreqDict = {}
-	file = open("wordFreq.txt", "r")
+	file = open("flaskr/wordFreq.txt", "r")
 	s = file.readline()
 	while s != '' and numWords > 0:
 		arr = []
@@ -178,7 +198,7 @@ def saveTopWords(text, title):
 	#if os.path.isfile('templates/static/graphs/' + title + '.png'):
 	#	print("asdufb3oewj")
 	#	os.remove('templates/static/graphs/' + title + '.png')
-	plt.savefig('templates/static/graphs/' + title + '.png')
+	plt.savefig('flaskr/static/graphs/' + title + '.png')
 	plt.close()
 	#return fig
 
@@ -295,7 +315,7 @@ def savePOSPiChart(text, title):
 	plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
 	#plt.title('Part of Speech Density')
 	plt.tight_layout()
-	plt.savefig('templates/static/graphs/' + title + '.png')
+	plt.savefig('flaskr/static/graphs/' + title + '.png')
 	plt.close()
 #text = cleanText("CatcherSalinger.txt")
 #print (savePOSPiChart(text, "test"))
@@ -455,7 +475,7 @@ def oneTextPlotChronoMap (text, wordlists, title):
             lbl += ", " + str(wordlists[i][j])
         plt.bar(x, y[i], label = lbl)
         plt.legend()
-    plt.savefig('templates/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
 
 #text = cleanText("CatcherSalinger.txt")
@@ -465,7 +485,7 @@ def saveChronoMap(text, firstgen, secgen, title):
     y = wordProgression( text , firstgen, secgen)
     x =  list(range( int(len(text)/numWordsPerSection) +1))
     plt.plot(x,y)
-    plt.savefig('templates/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
 
 
@@ -491,4 +511,45 @@ def sampleCharacter(text, char, n, l):
 		master.update( {start : TreebankWordDetokenizer().detokenize(new) } )
 		n = n-1
 		indices.remove( x )
+	return master
+
+
+def samplePassage(text, term, n, l):
+	n = int(n)
+	l = int(l)
+	indices = []
+	for i in range(len(text)):
+		if text[i] ==  term:
+			indices.append(i)
+	if n>len(indices):
+		n = len(indices)
+	print (n)
+	master = []
+	while n > 0 and len(indices) > 0:
+		x = indices[ random.randint(0, len(indices)-1 ) ]
+		start  = int(x-l/2)
+		while text[start-1] != '.' and text[start-1] != '?' and text[start-1] != '!' :
+			start-= 1
+		if start < 0:
+			start = 0
+		end = int(x+l/2)
+		new = []
+		i=0
+		while i + start < len(text) and i + start < end:
+			new.append(text[i + start])
+			i+=1
+
+		while i + start < len(text) and text[i+start] != '.' and text[i+ start] != '?' and text[i+ start] != '!':
+			new.append(text[i + start])
+			i+=1
+		new.append('.')
+		master.append(new)
+		n = n-1
+		indices.remove( x )
+
+	for i in range(len(master)): 		#detokenize() adds '\' before some quotes, taking them out manually
+		passage=detokenize(master[i])
+		master[i]=passage
+		if master[i][0] == "\\":
+			master[i] = master[i][1::]
 	return master

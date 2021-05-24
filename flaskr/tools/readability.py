@@ -1,6 +1,6 @@
 import nltk
 import statistics
-from simpleFunctions import sentenceLength
+from .simpleFunctions import sentenceLength
 
 """
 This script will house functions that give back certain readability indexes for texts

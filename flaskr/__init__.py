@@ -14,12 +14,16 @@ import string
 import json
 import nltk
 from .tools.TOOLS import *
+from .tools.readability import *
+
 
 #branch = "/Users/mirobergam/Desktop/dhlab/flaskr"
-branch = "/var/www/html"
+#branch = "/var/www/html"
 # ^ CHANGE THIS WHEN YOU RUN ON YOUR LOCAL DEVICE
+branch = os.path.abspath(__file__)[0:-12]
+
 UPLOAD_FOLDER = branch + '/uploads'
-GRAPHS_FOLDER = branch + '/templates/static/graphs'
+GRAPHS_FOLDER = branch + '/static/graphs'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 def allowed_file(filename):
@@ -136,9 +140,9 @@ def create_app(test_config=None):
             text2 = cleanText2(text)
         else:
             #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
-            text = simpleTokenize(  'uploads/' + session['fname'] )
+            text = simpleTokenize( branch + '/uploads/' + session['fname'] )
             #getNames('uploads/' + fname)
-            text2  = cleanText( 'uploads/' + session['fname'] )
+            text2  = cleanText( branch + '/uploads/' + session['fname'] )
         textRst = txtResult(session['fname'],-1,-1,"1","1","1")
         if "PercentQuotes" in dict:
             textRst.pq = percentQuotes(text)
@@ -250,7 +254,7 @@ def create_app(test_config=None):
                 text.append(text_extractor( 'uploads/' + session['files'][i] ))
                 text2.append(cleanText2( 'uploads/' + session['files'][i] ))
             else:
-                text.append(simpleTokenize( 'uploads/' + session['fname'][i] ))
+                text.append(simpleTokenize( 'uploads/' + session['fname'] ))
                 text2.append(cleanText( 'uploads/' + session['fname'][i] ))
             textRsts.append(txtResult(session['files'][i],-1,-1,"1","1","1"))
         if "PercentQuotes" in dict:
@@ -324,7 +328,7 @@ def create_app(test_config=None):
         print (fname)
         dict = request.form.to_dict()
         print (dict)
-        passages = samplePassage(simpleTokenize("uploads/" + fname), dict["term"], dict["numSamp"], dict["wordCount"])
+        passages = samplePassage(simpleTokenize("flaskr/uploads/" + fname), dict["term"], dict["numSamp"], dict["wordCount"])
         return render_template('passageResults.html', passages = passages)
 
     @app.route('/thesis-result', methods = ['GET', 'POST'])
