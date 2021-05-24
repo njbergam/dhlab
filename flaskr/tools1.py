@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
+import random
 
 def extract_entity_names(t):#pulled from https://www.mapping-tools.com/howto/maptitude/programming-topics/using-python3-to-draw-annotation/
 	entity_names = []
@@ -88,7 +89,7 @@ def txtToLower (text):
 
 def getWordFreqDict(numWords):
 	wordFreqDict = {}
-	file = open("wordFreq.txt", "r")
+	file = open("flaskr/wordFreq.txt", "r")
 	s = file.readline()
 	while s != '' and numWords > 0:
 		arr = []
@@ -178,7 +179,7 @@ def saveTopWords(text, title):
 	#if os.path.isfile('templates/static/graphs/' + title + '.png'):
 	#	print("asdufb3oewj")
 	#	os.remove('templates/static/graphs/' + title + '.png')
-	plt.savefig('../static/graphs/' + title + '.png')
+	plt.savefig('flaskr/static/graphs/' + title + '.png')
 	plt.close()
 	#return fig
 
@@ -278,8 +279,8 @@ def percentQuotes(array):
                 count += 1
                 i += 1
             count += 2
-    percent = (count*1.0 -0.01)/(length-0.01)
-    return percent
+    percent = (count*1.0)/(length + 0.1)
+    return int(percent)
 
 # Saves part of speech pi chart to graphs folder
 def savePOSPiChart(text, title):
@@ -295,7 +296,7 @@ def savePOSPiChart(text, title):
 	plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
 	#plt.title('Part of Speech Density')
 	plt.tight_layout()
-	plt.savefig('../static/graphs/' + title + '.png')
+	plt.savefig('flaskr/static/graphs/' + title + '.png')
 	plt.close()
 #text = cleanText("CatcherSalinger.txt")
 #print (savePOSPiChart(text, "test"))
@@ -455,7 +456,7 @@ def oneTextPlotChronoMap (text, wordlists, title):
             lbl += ", " + str(wordlists[i][j])
         plt.bar(x, y[i], label = lbl)
         plt.legend()
-    plt.savefig('templates/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
 
 #text = cleanText("CatcherSalinger.txt")
@@ -465,7 +466,7 @@ def saveChronoMap(text, firstgen, secgen, title):
     y = wordProgression( text , firstgen, secgen)
     x =  list(range( int(len(text)/numWordsPerSection) +1))
     plt.plot(x,y)
-    plt.savefig('templates/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
 
 

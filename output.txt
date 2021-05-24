@@ -1,0 +1,94 @@
+[2021-05-18 11:04:59 -0400] [18923] [INFO] Starting gunicorn 20.0.4
+[2021-05-18 11:04:59 -0400] [18923] [INFO] Listening at: http://0.0.0.0:8000 (18923)
+[2021-05-18 11:04:59 -0400] [18923] [INFO] Using worker: sync
+[2021-05-18 11:04:59 -0400] [18926] [INFO] Booting worker with pid: 18926
+[2021-05-18 11:04:59 -0400] [18927] [INFO] Booting worker with pid: 18927
+[2021-05-18 11:04:59 -0400] [18928] [INFO] Booting worker with pid: 18928
+[2021-05-18 11:06:01,544] ERROR in app: Exception on /thesis-result [POST]
+Traceback (most recent call last):
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 2051, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1501, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1499, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1485, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 336, in result
+    readability = [ read_score(name, text) for name, text in raw_text.items() ]
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 336, in <listcomp>
+    readability = [ read_score(name, text) for name, text in raw_text.items() ]
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 342, in read_score
+    ret.extend( ['Flesch Readability', flesch_read(text)] )
+NameError: name 'flesch_read' is not defined
+[2021-05-18 11:06:31 -0400] [18923] [CRITICAL] WORKER TIMEOUT (pid:18927)
+[2021-05-18 11:06:31 -0400] [18927] [INFO] Worker exiting (pid: 18927)
+[2021-05-18 11:06:31 -0400] [18992] [INFO] Booting worker with pid: 18992
+[2021-05-18 11:06:48 -0400] [18923] [CRITICAL] WORKER TIMEOUT (pid:18928)
+[2021-05-18 11:06:48 -0400] [18928] [INFO] Worker exiting (pid: 18928)
+[2021-05-18 11:06:48 -0400] [18998] [INFO] Booting worker with pid: 18998
+[2021-05-18 11:08:09,534] ERROR in app: Exception on /thesis-result [POST]
+Traceback (most recent call last):
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 2051, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1501, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1499, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1485, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 336, in result
+    readability = [ read_score(name, text) for name, text in raw_text.items() ]
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 336, in <listcomp>
+    readability = [ read_score(name, text) for name, text in raw_text.items() ]
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 342, in read_score
+    ret.extend( ['Flesch Readability', flesch_read(text)] )
+NameError: name 'flesch_read' is not defined
+[2021-05-18 11:08:40 -0400] [18923] [CRITICAL] WORKER TIMEOUT (pid:18992)
+[2021-05-18 11:08:40 -0400] [18992] [INFO] Worker exiting (pid: 18992)
+[2021-05-18 11:08:40 -0400] [19020] [INFO] Booting worker with pid: 19020
+[2021-05-18 11:09:31 -0400] [18923] [INFO] Handling signal: term
+[2021-05-18 11:09:31 -0400] [18926] [INFO] Worker exiting (pid: 18926)
+[2021-05-18 11:09:31 -0400] [18998] [INFO] Worker exiting (pid: 18998)
+[2021-05-18 11:09:31 -0400] [19020] [INFO] Worker exiting (pid: 19020)
+[2021-05-18 11:09:31 -0400] [18923] [INFO] Shutting down: Master
+[2021-05-24 10:50:55 -0400] [14071] [INFO] Starting gunicorn 20.0.4
+[2021-05-24 10:50:55 -0400] [14071] [INFO] Listening at: http://0.0.0.0:8000 (14071)
+[2021-05-24 10:50:55 -0400] [14071] [INFO] Using worker: sync
+[2021-05-24 10:50:55 -0400] [14074] [INFO] Booting worker with pid: 14074
+[2021-05-24 10:50:55 -0400] [14076] [INFO] Booting worker with pid: 14076
+[2021-05-24 10:50:55 -0400] [14077] [INFO] Booting worker with pid: 14077
+[2021-05-24 10:51:55,893] ERROR in app: Exception on /report [POST]
+Traceback (most recent call last):
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 142, in get_file
+    text2  = cleanText( 'uploads/' + session['fname'] )
+  File "/var/www/html/dhlab/flaskr/tools1.py", line 352, in cleanText
+    file = open(fileName, "r")
+FileNotFoundError: [Errno 2] No such file or directory: 'uploads/beloved.txt'
+[2021-05-24 10:56:20,090] ERROR in app: Exception on /authorize [GET]
+Traceback (most recent call last):
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/dhlab/.local/lib/python3.6/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/var/www/html/dhlab/flaskr/__init__.py", line 431, in authorize
+    oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file('client_secret.json',scopes=['https://www.googleapis.com/auth/drive.file'])
+  File "/home/dhlab/.local/lib/python3.6/site-packages/google_auth_oauthlib/helpers.py", line 97, in session_from_client_secrets_file
+    with open(client_secrets_file, 'r') as json_file:
+FileNotFoundError: [Errno 2] No such file or directory: 'client_secret.json'
+[2021-05-24 10:56:32 -0400] [14071] [INFO] Handling signal: term
+[2021-05-24 10:56:32 -0400] [14074] [INFO] Worker exiting (pid: 14074)
+[2021-05-24 10:56:32 -0400] [14077] [INFO] Worker exiting (pid: 14077)
+[2021-05-24 10:57:02 -0400] [14071] [INFO] Shutting down: Master
