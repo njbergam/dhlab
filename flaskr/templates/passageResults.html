@@ -1,7 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h1>Results</h1>
+
+<h1>Results</h1>
+<br>
+In total, {{numFound}} occurences of the word were found.
+<br><br>
   {% for passage in passages %}
     <p> {{passage}} </p>
     <br>
