@@ -1,7 +1,5 @@
 # coding=utf-8
 
-# YAY I LOVE DHLAB
-
 import os
 import requests
 import google.oauth2.credentials
@@ -10,20 +8,27 @@ import googleapiclient.discovery
 from googleapiclient.discovery import build
 from werkzeug.utils import secure_filename
 from flask import Flask, session, flash, request, redirect, url_for, send_from_directory, render_template
-from flask_talisman import Talisman # Used for security reasons - has much more use we aren't currently tapping into
-#from flask.ext.session import Session
+# Used for security reasons - has much more use we aren't currently tapping into
+from flask_talisman import Talisman
 from flask_session.__init__ import Session
 import matplotlib.pyplot as plt, mpld3
 import random
 import string
 import json
 import nltk
-#from .tools.TOOLS import *
 from .tools1 import *
 
+# Branch that reaches to path for the files
+# CHANGE TO PATH ON LOCAL MACHINE (DONT COMMIT)
 branch = "/var/www/html/dhlab/flaskr"
+
+# Folder that contains the uploaded files
 UPLOAD_FOLDER = branch + '/uploads'
+
+# Graph templates
 GRAPHS_FOLDER = branch + '/templates/static/graphs'
+
+# Allowed file extensions
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 def allowed_file(filename):
@@ -31,25 +36,27 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    # Create and configure the app
+    app = Flask(__name__, instance_relative_config = True)
 
     app.config.from_mapping(
         SECRET_KEY='password',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
+    # Store upload folder and graphs folder in program-wide app variable
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['GRAPHS_FOLDER'] = GRAPHS_FOLDER
 
+
     if test_config is None:
-        # load the instance config, if it exists, when not testing
+        # Load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
     else:
-        # load the test config if passed in
+        # Load the test config if passed in
         app.config.from_mapping(test_config)
 
-    # ensure the instance folder exists
+    # Ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
