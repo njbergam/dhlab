@@ -40,7 +40,9 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config = True)
 
     app.config.from_mapping(
+        # Not-so-secret key
         SECRET_KEY='password',
+        # Defines path to database used in db.py
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
@@ -48,7 +50,8 @@ def create_app(test_config=None):
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['GRAPHS_FOLDER'] = GRAPHS_FOLDER
 
-
+    # Does nothing for now -- can be used to load a config from the test_config
+    #       e.g. setting an actual secret_key
     if test_config is None:
         # Load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -62,6 +65,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # Prepare the sqlalchemy object to work with the application object
+    # Necessary because app is defined locally and sqlalchemy is defined globally
+    # Imports from the ./db.py file
     from . import db
     db.init_app(app)
 
