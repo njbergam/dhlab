@@ -1,7 +1,6 @@
 # coding=utf-8
 
-# DHLAB CODE YAY
-# NICE LUKAS IS MAKING CHANGES
+# YAY I LOVE DHLAB
 
 import os
 import requests
@@ -68,7 +67,8 @@ def create_app(test_config=None):
 
     # Webpages
 
-
+    # Mainpage that contains basic information about DHLAB and contains links
+    # to other parts of the website.
     @app.route('/', methods=['GET', 'POST'])
     def home():
         return render_template('hello.html')
@@ -184,14 +184,17 @@ def create_app(test_config=None):
 
     #---Multi Text
 
+    # Simply explaining what to do with the app and how it works.
     @app.route('/howTo')
     def howTo():
         return render_template('howTo.html')
 
+    # TODO: make something here I guess
     @app.route('/allusions')
     def allusions():
         return render_template('dev.html')
 
+    # Landing page for multi text comparison
     @app.route('/multi-comp')
     def multi():
         if 'failedMulti' not in session:
@@ -311,10 +314,12 @@ def create_app(test_config=None):
 
     #---Thesis and Essay Help
 
+    # Landing page for thesis help
     @app.route('/thesis')
     def student():
         return render_template('thesis.html')
 
+    # Landing page for passage sampling
     @app.route('/passage', methods=['GET', 'POST'])
     def passage():
         fname = session['fname']
@@ -356,6 +361,7 @@ def create_app(test_config=None):
     def layout():
         return render_template('layout.html')
 
+    # Landing page for the projects page
     @app.route('/projects')
     def projects():
         return render_template('projects.html')
