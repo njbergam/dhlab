@@ -42,17 +42,24 @@ def init_db():
     # This will create the new database instance
     db = get_db()
 
+    # Load the database using the schema.sql file
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
-
+# Defines a command line command call init-db
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    # Clear the existing data and create new tables.
+    # Clear the existing data and create new tables
     init_db()
+
+    # Send message to the CLI
     click.echo('Initialized the database.')
 
+# Set app settings that will link the database with flask
 def init_app(app):
+    # Tells app to tell close_db() when cleaning up after returning response
     app.teardown_appcontext(close_db)
+
+    # Adds the new cli command that can be called with the flask cli command
     app.cli.add_command(init_db_command)
