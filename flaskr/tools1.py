@@ -609,3 +609,19 @@ def samplePassage(text, term, n, l, firstpage, lastpage):
 			master[i] = master[i][1::]
 
 	return master, numFound
+
+def tfidf(word, text, corpus):
+	freq = 0
+	N = corpus.length
+	for currword in text:
+		if currword == word:
+			freq += 1
+	count = 0
+	for currtext in corpus:
+		for currword in currtext:
+			if currword == word:
+				count += 1
+				break
+	tf = math.log(1+freq)
+	idf = math.log(N/count)
+	return tf*idf
