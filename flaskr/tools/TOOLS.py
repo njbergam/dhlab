@@ -11,26 +11,6 @@ import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
-import ssl
-import random
-
-branch = os.path.abspath(__file__)
-
-try:
-    _create_unverified_https_context = ssl._create_unverified_context
-except AttributeError:
-    pass
-else:
-    ssl._create_default_https_context = _create_unverified_https_context
-
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
-nltk.download('stopwords')
-nltk.download('word_tokenize')
-nltk.download('wordnet')
-nltk.download('universal_tagset')
 
 def extract_entity_names(t):#pulled from https://www.mapping-tools.com/howto/maptitude/programming-topics/using-python3-to-draw-annotation/
 	entity_names = []
@@ -108,7 +88,7 @@ def txtToLower (text):
 
 def getWordFreqDict(numWords):
 	wordFreqDict = {}
-	file = open("flaskr/wordFreq.txt", "r")
+	file = open("wordFreq.txt", "r")
 	s = file.readline()
 	while s != '' and numWords > 0:
 		arr = []
@@ -198,7 +178,7 @@ def saveTopWords(text, title):
 	#if os.path.isfile('templates/static/graphs/' + title + '.png'):
 	#	print("asdufb3oewj")
 	#	os.remove('templates/static/graphs/' + title + '.png')
-	plt.savefig('flaskr/static/graphs/' + title + '.png')
+	plt.savefig('../static/graphs/' + title + '.png')
 	plt.close()
 	#return fig
 
@@ -298,7 +278,7 @@ def percentQuotes(array):
                 count += 1
                 i += 1
             count += 2
-    percent = count*1.0/length
+    percent = (count*1.0 -0.01)/(length-0.01)
     return percent
 
 # Saves part of speech pi chart to graphs folder
@@ -315,7 +295,7 @@ def savePOSPiChart(text, title):
 	plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True)
 	#plt.title('Part of Speech Density')
 	plt.tight_layout()
-	plt.savefig('flaskr/static/graphs/' + title + '.png')
+	plt.savefig('../static/graphs/' + title + '.png')
 	plt.close()
 #text = cleanText("CatcherSalinger.txt")
 #print (savePOSPiChart(text, "test"))
@@ -475,7 +455,7 @@ def oneTextPlotChronoMap (text, wordlists, title):
             lbl += ", " + str(wordlists[i][j])
         plt.bar(x, y[i], label = lbl)
         plt.legend()
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('templates/static/graphs/' + title + '.png')
     plt.close()
 
 #text = cleanText("CatcherSalinger.txt")
@@ -485,7 +465,7 @@ def saveChronoMap(text, firstgen, secgen, title):
     y = wordProgression( text , firstgen, secgen)
     x =  list(range( int(len(text)/numWordsPerSection) +1))
     plt.plot(x,y)
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('templates/static/graphs/' + title + '.png')
     plt.close()
 
 
@@ -514,6 +494,69 @@ def sampleCharacter(text, char, n, l):
 	return master
 
 
+def syllable_count(word):
+    word=word.lower()
+    count = 0
+    vowels = "aeiouy"
+    if word[0] in vowels:
+        count += 1
+    for index in range(1, len(word)):
+        if word[index] in vowels and word[index - 1] not in vowels:
+            count += 1
+    if word.endswith("e"):
+        count -= 1
+    if count == 0:
+        count += 1
+    return count
+
+
+def flesch_read(str):
+    """
+    RE = 206.835 – (1.015 x ASL) – (84.6 x ASW)
+    Gives 0-100, where 0-30 is college grad level and 100-90 is 5th grade
+    """
+    words = nltk.word_tokenize(str)
+    ASL = statistics.mean( sentenceLength(words) )
+    ASW = statistics.mean( [syllable_count(word) for word in words] )
+    return round( 206.835-(1.015 * ASL)-(84.6 * ASW) , 3)
+
+def flesch_kincaid_read(str):
+    """
+    RE = 0.39 * ASL + 11.8 * ASW - 15.59
+    Gives a grade level (1-12)
+    """
+    words = nltk.word_tokenize(str)
+    ASL = statistics.mean( sentenceLength(words) )
+    ASW = statistics.mean( [syllable_count(word) for word in words] )
+    return round( (0.39 * ASL) + (11.8 * ASW) - 15.59, 3)
+
+
+def fog_read(str):
+    """
+    RE = 0.4 (ASL + PHW)
+    PHW = percent hard words (3+ syllables, not proper, not compound/hyphen of easy words, verbs with added -es/-ed)
+    Gives an approximate grade level (1-12)
+    """
+    words = nltk.word_tokenize(str)
+    ASL = statistics.mean( sentenceLength(words) )
+    PHW = phw(words)
+    return round( 0.4 * (ASL + PHW),3)
+
+def phw(words):
+    """
+    Gives the percentage of hard words in a given piece of text
+    hard meaning --> (3+ syllables, not proper, not compound/hyphen of easy words, verbs with added -es/-ed)
+    """
+    count = 0
+    for word in words:
+        if syllable_count(word) >= 3 and nltk.pos_tag(word)[0][1] != 'NNP':
+            count+=1
+    return round(count*100.0/len(words),3)
+
+# Randomly n text samples of word length l,
+# of passage surrounding character char in given text
+
+#sorry that this code is shit - justin li '2021
 def samplePassage(text, term, n, l):
 	n = int(n)
 	l = int(l)

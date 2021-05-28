@@ -1,4 +1,4 @@
-from webtest import application
+from .flaskr.__init__ import app
 
 csp = {
     'default-src': [
@@ -12,4 +12,4 @@ csp = {
 
 
 if __name__ == "__main__":
-    application.run()
+    app.run()

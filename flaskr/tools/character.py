@@ -19,7 +19,7 @@ from flaskr.vector import vectorize2
 # Randomly n text samples of word length l,
 # of passage surrounding character char in given text
 
-#sorry that this code is shit
+#sorry that this code is shit - justin li '2021
 def samplePassage(text, term, n, l):
 	n = int(n)
 	l = int(l)
