@@ -20,7 +20,11 @@ from .tools1 import *
 
 # Branch that reaches to path for the files
 # CHANGE TO PATH ON LOCAL MACHINE (DONT COMMIT)
-branch = "/var/www/html/dhlab/flaskr"
+
+lukasBranch = "/Users/lukas/Desktop/ /Coding/DHLAB/dhlab/flaskr"
+
+# branch = "/var/www/html/dhlab/flaskr"
+branch = lukasBranch
 
 # Folder that contains the uploaded files
 UPLOAD_FOLDER = branch + '/uploads'
@@ -112,10 +116,11 @@ def create_app(test_config=None):
                 session['failedSingle'] = 3
                 return redirect(session['priorUrl'])
 
+            # Store the file
             file = request.files['file']
 
-            # if user does not select file, browser also
-            # submit an empty part without filename
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename, so catch this.
             if file.filename == '':
                 flash('No selected file')
                 session['failedSingle'] = 1
@@ -188,13 +193,18 @@ def create_app(test_config=None):
             self.pos = pos
             self.top = top
 
+    # Endpoint for reporting the results of a single text analysis
     @app.route('/report', methods=['GET', 'POST'])
     def get_file():
+        # If the user hits submit without giving any files
         if session['fname'] == "":
             session['failedSingle'] = 2
             return redirect('/single')
-        # need to retrieve the uploaded file here for further processing
+
+        # Converts received form data into a dictionary to be accessed
         dict = request.form.to_dict()
+
+        # need to retrieve the uploaded file here for further processing
         if session['fname'][-4:] == '.pdf':
             text = text_extractor('flaskr/uploads/' + session['fname'])
             text2 = cleanText2(text)
@@ -203,7 +213,13 @@ def create_app(test_config=None):
             text = simpleTokenize('flaskr/uploads/' + session['fname'])
             #getNames('uploads/' + fname)
             text2 = cleanText('flaskr/uploads/' + session['fname'])
+
+        # Create a new text result object with default values
         textRst = txtResult(session['fname'], -1, -1, "1", "1", "1")
+
+        # Check the form data and compute various stats
+        # Functions imported from tools1.py
+
         if "PercentQuotes" in dict:
             textRst.pq = percentQuotes(text)
             print("getting percent quotes")
