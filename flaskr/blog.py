@@ -1,3 +1,5 @@
+# Explanation can be found at https://flask.palletsprojects.com/en/2.0.x/tutorial/blog/
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
