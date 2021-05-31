@@ -279,7 +279,9 @@ def create_app(test_config=None):
             fail = 0
         else:
             fail = session['failedMulti']
+
         session['priorUrl'] = '/multi-comp'
+
         if 'files' not in session:
             files = []
             session['files'] = []
@@ -287,34 +289,50 @@ def create_app(test_config=None):
             files = session['files']
         return render_template('multi-comp.html', files=files, fail=fail)
 
-    @app.route('/upload_multifile', methods=['GET', 'POST'])
-    def upload_multifile():
-        if request.method == 'POST':
-            # check if the post request has the file part
-            if 'file' not in request.files:
-                session['failedMulti'] = 3
-                return redirect(session['priorUrl'])
-            file = request.files['file']
+    # @app.route('/upload_multifile', methods=['GET', 'POST'])
+    # def upload_multifile():
+    #     if request.method == 'POST':
+    #         # check if the post request has the file part
+    #         if 'file' not in request.files:
+    #             session['failedMulti'] = 3
+    #             return redirect(session['priorUrl'])
+    #         file = request.files['file']
 
-            # if user does not select file, browser also
-            # submit an empty part without filename
-            if file.filename == '':
-                flash('No selected file')
-                session['failedMulti'] = 1
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                session['fname'] = secure_filename(file.filename)
-                if 'files' not in session:
-                    session['files'] = []
-                session['files'].append(session['fname'])
-                file.save(
-                    os.path.join(app.config['UPLOAD_FOLDER'],
-                                 session['fname']))
-                # where you go after uploading
-                session['failedMulti'] = 0
-                return redirect(session['priorUrl'])
-        session['failedMulti'] = 1
-        return redirect(session['priorUrl'])  #render_template(type+'.html')
+    #         # if user does not select file, browser also
+    #         # submit an empty part without filename
+    #         if file.filename == '':
+    #             flash('No selected file')
+    #             session['failedMulti'] = 1
+    #             return redirect(request.url)
+    #         if file and allowed_file(file.filename):
+    #             session['fname'] = secure_filename(file.filename)
+    #             if 'files' not in session:
+    #                 session['files'] = []
+    #             session['files'].append(session['fname'])
+    #             file.save(
+    #                 os.path.join(app.config['UPLOAD_FOLDER'],
+    #                              session['fname']))
+    #             # where you go after uploading
+    #             session['failedMulti'] = 0
+    #             return redirect(session['priorUrl'])
+    #     session['failedMulti'] = 1
+    #     return redirect(session['priorUrl'])  #render_template(type+'.html')
+
+    @app.route("/upload_multifile", methods=["POST"])
+    def upload_multifile():
+        uploadedFiles = request.files.getlist("file[]")
+        print(uploadedFiles)
+
+        files = []
+
+        for file in uploadedFiles:
+            files.append(secure_filename(file.filename))
+
+        # TODO add the part where i actually save the files
+
+        session["files"] = files
+
+        return redirect(session["priorUrl"])
 
     @app.route('/removefile', methods=['GET'])
     def worker():

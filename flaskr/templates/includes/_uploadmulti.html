@@ -1,58 +1,77 @@
 <div class="container">
-        <!-- The file upload form used as target for the file upload widget -->
-        <form id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+        <!-- The file upload form used as target for the file upload widget
+        <form id="fileupload" action="/upload_multifile" method="POST" enctype="multipart/form-data">
 
             <div class="row files" id="files1">
                 <h2> File Upload </h2>
                 <span class="btn btn-default btn-file">
-                  <input type="file" name="files1" multiple />
+                  <input type="file" name="file[]" multiple/>
                 </span>
                 <br />
                 <ul class="fileList"></ul>
             </div>
 
+            <h5>Accepted files: .pdf, .txt</h5>
 
-            <br />
-            <br />
-
-
-<br><br> Accepted files: .pdf, .txt <br>
             <div class="row">
-                <button type="x" id="uploadBtn" class="btn primary start"> Upload </button>
+                <input type="submit" id="uploadBtn" style="text-align: center; margin: auto;" class="btn primary start"> Upload </input>
             </div>
 
-            <br>
             <div class="row">
                 <div class="span16">
-
                     <table class="zebra-striped"><tbody class="files"></tbody></table>
                 </div>
             </div>
+        </form> -->
+
+        <form id="fileupload" method="POST" enctype="multipart/form-data" action="/upload_multifile">
+            <h2> File Upload </h2>
+            <input type="file" name="file[]" class="files" id="files1" multiple="">
+
+            <ul class="fileList">
+                {% for item in files%}
+                    <li>{{item}} <a class="removeFile">Remove</a></li>
+                {% endfor %}
+            </ul>
+
+
+            <input type="submit" value="Upload">
         </form>
     </div>
-
+<!--
 <script>
   $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
     var fileIdCounter = 0;
 
+    // Accesses the closest parent element and adds a listener for any change
     this.closest(".files").change(function (evt) {
+
         var output = [];
 
-        for (var i = 0; i < evt.target.files.length; i++) {
+        // Loop through all the files that are in the form
+        for (var i = 0; i < evt.target.closest().files.length; i++) {
+
+            // File id counter
             fileIdCounter++;
+
+            // File information
             var file = evt.target.files[i];
             var fileId = sectionIdentifier + fileIdCounter;
 
+            // Array will be passed by reference to this function
             filesToUpload.push({
                 id: fileId,
                 file: file
             });
 
+            // HTML string with the link to remove the file
             var removeLink = "<a class=\"removeFile\" href=\"#\" data-fileid=\"" + fileId + "\">Remove</a>";
 
+            // Array containing strings that will contain file info and the <a> to remove the texts
             output.push("<li><strong>", escape(file.name), "</strong> - ", file.size, " bytes. &nbsp; &nbsp; ", removeLink, "</li> ");
         };
 
+        // Add text to the <ul>
         $(this).children(".fileList")
             .append(output.join(""));
 
@@ -60,10 +79,12 @@
         evt.target.value = null;
     });
 
+    // Listener on the link for removefile
     $(this).on("click", ".removeFile", function (e) {
         e.preventDefault();
 
-        var fileId = $(this).parent().children("a").data("fileid");
+        // Get the file id of the file that hit the remove button
+        var fileId = $(this).data("fileid")
 
         // loop through the files array and check if the name of that file matches FileName
         // and get the index of the match
@@ -72,6 +93,7 @@
                 filesToUpload.splice(i, 1);
         }
 
+        // Remove the entire <li>
         $(this).parent().remove();
     });
 
@@ -92,33 +114,33 @@
 
     var files1Uploader = $("#files1").fileUploader(filesToUpload, "files1");
 
-    $("#uploadBtn").click(function (e) {
-        e.preventDefault();
+    // $("#uploadBtn").click(function (e) {
+    //     e.preventDefault();
 
-        var formData = new FormData();
+    //     var formData = new FormData();
 
-        for (var i = 0, len = filesToUpload.length; i < len; i++) {
-            formData.append("files", filesToUpload[i].file);
-        }
+    //     for (var i = 0, len = filesToUpload.length; i < len; i++) {
+    //         formData.append("files", filesToUpload[i].file);
+    //     }
 
-        $.ajax({
-            url: "http://requestb.in/1k0dxvs1",
-            data: formData,
-            processData: false,
-            contentType: false,
-            type: "POST",
-            success: function (data) {
-                alert("DONE");
+    //     $.ajax({
+    //         url: "http://requestb.in/1k0dxvs1",
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         type: "POST",
+    //         success: function (data) {
+    //             alert("DONE");
 
-                files1Uploader.clear();
-                files2Uploader.clear();
-                files3Uploader.clear();
-            },
-            error: function (data) {
-                alert("ERROR - " + data.responseText);
-            }
-        });
-    });
+    //             files1Uploader.clear();
+    //             files2Uploader.clear();
+    //             files3Uploader.clear();
+    //         },
+    //         error: function (data) {
+    //             alert("ERROR - " + data.responseText);
+    //         }
+    //     });
+    // });
 })()
   </script>
 
@@ -143,4 +165,4 @@
       document.getElementById();
   }
 </script>
--->
+--> -->
