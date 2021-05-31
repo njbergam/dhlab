@@ -6,6 +6,8 @@
 {% block body %}
 <textCenter><h1> Results of Multi-Text Analysis </h1></textCenter>
 
+
+
 <div class = "div2" id = "pqID">
   {% for result in results %}
   <p style="text-align:left"> <b>Percent Quotes in {{result.name}}:</b> {{result.pq}} </p>
@@ -27,8 +29,8 @@ function displayNum(divID,val) {
 }
 displayNum(pqID,{{results[0].pq}});
 displayNum(senID,{{results[0].sen}});
-
 </script>
+
 <div class = "div2" id = "posID" style = "width:80%">
   <h3 style> Part of Speech Distribution </h3>
   {% for result in results %}
@@ -67,8 +69,14 @@ function displayGraph(divID,val) {
   }
 }
 </script>
-<script>displayGraph(posID,{{results[0].pos}});</script>
-<script>displayGraph(topID,{{results[0].top}});</script>
-<script>displayGraph(wpID,{{results[0].wp}});</script>
-<script>displayGraph(overID,{{overlap[0][1]}});</script>
+
+{#
+<!--
+// <script>displayGraph(posID,{{results[0].pos}});</script>
+// <script>displayGraph(topID,{{results[0].top}});</script>
+// <script>displayGraph(wpID,{{results[0].wp}});</script>
+// <script>displayGraph(overID,{{overlap[0][1]}});</script>
+-->
+#}
+
 {% endblock %}

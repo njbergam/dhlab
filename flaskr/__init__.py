@@ -146,14 +146,6 @@ def create_app(test_config=None):
         session['failedSingle'] = 1
         return redirect(session['priorUrl'])
 
-    # This is completely useless, used in the tutorial but has no bearing here
-    # because we are not going to send the user to the file the uploaded.
-    from flask import send_from_directory
-
-    @app.route(branch + '/uploads/<filename>')
-    def uploaded_file(filename):
-        return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
     # Route for the single-text webpage, used to show statistics for a single text
     @app.route('/single')
     def single():
@@ -283,10 +275,13 @@ def create_app(test_config=None):
         session['priorUrl'] = '/multi-comp'
 
         if 'files' not in session:
+            print("empty files")
             files = []
             session['files'] = []
         else:
+            print(session["files"])
             files = session['files']
+
         return render_template('multi-comp.html', files=files, fail=fail)
 
     @app.route("/upload_multifile", methods=["POST"])
@@ -306,6 +301,8 @@ def create_app(test_config=None):
                         file.filename):
                     files.append(secure_filename(file.filename))
 
+                    print("Now saving file" + file.filename)
+
                     file.save(
                         os.path.join(app.config['UPLOAD_FOLDER'],
                                      secure_filename(file.filename)))
@@ -316,27 +313,37 @@ def create_app(test_config=None):
         session['failedMulti'] = 1
         return redirect(session['priorUrl'])
 
-    @app.route('/removefile', methods=['GET'])
-    def worker():
-        # read json + reply
-        removedfile = request.args.get('filename')
-        print(removedfile)
-        session['files'].remove(removedfile)
+    @app.route('/removefile/<filename>', methods=['GET'])
+    def removefile(filename):
+        # Get the parameter
+        print("Received delete request: " + filename)
+
+        print(session["files"])
+
+        session["files"].remove(filename)
+        session.modified = True
+
+        print(session["files"])
+
         return redirect('/multi-comp')
 
     @app.route('/reportMulti', methods=['GET', 'POST'])
     def multiReport():
-        if len(session['files']) == 0:  #error checking
+        # Make sure that there are files that the user uploaded
+        if len(session['files']) == 0:
             session['failedMulti'] = 2
             return redirect('/multi-comp')
+
+        # Get the user request options
         dict = request.form.to_dict()
         text = []
         text2 = []
         textRsts = []
+
+        # Loop through each of the files and extract it into an array containing the text
         for i in range(len(session['files'])):
-            print("HOLLAA")
-            print(session['files'])
-            print(session['files'][i])
+            print("Currently processing file: " + session['files'][i])
+
             if session['files'][i][-4:] == '.pdf':
                 text.append(
                     text_extractor('flaskr/uploads/' + session['files'][i]))
@@ -349,12 +356,18 @@ def create_app(test_config=None):
                                        session['files'][i]))
             textRsts.append(
                 txtResult(session['files'][i], -1, -1, "1", "1", "1"))
+
+        # Percent of text that is quotes
         if "PercentQuotes" in dict:
             for i in range(len(session['files'])):
                 textRsts[i].pq = percentQuotes(text[i])
+
+        # Average sentence length throughout the app
         if "SLength" in dict:
             for i in range(len(session['files'])):
                 textRsts[i].sen = senlenStats(text[i])
+
+        # Part of speech data
         if "POS" in dict:
             print("creating pos chart")
             for i in range(len(session['files'])):
