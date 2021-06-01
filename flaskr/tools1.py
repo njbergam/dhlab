@@ -309,6 +309,8 @@ def percentQuotes(array):
     count = 0
     length = len(array)
 
+    print(array)
+
     quotes = ["``", "''", "\"", "“", "”"]
 
     for i in range(length):
