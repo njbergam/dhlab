@@ -46,6 +46,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             # Store file information in the session variable
             session['failedSingle'] = 0
+
             #secure_filename() makes sure the filename is not malicious
             session['fname'] = secure_filename(file.filename)
             session['fnameDisplay'] = session['fname']

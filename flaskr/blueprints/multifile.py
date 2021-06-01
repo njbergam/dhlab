@@ -121,6 +121,8 @@ def multiReport():
 
     # Average sentence length throughout the app
     if "SLength" in dict:
+        print("creating sentence length chart")
+
         for i in range(len(session['files'])):
             textRsts[i].sen = senlenStats(text[i])
 

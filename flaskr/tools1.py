@@ -308,15 +308,24 @@ def senlenStats(text):
 def percentQuotes(array):
     count = 0
     length = len(array)
+
+    quotes = ["``", "''", "\"", "“", "”"]
+
     for i in range(length):
-        if array[i] == "``":
+        if array[i] in quotes:
             i += 1
-            while i < length and array[i] != "''":
+
+            while i < length and (array[i] not in quotes):
                 count += 1
                 i += 1
+
+            i += 1
             count += 2
+    print(count)
+    print(length)
+
     percent = (count * 1.0) / (length + 0.1)
-    return int(percent)
+    return percent
 
 
 # Saves part of speech pi chart to graphs folder
