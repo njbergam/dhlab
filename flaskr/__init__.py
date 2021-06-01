@@ -7,7 +7,7 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 from googleapiclient.discovery import build
 from werkzeug.utils import secure_filename
-from flask import Flask, session, flash, request, redirect, url_for, send_from_directory, render_template
+from flask import Flask, session, flash, request, redirect, url_for, render_template
 # Used for security reasons - has much more use we aren't currently tapping into
 from flask_talisman import Talisman
 from flask_session.__init__ import Session
@@ -18,28 +18,8 @@ import json
 import nltk
 from .tools1 import *
 
-# Branch that reaches to path for the files
-# CHANGE TO PATH ON LOCAL MACHINE (DONT COMMIT)
-
-lukasBranch = "/Users/lukas/Desktop/ /Coding/DHLAB/dhlab/flaskr"
-
-# branch = "/var/www/html/dhlab/flaskr"
-branch = lukasBranch
-
-# Folder that contains the uploaded files
-UPLOAD_FOLDER = branch + '/uploads'
-
-# Graph templates
-GRAPHS_FOLDER = branch + '/templates/static/graphs'
-
-# Allowed file extensions
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
-
-# Utility function that checks whether a files suffix is an allowed extension
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+from .tools.vars import branch, UPLOAD_FOLDER, GRAPHS_FOLDER, ALLOWED_EXTENSIONS
+from .tools.txtresult import txtResult
 
 
 def create_app(test_config=None):
@@ -57,10 +37,6 @@ def create_app(test_config=None):
         # Defines path to database used in db.py
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-
-    # Store upload folder and graphs folder in program-wide app variable
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.config['GRAPHS_FOLDER'] = GRAPHS_FOLDER
 
     # Does nothing for now -- can be used to load a config from the test_config
     # e.g. setting an actual secret_key
@@ -101,156 +77,17 @@ def create_app(test_config=None):
     ###    WEBPAGE ROUTES    ###
     ############################
 
+    # Register the multi-page system
+    from .blueprints.multifile import multifile
+    app.register_blueprint(multifile)
+
+    from .blueprints.singlefile import singlefile
+    app.register_blueprint(singlefile)
+
     # Mainpage route that contains basic information about the app
     @app.route('/', methods=['GET', 'POST'])
     def home():
         return render_template('hello.html')
-
-    # Route that is redirected to when the user wants to upload a file
-    @app.route('/upload_file', methods=['GET', 'POST'])
-    def upload_file():
-        # Request should be a post request
-        if request.method == 'POST':
-            # Check if the post request has the file data
-            if bool(request.files) == False:
-                session['failedSingle'] = 3
-                return redirect(session['priorUrl'])
-
-            # Store the file
-            file = request.files['file']
-
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename, so catch this.
-            if file.filename == '':
-                flash('No selected file')
-                session['failedSingle'] = 1
-                return redirect(session['priorUrl'])
-
-            # If the file exists and is valid
-            if file and allowed_file(file.filename):
-                # Store file information in the session variable
-                session['failedSingle'] = 0
-                #secure_filename() makes sure the filename is not malicious
-                session['fname'] = secure_filename(file.filename)
-                session['fnameDisplay'] = session['fname']
-
-                # Save the file in the upload folder
-                file.save(
-                    os.path.join(app.config['UPLOAD_FOLDER'],
-                                 session['fname']))
-
-                # Redirect back to the original page
-                return redirect(session['priorUrl'])
-
-        # Request was not a post request
-        session['failedSingle'] = 1
-        return redirect(session['priorUrl'])
-
-    # Route for the single-text webpage, used to show statistics for a single text
-    @app.route('/single')
-    def single():
-        # Store the previous route in session variable in case the user is
-        # redirected off of this page.
-        session['priorUrl'] = '/single'
-
-        # Check for any previous error messages
-        if 'failedSingle' not in session:
-            fail = 0
-        else:
-            fail = session['failedSingle']
-
-        # Reset error message variable
-        session['failedSingle'] = 0
-
-        # Check for fname and fnamedisplay variables
-        if 'fname' not in session:
-            session['fname'] = ""
-        if "fnameDisplay" not in session:
-            fnameDisplay = ''
-        else:
-            fnameDisplay = session['fnameDisplay']
-
-        # Reset filename display variable
-        session['fnameDisplay'] = ''
-
-        # Render the template and pass the arguments as parameters
-        return render_template('oneText.html', fail=fail, fname=fnameDisplay)
-
-    class txtResult:
-        def __init__(self, name, pq, sen, wp, pos, top):
-            self.name = name
-            self.pq = pq
-            self.sen = sen
-            self.wp = wp
-            self.pos = pos
-            self.top = top
-
-    # Endpoint for reporting the results of a single text analysis
-    @app.route('/report', methods=['GET', 'POST'])
-    def get_file():
-        # If the user hits submit without giving any files
-        if session['fname'] == "":
-            session['failedSingle'] = 2
-            return redirect('/single')
-
-        # Converts received form data into a dictionary to be accessed
-        dict = request.form.to_dict()
-
-        # need to retrieve the uploaded file here for further processing
-        if session['fname'][-4:] == '.pdf':
-            text = text_extractor('flaskr/uploads/' + session['fname'])
-            text2 = cleanText2(text)
-        else:
-            #filename =  str(request)[ str(request).index('=')+1 : str(request).index('\' [GET]>') ]
-            text = simpleTokenize('flaskr/uploads/' + session['fname'])
-            #getNames('uploads/' + fname)
-            text2 = cleanText('flaskr/uploads/' + session['fname'])
-
-        # Create a new text result object with default values
-        textRst = txtResult(session['fname'], -1, -1, "1", "1", "1")
-
-        # Check the form data and compute various stats
-        # Functions imported from tools1.py
-
-        if "PercentQuotes" in dict:
-            textRst.pq = percentQuotes(text)
-            print("getting percent quotes")
-        if "SLength" in dict:
-            textRst.sen_avg, textRst.sen_stdv = senlenStats(text)
-            print("sentence length")
-        if "POS" in dict:
-            print("creating pos chart")
-            textRst.pos = ''.join(
-                random.choices(string.ascii_uppercase + string.digits,
-                               k=10))  #title of the generated chart
-            savePOSPiChart(text2, textRst.pos)
-        if "TopWords" in dict:
-            print("creating top words chart")
-            textRst.top = ''.join(
-                random.choices(string.ascii_uppercase + string.digits, k=10))
-            #os.unlink(os.path.join( app.config['GRAPHS_FOLDER'], top + ".png"))
-            #os.unlink(branch+"/templates/static/graphs/" + top + ".png")
-            #item_id = branch+"/templates/static/graphs/" + top + ".png"
-            #item = self.session.query(Item).get(item_id)
-            #self.session.delete(item)
-            #db.session.commit()
-            #os.remove(branch+"/templates/static/graphs/" + top + ".png");
-            saveTopWords(text2, textRst.top)
-        if "WordProg" in dict:
-            print("creating word progression chart")
-            textRst.wp = ''.join(
-                random.choices(string.ascii_uppercase + string.digits, k=10))
-            arr = dict["WordProgWords"].replace(" ", "").split(';')
-            groups = []
-            for i in range(len(arr)):
-                groups.append(arr[i].split(','))
-            oneTextPlotChronoMap(text2, groups, textRst.wp)
-        session['fname'] = ""
-        print(textRst.pos)
-        print(textRst.wp)
-        print(textRst.top)
-        return render_template('results.html',
-                               result=textRst)  #mpld3.fig_to_html(topFig))
 
     #---Multi Text
 
@@ -263,165 +100,6 @@ def create_app(test_config=None):
     @app.route('/allusions')
     def allusions():
         return render_template('dev.html')
-
-    # Landing page for multi text comparison
-    @app.route('/multi-comp')
-    def multi():
-        if 'failedMulti' not in session:
-            fail = 0
-        else:
-            fail = session['failedMulti']
-
-        session['priorUrl'] = '/multi-comp'
-
-        if 'files' not in session:
-            print("empty files")
-            files = []
-            session['files'] = []
-        else:
-            print(session["files"])
-            files = session['files']
-
-        return render_template('multi-comp.html', files=files, fail=fail)
-
-    @app.route("/upload_multifile", methods=["POST"])
-    def upload_multifile():
-        if request.method == "POST":
-            if "file[]" not in request.files:
-                session["failedMulti"] = 3
-                return redirect(session["priorUrl"])
-
-            uploadedFiles = request.files.getlist("file[]")
-            print(uploadedFiles)
-
-            files = []
-
-            for file in uploadedFiles:
-                if file and file.filename != "" and allowed_file(
-                        file.filename):
-                    files.append(secure_filename(file.filename))
-
-                    print("Now saving file" + file.filename)
-
-                    file.save(
-                        os.path.join(app.config['UPLOAD_FOLDER'],
-                                     secure_filename(file.filename)))
-
-            session["files"] = files
-            return redirect(session["priorUrl"])
-
-        session['failedMulti'] = 1
-        return redirect(session['priorUrl'])
-
-    @app.route('/removefile/<filename>', methods=['GET'])
-    def removefile(filename):
-        # Get the parameter
-        print("Received delete request: " + filename)
-
-        print(session["files"])
-
-        session["files"].remove(filename)
-        session.modified = True
-
-        print(session["files"])
-
-        return redirect('/multi-comp')
-
-    @app.route('/reportMulti', methods=['GET', 'POST'])
-    def multiReport():
-        # Make sure that there are files that the user uploaded
-        if len(session['files']) == 0:
-            session['failedMulti'] = 2
-            return redirect('/multi-comp')
-
-        # Get the user request options
-        dict = request.form.to_dict()
-        text = []
-        text2 = []
-        textRsts = []
-
-        # Loop through each of the files and extract it into an array containing the text
-        for i in range(len(session['files'])):
-            print("Currently processing file: " + session['files'][i])
-
-            if session['files'][i][-4:] == '.pdf':
-                text.append(
-                    text_extractor('flaskr/uploads/' + session['files'][i]))
-                text2.append(
-                    cleanText2('flaskr/uploads/' + session['files'][i]))
-            else:
-                text.append(
-                    simpleTokenize('flaskr/uploads/' + session['files'][i]))
-                text2.append(cleanText('flaskr/uploads/' +
-                                       session['files'][i]))
-            textRsts.append(
-                txtResult(session['files'][i], -1, -1, "1", "1", "1"))
-
-        # Percent of text that is quotes
-        if "PercentQuotes" in dict:
-            for i in range(len(session['files'])):
-                textRsts[i].pq = percentQuotes(text[i])
-
-        # Average sentence length throughout the app
-        if "SLength" in dict:
-            for i in range(len(session['files'])):
-                textRsts[i].sen = senlenStats(text[i])
-
-        # Part of speech data
-        if "POS" in dict:
-            print("creating pos chart")
-            for i in range(len(session['files'])):
-                textRsts[i].pos = ''.join(
-                    random.choices(string.ascii_uppercase + string.digits,
-                                   k=10))  #title of the generated chart
-                savePOSPiChart(text2[i], textRsts[i].pos)
-        if "TopWords" in dict:
-            print("creating top words chart")
-            for i in range(len(session['files'])):
-                textRsts[i].top = ''.join(
-                    random.choices(string.ascii_uppercase + string.digits,
-                                   k=10))
-                saveTopWords(text2[i], textRsts[i].top)
-        overlapCharts = []
-        overlapInfo = []
-        if "over" in dict:
-            print("creating overlap chart")
-            k = int(
-                len(session['files']) * (len(session['files']) - 1) / 2 + 0.5)
-            for i in range(k):
-                overlapCharts.append(''.join(
-                    random.choices(string.ascii_uppercase + string.digits,
-                                   k=10)))
-            overlap(text2, overlapCharts)
-            l = 0
-            for i in range(len(session['files'])):
-                for j in range(i + 1, len(session['files'])):
-                    temp = []
-                    temp.append(
-                        str(session['files'][i]) + " and " +
-                        str(session['files'][j]))
-                    temp.append(overlapCharts[l])
-                    l += 1
-                    overlapInfo.append(temp)
-        else:
-            overlapCharts.append("1")
-        if "WordProg" in dict:
-            print("creating word progression chart")
-            for i in range(len(session['files'])):
-                textRsts[i].wp = ''.join(
-                    random.choices(string.ascii_uppercase + string.digits,
-                                   k=10))
-                arr = dict["WordProgWords"].replace(" ", "").split(';')
-                groups = []
-                for j in range(len(arr)):
-                    groups.append(arr[j].split(','))
-                oneTextPlotChronoMap(text2[i], groups, textRsts[i].wp)
-        for i in range(len(textRsts)):
-            print(textRsts[i].pq)
-            print("a")
-        return render_template('multiResults.html',
-                               results=textRsts,
-                               overlap=overlapInfo)
 
     #---Thesis and Essay Help
 
