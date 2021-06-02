@@ -1,146 +1,15 @@
 <div class="container">
-        <!-- The file upload form used as target for the file upload widget -->
-        <form id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" method="POST" enctype="multipart/form-data" action="/upload_multifile">
+        <h2> File Upload </h2>
+        <input type="file" name="file[]" class="files" id="files1" multiple="">
 
-            <div class="row files" id="files1">
-                <h2> File Upload </h2>
-                <span class="btn btn-default btn-file">
-                  <input type="file" name="files1" multiple />
-                </span>
-                <br />
-                <ul class="fileList"></ul>
-            </div>
+        <ul class="fileList">
+            {% for item in files%}
+                <li>{{item}} <a class="removeFile" href = {{ url_for("multifile.removefile", filename=item) }}>Remove</a></li>
+            {% endfor %}
+        </ul>
 
 
-            <br />
-            <br />
-
-
-<br><br> Accepted files: .pdf, .txt <br>
-            <div class="row">
-                <button type="x" id="uploadBtn" class="btn primary start"> Upload </button>
-            </div>
-
-            <br>
-            <div class="row">
-                <div class="span16">
-
-                    <table class="zebra-striped"><tbody class="files"></tbody></table>
-                </div>
-            </div>
-        </form>
-    </div>
-
-<script>
-  $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
-    var fileIdCounter = 0;
-
-    this.closest(".files").change(function (evt) {
-        var output = [];
-
-        for (var i = 0; i < evt.target.files.length; i++) {
-            fileIdCounter++;
-            var file = evt.target.files[i];
-            var fileId = sectionIdentifier + fileIdCounter;
-
-            filesToUpload.push({
-                id: fileId,
-                file: file
-            });
-
-            var removeLink = "<a class=\"removeFile\" href=\"#\" data-fileid=\"" + fileId + "\">Remove</a>";
-
-            output.push("<li><strong>", escape(file.name), "</strong> - ", file.size, " bytes. &nbsp; &nbsp; ", removeLink, "</li> ");
-        };
-
-        $(this).children(".fileList")
-            .append(output.join(""));
-
-        //reset the input to null - nice little chrome bug!
-        evt.target.value = null;
-    });
-
-    $(this).on("click", ".removeFile", function (e) {
-        e.preventDefault();
-
-        var fileId = $(this).parent().children("a").data("fileid");
-
-        // loop through the files array and check if the name of that file matches FileName
-        // and get the index of the match
-        for (var i = 0; i < filesToUpload.length; ++i) {
-            if (filesToUpload[i].id === fileId)
-                filesToUpload.splice(i, 1);
-        }
-
-        $(this).parent().remove();
-    });
-
-    this.clear = function () {
-        for (var i = 0; i < filesToUpload.length; ++i) {
-            if (filesToUpload[i].id.indexOf(sectionIdentifier) >= 0)
-                filesToUpload.splice(i, 1);
-        }
-
-        $(this).children(".fileList").empty();
-    }
-
-    return this;
-};
-
-(function () {
-    var filesToUpload = [];
-
-    var files1Uploader = $("#files1").fileUploader(filesToUpload, "files1");
-
-    $("#uploadBtn").click(function (e) {
-        e.preventDefault();
-
-        var formData = new FormData();
-
-        for (var i = 0, len = filesToUpload.length; i < len; i++) {
-            formData.append("files", filesToUpload[i].file);
-        }
-
-        $.ajax({
-            url: "http://requestb.in/1k0dxvs1",
-            data: formData,
-            processData: false,
-            contentType: false,
-            type: "POST",
-            success: function (data) {
-                alert("DONE");
-
-                files1Uploader.clear();
-                files2Uploader.clear();
-                files3Uploader.clear();
-            },
-            error: function (data) {
-                alert("ERROR - " + data.responseText);
-            }
-        });
-    });
-})()
-  </script>
-
-<!--
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<h3> Upload new Files </h3>
-
-<form action = '/upload_multifile' method=post enctype=multipart/form-data>
-  <input type=file id= "file-upload" name=file>
-  <input type=submit value="submit">
-  {% for file in files %}
-    <p>{{file}}
-    <!--<button type="button" onclick="removeFile('SoundAndFury.txt')" id="removeBtn"><rb></rb>remove</button> <br>-->
-  <!--  <a href="/removefile?filename={{file}}" onclick=removeFile({{file}})>remove</a>
-
-    <p>
-  {% endfor %}
-</form>
-<script>
-  function removeFile(){
-      $(this).parent().remove();
-      document.getElementById();
-  }
-</script>
--->
+        <input type="submit" value="Upload">
+    </form>
+</div>

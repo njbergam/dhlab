@@ -1,3 +1,5 @@
+# Explanation can be found on https://flask.palletsprojects.com/en/1.1.x/tutorial/views/
+
 import functools
 
 from flask import (

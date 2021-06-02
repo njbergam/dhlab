@@ -1,5 +1,11 @@
 <h3 style = text-align:center> Upload new File </h3>
 <p> Acceptable formats: .txt, .pdf </p>
+
+<!--
+Sends data to /upload_file route, file will be contained in request.files.file
+If the user does not select a file, the browser will send back an empty string
+-->
+
 <form action = '/upload_file' method=post enctype=multipart/form-data>
   <input type=file name=file>
   <input type=submit value="submit">
