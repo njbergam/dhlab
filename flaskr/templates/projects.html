@@ -14,6 +14,7 @@
   <br>
 
 
+<div id="allProjects">
 
   <div class="card mb-3" style="max-width: 840px;">
     <div class="row g-0">
@@ -93,6 +94,41 @@
     </div>
   </div>
 
+</div>
 
+<template>
+  <div class="card mb-3" style="max-width: 840px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <!-- <img
+          src="static/project_pics/logo.png"
+          alt="..."
+          class="img-fluid"
+        /> -->
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"> PROJECT TITLE </h5>
+          <p class="card-text">
+              PROJECT DESCRIPTION
+          </p>
+          <p class="card-text">
+            <small class="text-muted"> DATE PART </small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
+<button onclick="addNewProject()">Add project</button>
+<script>
+  function addNewProject() { //would pass in title, description, image source or link or something
+    //document.getElementById("allProjects").innerHTML += "<h3>New project</h3>";
+    var temp = document.getElementsByTagName("template")[0];
+    var clon = temp.content.cloneNode(true);
+    document.body.appendChild(clon);
+  }
+</script>
+</head>
 {% endblock %}
