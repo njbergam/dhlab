@@ -35,3 +35,9 @@ def projects():
 @p.route('/projectData')
 def projectData():
     return p.send_static_file("projects.json")
+
+
+# Route to serve individual project page
+@p.route("/projects/single/<id>")
+def projectsSingle():
+    pass
