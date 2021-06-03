@@ -9,7 +9,7 @@ fetch(reqUrl)
     .then(data => {
         // Update the dom using the data
         data.projects.forEach(element => {
-            const htmlString = `<div class="card mb-3" style="max-width: 840px;">
+            const htmlString = `<div class="card mb-3" onclick="handleClick('${element.id}')" style="max-width: 840px;">
             <div class="row g-0">
               <div class="col-md-4">
                 <img
@@ -37,3 +37,7 @@ fetch(reqUrl)
         console.log("An error has occurred.")
         console.log(error)
     })
+
+function handleClick(elementId) {
+    console.log(elementId)
+}
