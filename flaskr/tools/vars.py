@@ -3,8 +3,8 @@
 
 lukasBranch = "/Users/lukas/Desktop/ /Coding/DHLAB/dhlab/flaskr"
 
-# branch = "/var/www/html/dhlab/flaskr"
-branch = lukasBranch
+branch = "/var/www/html/dhlab/flaskr"
+# branch = lukasBranch
 
 # Folder that contains the uploaded files
 UPLOAD_FOLDER = branch + '/uploads'
