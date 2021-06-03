@@ -84,6 +84,9 @@ def create_app(test_config=None):
     from .blueprints.singlefile import singlefile
     app.register_blueprint(singlefile)
 
+    from .blueprints.projects import p
+    app.register_blueprint(p)
+
     # Mainpage route that contains basic information about the app
     @app.route('/', methods=['GET', 'POST'])
     def home():
@@ -160,10 +163,15 @@ def create_app(test_config=None):
     def layout():
         return render_template('layout.html')
 
-    # Landing page for the projects page
-    @app.route('/projects')
-    def projects():
-        return render_template('projects.html')
+    # # Landing page for the projects page
+    # @app.route('/projects')
+    # def projects():
+    #     return render_template('projects.html')
+
+    # # Route to serve the JSON file containing
+    # @app.route('/projectData')
+    # def projectData():
+    #     return app.send_static_file("projects.json")
 
     #---School texts
 
