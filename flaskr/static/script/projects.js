@@ -39,5 +39,5 @@ fetch(reqUrl)
     })
 
 function handleClick(elementId) {
-    console.log(elementId)
+  window.location.replace(baseUrl + "projects/single/" + elementId)
 }

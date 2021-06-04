@@ -38,6 +38,6 @@ def projectData():
 
 
 # Route to serve individual project page
-@p.route("/projects/single/<id>")
-def projectsSingle():
-    pass
+@p.route("/projects/single/<identifier>")
+def projectsSingle(identifier):
+    return render_template('projectsSingle.html', id=identifier)
