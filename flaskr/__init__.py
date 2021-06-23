@@ -17,9 +17,10 @@ from .tools.TOOLS import *
 from .tools.readability import *
 
 
-#branch = "/Users/mirobergam/Desktop/dhlab/flaskr"
-#branch = "/var/www/html"
-# ^ CHANGE THIS WHEN YOU RUN ON YOUR LOCAL DEVICE
+# branch = "/Users/someone/Desktop/dhlab/flaskr"
+# ^ Running on local device ()
+# branch = "/var/www/html"
+# ^ Running on the remote server
 branch = os.path.abspath(__file__)[0:-12]
 
 UPLOAD_FOLDER = branch + '/uploads'

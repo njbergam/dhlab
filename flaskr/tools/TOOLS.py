@@ -553,3 +553,19 @@ def samplePassage(text, term, n, l):
 		if master[i][0] == "\\":
 			master[i] = master[i][1::]
 	return master
+
+def tfidf(word, text, corpus):
+    freq = 0
+    N = len(corpus)
+    for currword in text:
+        if currword == word:
+            freq += 1
+    count = 0
+    for currtext in corpus:
+        for currword in currtext:
+            if currword == word:
+                count += 1
+                break
+    tf = math.log(1+freq)
+    idf = math.log((N+2)/(count+1))
+    return tf*idf
