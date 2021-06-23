@@ -1,0 +1,9 @@
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* FILL THIS IN W NEW STUFF YAY */

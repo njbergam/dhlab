@@ -8,7 +8,13 @@ input[type=text], select {
 #wordProgWords {
     display:none;
 }
+#TfIdfWords {
+  display:none;
+}
 #wordProgBox:checked ~ #wordProgWords {
+    display:block;
+}
+#TfIdfBox:checked ~ #TfIdfWords {
     display:block;
 }
 .div2 {
@@ -122,8 +128,17 @@ function displayDesc(bID, divID) {
           1. words in the same group should be separated by commas.<br>
           2. words in different groups should be separated by semi-colons.
       </div>
-      <input type="input" class = "long" name="WordProgWords" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
-      <input type="submit" value="Submit">
+      <input type="input" class = "long" name="WordProgWords" placeholder = "Put words to be examined(word progression), separated by commas" style ="width = 100%" id = "wordProgWords">
+      <input type="checkbox" name="tfidf" id = "TfIdfBox"> TF-IDF
+      <button type="button" onclick="displayDesc(fBtn,tfidfID)" id="tfidf">+</button>
+      <div class = "description" id="tfidfID" style = "display: none" >
+          Term frequency-inverse document frequency <br>
+          Provides a measure for how important a word is to a certain text in a corpus. <br>
+          Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document
+      </div>
+
+      <input type="input" class = "long" name="TfIdfWords" placeholder = "Put words to be examined(tf-idf), separated by commas" style ="width = 100%" id = "TfIdfWords"> <br>
+      <input type="submit" value="Submit"> <br>
   </form>
 </div>
 {% endblock %}

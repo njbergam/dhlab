@@ -1,42 +1,15 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<div class="container">
+    <form id="fileupload" method="POST" enctype="multipart/form-data" action="/upload_multifile">
+        <h2> File Upload </h2>
+        <input type="file" name="file[]" class="files" id="files1" multiple="">
 
-<h3> Upload new Files </h3>
-
-
-<form name ='multi_upload' action = '/upload_multifile' method=post enctype=multipart/form-data>
-  <input type=file id= "file-upload" name=file>
-  <input type=submit value="submit">
-  <button type="button" onclick="removeFile(  )" id="removeBtn"><rb></rb> Clear </button> <br> <br>
-  {% for file in files %}
-    <p id='each' >{{file}}
-    <!--<a href="/removefile?filename={{file}}" onclick=removeFile({{file}})>remove</a>-->
-
-    <a href="/removefile?filename={{file}}" onclick="return ConfirmDelete();">remove</a>
-    <p>
-  {% endfor %}
-</form>
-<script>
-  function removeFile(){
-      //$(this).parent().remove();
-      //$(this).parent() = "";
-      //document.getElementById('file-upload').value = null;
-      var frm = document.getElementById('file-upload').value;
-      //alert(frm)
-      //frm.reset();
-      alert('3');
+        <ul class="fileList">
+            {% for item in files%}
+                <li>{{item}} <a class="removeFile" href = {{ url_for("multifile.removefile", filename=item) }}>Remove</a></li>
+            {% endfor %}
+        </ul>
 
 
-      //alert( $(this).parent().name )
-      //file.parent() = "";
-      //return false;
-  }
-
-  function ConfirmDelete() {
-  var confm = window.confirm("Are you sure want to delete this !");
-  if(confm == true) {
-      return true;
-  } else {
-      return false;
-  }
-}
-</script>
+        <input type="submit" value="Upload">
+    </form>
+</div>
