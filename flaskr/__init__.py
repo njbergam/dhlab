@@ -21,6 +21,12 @@ from .tools1 import *
 from .tools.vars import branch, UPLOAD_FOLDER, GRAPHS_FOLDER, ALLOWED_EXTENSIONS
 from .tools.txtresult import txtResult
 
+# branch = "/Users/someone/Desktop/dhlab/flaskr"
+# ^ Running on local device ()
+# branch = "/var/www/html"
+# ^ Running on the remote server
+branch = os.path.abspath(__file__)[0:-12]
+
 
 def create_app(test_config=None):
 
