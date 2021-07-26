@@ -7,7 +7,7 @@ import googleapiclient.discovery
 from googleapiclient.discovery import build
 from werkzeug.utils import secure_filename
 # Used for security reasons - has much more use we aren't currently tapping into
-from flask_talisman import Talisman
+# from flask_talisman import Talisman
 from flask_session.__init__ import Session
 import matplotlib.pyplot as plt, mpld3
 import random
@@ -15,7 +15,7 @@ import string
 import json
 import nltk
 
-from ..tools1 import *
+from ..tools.simple_analytics import *
 from ..tools.vars import branch, UPLOAD_FOLDER, GRAPHS_FOLDER, ALLOWED_EXTENSIONS
 from ..tools.txtresult import txtResult
 
@@ -23,14 +23,14 @@ multifile = Blueprint("multifile", __name__, template_folder="templates")
 
 
 # Landing page for multi text comparison
-@multifile.route('/multi-comp')
+@multifile.route('/analytics')
 def multi():
     if 'failedMulti' not in session:
         fail = 0
     else:
         fail = session['failedMulti']
 
-    session['priorUrl'] = '/multi-comp'
+    session['priorUrl'] = '/analytics'
 
     if 'files' not in session:
         print("empty files")
@@ -84,7 +84,7 @@ def removefile(filename):
 
     print(session["files"])
 
-    return redirect('/multi-comp')
+    return redirect('/analytics')
 
 
 @multifile.route('/reportMulti', methods=['GET', 'POST'])
@@ -92,7 +92,7 @@ def multiReport():
     # Make sure that there are files that the user uploaded
     if len(session['files']) == 0:
         session['failedMulti'] = 2
-        return redirect('/multi-comp')
+        return redirect('/analytics')
 
     # Get the user request options
     dict = request.form.to_dict()
@@ -124,7 +124,7 @@ def multiReport():
         print("creating sentence length chart")
 
         for i in range(len(session['files'])):
-            textRsts[i].sen = senlenStats(text[i])
+            textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
 
     # Part of speech data
     if "POS" in dict:

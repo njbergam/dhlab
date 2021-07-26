@@ -45,8 +45,8 @@ textCenter {
 {% block body2 %}
 <textCenter>
 <div class = "div2">
-  <h1> Multi-text Comparison </h1>
-  <p> Across multiple texts, compare: <br>
+  <h1> Text Analytics </h1>
+  <p> Across one or more texts, understand patterns related to: <br>
   - Sentence Length <br>
   - Percent Quotes <br>
   - Part of Speech Distribution <br>
@@ -88,38 +88,40 @@ function displayDesc(bID, divID) {
 <div class = "div2">
   <textCenter>
   <h3 style> Reader-Responsible Information </h3>
-  <p style>  *please tokenize answers below with commas* <br> </p>
+  <p style>  *please tokenize any typed inputs with commas* <br> </p>
   </textCenter>
   <!--<p> Major Characters: </p> <p>   <input type="text" name="char"  style="width:400px; height:50px;">  <br> </p>
   <p> First Generation Words: </p> <p>   <input type="text" name="gen"  style="width:400px; height:50px;">  <br> </p>-->
   <form action = '/reportMulti' method = "POST" style = "margin-left: 4%;">
-      <p> Choose tests: </p>
+      <p> Requires 1 or more text: </p>
+
       <input type="checkbox" name="SLength"> Sentence Length
       <button type="button" onclick="displayDesc(aBtn,SLengthID)" id="aBtn">+</button> <br>
       <div class = "description" id="SLengthID" style = "display: none" >
           Finds the average sentence length for every sentence in the text.
       </div>
 
-      <input type="checkbox" name="PercentQuotes"> Percent Quotes
+    <!--
+    # PERCENT QUOTES is broken. Discontinued for now.
+    <input type="checkbox" name="PercentQuotes"> Percent Quotes
       <button type="button" onclick="displayDesc(bBtn,PercentQuotesID)" id="bBtn">+</button> <br>
       <div class = "description" id="PercentQuotesID" style = "display: none">
           Finds the percent of the text that is in quotes.
       </div>
+    -->
+
       <input type="checkbox" name="POS"> Part of Speech Distribution
       <button type="button" onclick="displayDesc(cBtn,POSID)" id="cBtn">+</button> <br>
       <div class = "description" id="POSID" style = "display: none" >
           Displays a pi chart for the distribution of the parts of speeches in the text.
       </div>
+
       <input type="checkbox" name="TopWords"> Frequent Words
       <button type="button" onclick="displayDesc(dBtn,TopWordsID)" id="dBtn">+</button> <br>
       <div class = "description" id="TopWordsID" style = "display: none" >
           Displays a bar graph with frequently used words in the novel and their corresponding frequencies.
       </div>
-      <input type="checkbox" name="over"> Overlap
-      <button type="button" onclick="displayDesc(eBtn,overID)" id="eBtn">+</button> <br>
-      <div class = "description" id="overID" style = "display: none" >
-          Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are.
-      </div>
+
       <input type="checkbox" name="WordProg" id = "wordProgBox"> Word Progression
       <button type="button" onclick="displayDesc(eBtn,WordProgID)" id="fBtn">+</button> <br>
       <div class = "description" id="WordProgID" style = "display: none" >
@@ -129,7 +131,8 @@ function displayDesc(bID, divID) {
           2. words in different groups should be separated by semi-colons.
       </div>
       <input type="input" class = "long" name="WordProgWords" placeholder = "Put words to be examined(word progression), separated by commas" style ="width = 100%" id = "wordProgWords">
-      <input type="checkbox" name="tfidf" id = "TfIdfBox"> TF-IDF
+
+      <input type="checkbox" name="tfidf" id = "TfIdfBox"> Word Relevance (using TF-IDF)
       <button type="button" onclick="displayDesc(fBtn,tfidfID)" id="tfidf">+</button>
       <div class = "description" id="tfidfID" style = "display: none" >
           Term frequency-inverse document frequency <br>
@@ -137,8 +140,30 @@ function displayDesc(bID, divID) {
           Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document
       </div>
 
-      <input type="input" class = "long" name="TfIdfWords" placeholder = "Put words to be examined(tf-idf), separated by commas" style ="width = 100%" id = "TfIdfWords"> <br>
-      <input type="submit" value="Submit"> <br>
+      <br><br>
+      <p> Requires 2 or more texts: </p>
+
+      <input type="checkbox" name="over"> Overlap
+      <button type="button" onclick="displayDesc(eBtn,overID)" id="eBtn">+</button> <br>
+      <div class = "description" id="overID" style = "display: none" >
+          Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are.
+      </div>
+
+      <input type="checkbox" name="over"> Topic Modeling (using Latent Dirichlet Allocation)
+      <button type="button" onclick="displayDesc(eBtn,overID)" id="eBtn">+</button> <br>
+      <div class = "description" id="overID" style = "display: none" >
+          Latent Dirichlet Allocation
+      </div>
+
+      <input type="checkbox" name="over"> Thematic Vectorization (using TF-IDF)
+      <button type="button" onclick="displayDesc(eBtn,overID)" id="eBtn">+</button> <br>
+      <div class = "description" id="overID" style = "display: none" >
+          Latent Dirichlet Allocation
+      </div>
+
+      <input type="submit"> 
+
+
   </form>
 </div>
 {% endblock %}

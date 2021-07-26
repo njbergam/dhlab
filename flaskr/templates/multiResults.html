@@ -15,7 +15,14 @@
 </div>
 <div class = "div2" id = "senID">
   {% for result in results %}
-  <p style="text-align:left"> <b>Average Sentence Length in {{result.name}}:</b> {{result.sen}} </p>
+  <p style="text-align:left">
+
+    <div class = "div2" id = "senID">
+      <b> Sentence Length Statistics of {{result.name}} </b>
+      <p> Mean: {{ result.sen_avg }} </p>
+      <p> Standard Deviation: {{ result.sen_stdv }} </p>
+    </div>
+
   {% endfor %}
 </div>
 <script>
@@ -38,6 +45,7 @@ displayNum(senID,{{results[0].sen}});
   <img src = {{ '/static/graphs/' + result.pos + '.png'  }} width = 55% alt = 'figure' >
   {% endfor %}
 </div>
+
 <div class = "div2" id = "topID" style = "width:80%">
   <h3 style> Graph of Top Words </h3>
   {% for result in results %}
@@ -45,13 +53,15 @@ displayNum(senID,{{results[0].sen}});
   <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
   {% endfor %}
 </div>
+
 <div class = "div2" id = "overID" style = "width:80%">
-  <h3 style> Graph of Overlaped Words </h3>
+  <h3 style> Graph of Overlapped Words </h3>
   {% for result in overlap %}
   <h6> Graph of Overlap for {{result[0]}} </h6>
   <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
   {% endfor %}
 </div>
+
 <div class = "div2" id = "wpID" style = "width:80%">
   <h3 style> Graph of Word Progression </h3>
   {% for result in results %}
@@ -59,6 +69,7 @@ displayNum(senID,{{results[0].sen}});
   <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
   {% endfor %}
 </div>
+
 <script>
 function displayGraph(divID,val) {
   var x = document.getElementById(divID.id);

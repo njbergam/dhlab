@@ -1,5 +1,3 @@
-# coding=utf-8
-
 import os
 import requests
 import google.oauth2.credentials
@@ -8,16 +6,16 @@ import googleapiclient.discovery
 from googleapiclient.discovery import build
 from werkzeug.utils import secure_filename
 from flask import Flask, session, flash, request, redirect, url_for, render_template
-# Used for security reasons - has much more use we aren't currently tapping into
-from flask_talisman import Talisman
+# Talisman is used for security reasons - has much more use we aren't currently tapping into
+# from flask_talisman import Talisman
 from flask_session.__init__ import Session
 import matplotlib.pyplot as plt, mpld3
 import random
 import string
 import json
 import nltk
-from .tools1 import *
 
+from .tools.simple_analytics import *
 from .tools.vars import branch, UPLOAD_FOLDER, GRAPHS_FOLDER, ALLOWED_EXTENSIONS
 from .tools.txtresult import txtResult
 
@@ -98,7 +96,7 @@ def create_app(test_config=None):
     def home():
         return render_template('hello.html')
 
-    #---Multi Text
+    #--- Multi Text
 
     # Simply explaining what to do with the app and how it works.
     @app.route('/howTo')
@@ -109,6 +107,11 @@ def create_app(test_config=None):
     @app.route('/allusions')
     def allusions():
         return render_template('dev.html')
+
+    # TODO: make generative models work on the website
+    @app.route('/generative', methods=['GET', 'POST'])
+    def gen():
+        return render_template('generative.html')
 
     #---Thesis and Essay Help
 
