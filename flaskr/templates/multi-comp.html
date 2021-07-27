@@ -42,40 +42,39 @@
     <form class="" action='/reportMulti' method="POST">
         <h6> Requires 1 or more text: </h6>
 
-        <!-- Determines the average sentence length in a given corpus -->
+        <!--  -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="SLength" id="SLength">
-          <label class="form-check-label" for="SLength" >Sentence Length</label>
+          <label class="form-check-label" for="SLength" data-bs-toggle="tooltip" data-bs-html="true" title="Determines the average sentence length in a given corpus.">Sentence Length</label>
         </div>
 
-        <!-- Displays a pi chart for the distribution of the parts of speeches in the text. -->
+        <!--  -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="POS" id="POS">
-          <label for="POS" class="form-check-label">Part of Speech Distribution</label>
+          <label for="POS" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a pi chart for the distribution of the parts of speeches in the text.">Part of Speech Distribution</label>
         </div>
 
-        <!-- Displays a bar graph with frequently used words in the novel and their corresponding frequencies. -->
+        <!--  -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="TopWords" id="TopWords">
-          <label for="TopWords" class="form-check-label">Frequent Words</label>
+          <label for="TopWords" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with frequently used words in the novel and their corresponding frequencies.">Frequent Words</label>
         </div>
 
         <!--
-        Plots frequency of given group(s) of words over the course of the novel. <br>
-            Put words to be examined: <br>
+         <br>
+
             1. words in the same group should be separated by commas.<br>
             2. words in different groups should be separated by semi-colons. -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="WordProg" id="wordProgBox">
-          <label for="wordProgBox" class="form-check-label">Word Progression</label>
+          <label for="wordProgBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Plots frequency of given group(s) of words over the course of the novel."">Word Progression</label>
         </div>
 
-        <!-- Term frequency-inverse document frequency <br>
-            Provides a measure for how important a word is to a certain text in a corpus. <br>
+        <!-- Term frequency-inverse document frequency <br> <br>
             Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="tfidf" id="TfIdfBox">
-          <label for="TfIdfBox" class="form-check-label">Word Relevance (using TF-IDF)</label>
+          <label for="TfIdfBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Provides a measure for how important a word is to a certain text in a corpus.">Word Relevance (using TF-IDF)</label>
         </div>
         <!-- TfIdfWords box id and name -->
 
@@ -84,24 +83,22 @@
         <!-- Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are. -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="over" id="ovre">
-          <label for="over" class="form-check-label">Overlap</label>
+          <label for="over" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with words that appear in all provided texts.">Overlap</label>
         </div>
 
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="topicmodeling" id="topicmodeling">
-          <label for="topicmodeling" class="form-check-label">Topic Modeling (using Latent Dirichlet Allocation)</label>
+          <label for="topicmodeling" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Noah what does this do.">Topic Modeling (using Latent Dirichlet Allocation)</label>
         </div>
 
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="tvect" id="tvect">
-          <label for="tvect" class="form-check-label">Thematic Vectorization (using TF-IDF)</label>
+          <label for="tvect" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Noah i still dont konw.">Thematic Vectorization (using TF-IDF)</label>
         </div>
 
         <input class="mt-2 btn btn-primary w-100" type="submit">
     </form>
   </div>
-
 </div>
-
 
 {% endblock %}
