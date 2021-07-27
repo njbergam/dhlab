@@ -701,5 +701,9 @@ def tfidf(word, text, corpus):
                 count += 1
                 break
     tf = math.log(1 + freq)
+    if N == 0 or count == 0:
+        return "ERROR"
     idf = math.log(N / count)
+    print("tf for " + word + " = " + str(tf))
+    print("idf for " + word + " = " + str(idf))
     return round(tf * idf, 3)

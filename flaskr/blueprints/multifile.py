@@ -123,14 +123,21 @@ def multiReport():
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
     if "tfidf" in dict:
         print("creating tf-idf")
-        corpus = []
+        corpus = [] #generating the corpus from our stock
         path = 'flaskr/blueprints/corpus'
         for filename in os.listdir(path):
-            corpus.append(simpleTokenize('flaskr/blueprints/corpus/' +
-                                           filename))
+            corpus.append(simpleTokenize('flaskr/blueprints/corpus/' + filename))
             print(filename)
-        #with open(os.path.join(path, filename), 'r') as f:
-        wordsToBeTfIDFed = ["eat", "fox"] #find a way to fill this from input box
+        wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
+        print(wordsToBeTfIDFed)
+        for currWord in wordsToBeTfIDFed:
+            print(currWord[0:1])
+            print(currWord.isspace())
+            while currWord.isspace():
+                # currWord = currWord[1:]
+                currWord = currWord[1:]
+                print(currWord)
+        print(wordsToBeTfIDFed)
         tfIdfResults = {}
         for i in range(len(session['files'])):
             currFile = session['files'][i]
@@ -141,7 +148,8 @@ def multiReport():
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
             tfIdfResults[currFile] = currScores
-        textRsts[i].tfIdf = tfIdfResults
+        print(tfIdfResults)
+        textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
     if "POS" in dict:
         print("creating pos chart in multi")
