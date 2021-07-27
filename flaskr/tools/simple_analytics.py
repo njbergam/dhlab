@@ -12,6 +12,7 @@ import numpy as np
 from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
 import random
+import math
 
 from .vars import ALLOWED_EXTENSIONS
 
@@ -687,10 +688,11 @@ def samplePassage(text, term, n, l, firstpage, lastpage):
 
     return master, numFound
 
-
 def tfidf(word, text, corpus):
     freq = 0
-    N = corpus.length
+    N = len(corpus)
+    print("TEXT")
+    print(text)
     for currword in text:
         if currword == word:
             freq += 1
@@ -701,5 +703,8 @@ def tfidf(word, text, corpus):
                 count += 1
                 break
     tf = math.log(1 + freq)
+    #tf = freq / len(text)
     idf = math.log(N / count)
+    print("tf" + str(tf))
+    print("idf" + str(idf))
     return tf * idf

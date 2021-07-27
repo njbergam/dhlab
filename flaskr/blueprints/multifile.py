@@ -128,10 +128,24 @@ def multiReport():
 
         for i in range(len(session['files'])):
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
-
+    if "tfidf" in dict:
+        print("creating tf-idf")
+        corpus = []
+        path = 'flaskr/blueprints/corpus'
+        for filename in os.listdir(path):
+            corpus.append(simpleTokenize('flaskr/blueprints/corpus/' +
+                                           filename))
+            print(filename)
+        #with open(os.path.join(path, filename), 'r') as f:
+        for i in range(len(session['files'])):
+            result1 = tfidf("eat", simpleTokenize('flaskr/uploads/' + session['files'][i]), corpus)
+            print("tf-idf score for eat: " + str(result1))
+            result2 = tfidf("fox", simpleTokenize('flaskr/uploads/' + session['files'][i]), corpus)
+            print("tf-idf score for fox: " + str(result2))
+            textRsts[i].tfIdf = result1
     # Part of speech data
     if "POS" in dict:
-        print("creating pos chart")
+        print("creating pos chart in multi")
         for i in range(len(session['files'])):
             textRsts[i].pos = ''.join(
                 random.choices(string.ascii_uppercase + string.digits,
