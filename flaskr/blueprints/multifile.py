@@ -115,13 +115,6 @@ def multiReport():
             text2.append(cleanText('flaskr/uploads/' + session['files'][i]))
         textRsts.append(txtResult(session['files'][i], -1, -1, "1", "1", "1"))
 
-    print(dict)
-
-    # Percent of text that is quotes
-    if "PercentQuotes" in dict:
-        for i in range(len(session['files'])):
-            textRsts[i].pq = percentQuotes(text[i])
-
     # Average sentence length throughout the app
     if "SLength" in dict:
         print("creating sentence length chart")
@@ -191,6 +184,10 @@ def multiReport():
     for i in range(len(textRsts)):
         print(textRsts[i].pq)
         print("a")
+
+    selectionsList = list(dict.keys())
+
     return render_template('multiResults.html',
                            results=textRsts,
-                           overlap=overlapInfo)
+                           overlap=overlapInfo,
+                           selections=selectionsList)
