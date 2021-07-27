@@ -89,6 +89,7 @@ def removefile(filename):
 
 @multifile.route('/reportMulti', methods=['GET', 'POST'])
 def multiReport():
+    print("in multiReport() in multifile.py")
     # Make sure that there are files that the user uploaded
     if len(session['files']) == 0:
         session['failedMulti'] = 2
@@ -113,6 +114,8 @@ def multiReport():
                                        session['files'][i]))
             text2.append(cleanText('flaskr/uploads/' + session['files'][i]))
         textRsts.append(txtResult(session['files'][i], -1, -1, "1", "1", "1"))
+
+    print(dict)
 
     # Percent of text that is quotes
     if "PercentQuotes" in dict:

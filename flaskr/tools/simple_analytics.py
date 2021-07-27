@@ -179,9 +179,10 @@ def saveTopWords(text, title):
     wfDict = getWordFreqDict(
         500)  #ignore the most common 500 words: never display them
     counts = Counter(text)
-    for w in counts.keys():
+    #we decided that even if the words are common the bar should still be displayed
+    """for w in counts.keys():
         if w.lower() in wfDict:
-            counts[w] = 0
+            counts[w] = 0"""
     labels, values = zip(*counts.items())
     # sort your values in descending order
     indSort = np.argsort(values)[::-1]
@@ -291,6 +292,7 @@ def sentenceLength(tokenizedText):
 # Returns an array of different one-variable parameters regarding sentence length
 def senlenStats(text):
     senlen = sentenceLength(text)
+    print(senlen)
     try:
         arr = []
         arr.append(statistics.mean(senlen))
@@ -299,10 +301,12 @@ def senlenStats(text):
         arr.append(statistics.stdev(senlen))
     except:
         arr = [-1, -1, -1, -1]
-    return arr[1], arr[3]
+    return statistics.mean(senlen), statistics.stdev(senlen)
+    #return arr[1], arr[3]
 
 
 # Returns the percent of a given text that is within quotes
+"""
 def percentQuotes(array):
     count = 0
     length = len(array)
@@ -325,7 +329,7 @@ def percentQuotes(array):
     print(length)
 
     percent = (count * 1.0) / (length + 0.1)
-    return percent
+    return percent """
 
 
 # Saves part of speech pi chart to graphs folder
