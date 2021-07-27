@@ -90,6 +90,7 @@ def removefile(filename):
 @multifile.route('/reportMulti', methods=['GET', 'POST'])
 def multiReport():
     print("in multiReport() in multifile.py")
+
     # Make sure that there are files that the user uploaded
     if len(session['files']) == 0:
         session['failedMulti'] = 2
@@ -123,6 +124,10 @@ def multiReport():
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
     if "tfidf" in dict:
         print("creating tf-idf")
+
+        # DICTIONARY DATA{'tfidf': 'on', 'TfIdfWords': 'eat, sleep, walk'}
+        # dict["TfIdfWords"] = 'eat, sleep, walk'
+
         corpus = []
         path = 'flaskr/blueprints/corpus'
         for filename in os.listdir(path):
