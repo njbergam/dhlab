@@ -1,85 +1,88 @@
 {% extends 'layout.html' %}
-{% block style %}
+{% block content %}
+<div class="p-3 w-75 h-75 m-auto">
 
-{% endblock %}
+  <h1> Results of Multi-Text Analysis </h1>
 
-{% block body %}
-<textCenter><h1> Results of Multi-Text Analysis </h1></textCenter>
+  {% if "SLength" in selections %}
+  <h3> Sentence Length Statistics </h3>
+  <div class = "div2" id = "senID">
+    {% for result in results %}
+    <p style="text-align:left">
 
+      <div class = "div2" id = "senID">
+        <b> Sentence Length Statistics of {{result.name}} </b>
+        <p> Mean: {{ result.sen_avg }} </p>
+        <p> Standard Deviation: {{ result.sen_stdv }} </p>
+      </div>
 
+    {% endfor %}
+  </div>
+  {% endif %}
 
-<div class = "div2" id = "pqID">
-  {% for result in results %}
-  <p style="text-align:left"> <b>Percent Quotes in {{result.name}}:</b> {{result.pq}} </p>
-  {% endfor %}
-</div>
-<div class = "div2" id = "senID">
-  {% for result in results %}
-  <p style="text-align:left">
+  <script>
+    function displayNum(divID,val) {
+      var x = document.getElementById(divID.id);
+      if (val  > -0.1){
+        x.style.display = "block";
+      }  else{
+        x.style.display = "none";
+      }
+    }
+    displayNum(pqID,{{results[0].pq}});
+    displayNum(senID,{{results[0].sen}});
+  </script>
 
-    <div class = "div2" id = "senID">
-      <b> Sentence Length Statistics of {{result.name}} </b>
-      <p> Mean: {{ result.sen_avg }} </p>
-      <p> Standard Deviation: {{ result.sen_stdv }} </p>
-    </div>
+  {% if "POS" in selections %}
+  <div class = "div2" id = "posID" style = "width:80%">
+    <h3 style> Part of Speech Distribution </h3>
+    {% for result in results %}
+    <h6> Part of Speech Distribution for {{result.name}} </h6>
+    <img src = {{ '/static/graphs/' + result.pos + '.png'  }} width = 55% alt = 'figure' >
+    {% endfor %}
+  </div>
+  {% endif %}
 
-  {% endfor %}
-</div>
-<script>
-function displayNum(divID,val) {
-  var x = document.getElementById(divID.id);
-  if (val  > -0.1){
-    x.style.display = "block";
-  }  else{
-    x.style.display = "none";
+  {% if "TopWords" in selections %}
+  <div class = "div2" id = "topID" style = "width:80%">
+    <h3 style> Graph of Top Words </h3>
+    {% for result in results %}
+    <h6> Graph of Top Words for {{result.name}} </h6>
+    <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if "over" in selections %}
+  <div class = "div2" id = "overID" style = "width:80%">
+    <h3 style> Graph of Overlapped Words </h3>
+    {% for result in overlap %}
+    <h6> Graph of Overlap for {{result[0]}} </h6>
+    <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if "WordProg" in selections %}
+  <div class = "div2" id = "wpID" style = "width:80%">
+    <h3 style> Graph of Word Progression </h3>
+    {% for result in results %}
+    <h6> Graph of Word Progression for {{result.name}} </h6>
+    <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <script>
+  function displayGraph(divID,val) {
+    var x = document.getElementById(divID.id);
+    if(val == 1.0){//string comparison not working and val == 1 didn't work
+      x.style.display = "none";
+    }  else{
+      x.style.display = "block";
+    }
   }
-}
-displayNum(pqID,{{results[0].pq}});
-displayNum(senID,{{results[0].sen}});
-</script>
-
-<div class = "div2" id = "posID" style = "width:80%">
-  <h3 style> Part of Speech Distribution </h3>
-  {% for result in results %}
-  <h6> Part of Speech Distribution for {{result.name}} </h6>
-  <img src = {{ '/static/graphs/' + result.pos + '.png'  }} width = 55% alt = 'figure' >
-  {% endfor %}
-</div>
-
-<div class = "div2" id = "topID" style = "width:80%">
-  <h3 style> Graph of Top Words </h3>
-  {% for result in results %}
-  <h6> Graph of Top Words for {{result.name}} </h6>
-  <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
-  {% endfor %}
-</div>
-
-<div class = "div2" id = "overID" style = "width:80%">
-  <h3 style> Graph of Overlapped Words </h3>
-  {% for result in overlap %}
-  <h6> Graph of Overlap for {{result[0]}} </h6>
-  <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
-  {% endfor %}
-</div>
-
-<div class = "div2" id = "wpID" style = "width:80%">
-  <h3 style> Graph of Word Progression </h3>
-  {% for result in results %}
-  <h6> Graph of Word Progression for {{result.name}} </h6>
-  <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
-  {% endfor %}
-</div>
-
-<script>
-function displayGraph(divID,val) {
-  var x = document.getElementById(divID.id);
-  if(val == 1.0){//string comparison not working and val == 1 didn't work
-    x.style.display = "none";
-  }  else{
-    x.style.display = "block";
-  }
-}
-</script>
+  </script>
 
 {#
 <!--
@@ -91,3 +94,5 @@ function displayGraph(divID,val) {
 #}
 
 {% endblock %}
+
+</div>
