@@ -691,8 +691,6 @@ def samplePassage(text, term, n, l, firstpage, lastpage):
 def tfidf(word, text, corpus):
     freq = 0
     N = len(corpus)
-    print("TEXT")
-    print(text)
     for currword in text:
         if currword == word:
             freq += 1
@@ -703,8 +701,5 @@ def tfidf(word, text, corpus):
                 count += 1
                 break
     tf = math.log(1 + freq)
-    #tf = freq / len(text)
     idf = math.log(N / count)
-    print("tf" + str(tf))
-    print("idf" + str(idf))
-    return tf * idf
+    return round(tf * idf, 3)

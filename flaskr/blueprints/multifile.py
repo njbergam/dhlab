@@ -137,12 +137,18 @@ def multiReport():
                                            filename))
             print(filename)
         #with open(os.path.join(path, filename), 'r') as f:
+        wordsToBeTfIDFed = ["eat", "fox"] #find a way to fill this from input box
+        tfIdfResults = {}
         for i in range(len(session['files'])):
-            result1 = tfidf("eat", simpleTokenize('flaskr/uploads/' + session['files'][i]), corpus)
-            print("tf-idf score for eat: " + str(result1))
-            result2 = tfidf("fox", simpleTokenize('flaskr/uploads/' + session['files'][i]), corpus)
-            print("tf-idf score for fox: " + str(result2))
-            textRsts[i].tfIdf = result1
+            currFile = session['files'][i]
+            print("FINDING TF-IDF FOR: " + currFile)
+            currScores = []
+            for word in wordsToBeTfIDFed:
+                result = tfidf(word, simpleTokenize('flaskr/uploads/' + currFile), corpus)
+                currScores.append(result)
+                print("tf-idf score for " + word + ": " + str(result))
+            tfIdfResults[currFile] = currScores
+        textRsts[i].tfIdf = tfIdfResults
     # Part of speech data
     if "POS" in dict:
         print("creating pos chart in multi")
