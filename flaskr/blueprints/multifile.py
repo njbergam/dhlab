@@ -188,19 +188,19 @@ def multiReport():
     if "WordProg" in dict:
         print("creating word progression chart")
         print(dict["WordProgWords"])
-        cleanedInput = []
         for i in range(len(session['files'])):
+            cleanedInput = []
+            print("working on", session['files'][i])
             textRsts[i].wp = ''.join(
                 random.choices(string.ascii_uppercase + string.digits, k=10))
             arr = dict["WordProgWords"].replace(" ", "").split(';')
-            print("arr", arr)
             groups = []
             for j in range(len(arr)):
                 groups.append(arr[j].split(','))
-            print("groups", groups)
             for subarray in groups:
                 cleanedInput.append(cleanText2(subarray))
             print("cleanedInput", cleanedInput)
+            print("text2[i]", text2[i])
             oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
     for i in range(len(textRsts)):
         print(textRsts[i].pq)

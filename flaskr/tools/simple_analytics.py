@@ -15,6 +15,7 @@ from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
 import random
 import math
+import string
 
 from .vars import ALLOWED_EXTENSIONS
 
@@ -67,6 +68,13 @@ def removeProperNouns(text):
             del text[maxLen - i]
     return text
 
+def removePunctuation(text):
+    noPuncText = []
+    punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
+    for word in text:
+        if word not in string.punctuation and word not in punct:
+            noPuncText.append(word)
+    return noPuncText
 
 def text_extractor(pdfFile):
     with open(pdfFile, 'rb') as f:
@@ -126,7 +134,7 @@ def getWordFreqDict(numWords):
 # Return the tokenized array
 def cleanText(fileName):
     lem = WordNetLemmatizer()
-    #s = PorterStemmer()
+    s = PorterStemmer()
     file = open(fileName, "r")
     words = nltk.word_tokenize(file.read())
     stop_words = set(stopwords.words("english"))
@@ -134,9 +142,22 @@ def cleanText(fileName):
     for w in words:
         if w not in stop_words:
             w = lem.lemmatize(w, "v")
-            #w = s.stem(w)
+            w = s.stem(w)
             filteredDict.append(w)
     return filteredDict
+
+# def cleanText(fileName):
+#     lem = WordNetLemmatizer()
+#     #stem = PorterStemmer()
+#     file = open(fileName, "r")
+#     words = nltk.word_tokenize(file.read())
+#     stop_words = set(stopwords.words("english"))
+#     filteredDict = []
+#     for w in words:
+#         if w not in stop_words:
+#             w = lem.lemmatize(w, "v")
+#             filteredDict.append(w)
+#     return filteredDict
 
 
 # This function should, given a fileName, 1) tokenize the text file
@@ -152,10 +173,23 @@ def cleanText2(words):
     for w in words:
         if w not in stop_words:
             w = lem.lemmatize(w, "v")
-            #w = s.stem(w)
+            w = s.stem(w)
             filteredDict.append(w)
     return filteredDict
 
+def cleanTextRemovePunc(fileName):
+    lem = WordNetLemmatizer()
+    s = PorterStemmer()
+    file = open(fileName, "r")
+    words = nltk.word_tokenize(file.read())
+    stop_words = set(stopwords.words("english"))
+    filteredDict = []
+    for w in words:
+        if w not in stop_words and w not in string.punctuation:
+            w = lem.lemmatize(w, "v")
+            w = s.stem(w)
+            filteredDict.append(w)
+    return filteredDict
 
 # Tokenizes a comma-delimited string into a list
 def deList(str):
@@ -179,6 +213,8 @@ def detokenize(text):
 def saveTopWords(text, title):
     text = removeProperNouns(text)
     text = txtToLower(text)
+    text = removePunctuation(text)
+    print("TEXT NO PUNC", text)
     wfDict = getWordFreqDict(
         500)  #ignore the most common 500 words: never display them
     counts = Counter(text)
@@ -408,20 +444,6 @@ def wordProgression(text, words):
     return occurences
 
 
-def cleanText(fileName):
-    lem = WordNetLemmatizer()
-    stem = PorterStemmer()
-    file = open(fileName, "r")
-    words = nltk.word_tokenize(file.read())
-    stop_words = set(stopwords.words("english"))
-    filteredDict = []
-    for w in words:
-        if w not in stop_words and len(w) > 3:
-            w = lem.lemmatize(w, "v")
-            filteredDict.append(w)
-    return filteredDict
-
-
 # Generates a list of a list of related words, based on wikipedia page
 # for the given list
 # Given ogWords=[yellow, fish] and numWords = 2
@@ -521,6 +543,8 @@ def oneTextPlotChronoMap(text, wordlists, title):
     print("wordlists", wordlists)
     y = []
     x = list(range(int(len(text) / numWordsPerSection) + 1))
+    print("x", x)
+    #print("text", text)
     for i in range(len(wordlists)):
         #print (i)
         y.append(wordProgression(txtToLower(text), wordlists[i]))

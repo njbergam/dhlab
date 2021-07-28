@@ -57,7 +57,7 @@ def cleanText(fileName):
 	stop_words=set(stopwords.words("english"))
 	filteredDict = []
 	for w in words:
-		if w not in stop_words and len(w)>3:
+		if w not in stop_words:
 			w = lem.lemmatize(w,"v")
 			filteredDict.append(w)
 	return filteredDict
