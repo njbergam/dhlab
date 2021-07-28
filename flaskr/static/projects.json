@@ -20,7 +20,13 @@
             "org" : "Pingry Computer Science Curriculum - 2021",
             "imgPath" : "static/project_pics/logo.png",
             "id" : "CS"
+        },
+        {
+            "title" : "Versification of Spanish Poetry",
+            "desc" : "Using Guillermo Nájera's pyesia package, we examine the verse structures of Spanish poets Quevedo, Gongora, and Sor Juana  ",
+            "org" : "Advanced Topics Computer Science - 2021",
+            "imgPath" : "static/project_pics/spanish_vers.png",
+            "id" : "SP"
         }
-
     ]
 }
