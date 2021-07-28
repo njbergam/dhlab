@@ -128,13 +128,13 @@ def multiReport():
         path = 'flaskr/blueprints/corpus'
         for filename in os.listdir(path):
             corpus.append(simpleTokenize('flaskr/blueprints/corpus/' + filename))
-            print(filename)
+
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
         wordsNoSpaces = []
+
         for currWord in wordsToBeTfIDFed:
             wordsNoSpaces.append(currWord.replace(" ", ""))
-        print(wordsToBeTfIDFed)
-        print(wordsNoSpaces)
+
         tfIdfResults = {}
         for i in range(len(session['files'])):
             currFile = session['files'][i]
@@ -145,10 +145,12 @@ def multiReport():
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
             tfIdfResults[currFile] = currScores
-        print(tfIdfResults)
-        textRsts[i].tfidf = tfIdfResults #currScores
-        textRsts[i].tfidf_words = wordsToBeTfIDFed
-        print(currScores)
+
+            textRsts[i].tfidf = tfIdfResults #currScores
+            textRsts[i].tfidf_words = wordsToBeTfIDFed
+
+        createTfidfGraph(tfIdfResults, wordsToBeTfIDFed)
+
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
     if "POS" in dict:

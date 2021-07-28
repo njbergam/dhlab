@@ -9,6 +9,7 @@ fetch(reqUrl)
     .then(data => {
         // Update the dom using the data
         data.projects.forEach(element => {
+          console.log(element)
             const htmlString = `<div class="card mb-3" onclick="handleClick('${element.id}')" style="max-width: 840px;">
             <div class="row g-0">
               <div class="col-md-4">

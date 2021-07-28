@@ -73,6 +73,15 @@
   </div>
   {% endif %}
 
+  {% if "tfidf" in selections %}
+  <div>
+    {%for result in results %}
+    <h6> Tfidf data for Word Progression for {{result.name}} </h6>
+    <p>{{result.tfidf}}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <script>
   function displayGraph(divID,val) {
     var x = document.getElementById(divID.id);
