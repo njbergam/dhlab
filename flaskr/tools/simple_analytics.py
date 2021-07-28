@@ -8,7 +8,7 @@ from collections import Counter
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 import statistics
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg') # Increased support for newer osx versions
 import matplotlib.pyplot as plt, mpld3
 import numpy as np
 from nltk.corpus import stopwords
