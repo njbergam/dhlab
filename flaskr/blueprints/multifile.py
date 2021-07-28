@@ -202,7 +202,7 @@ def multiReport():
             for subarray in groups:
                 cleanedInput.append(cleanText2(subarray))
             print("cleanedInput", cleanedInput)
-            print("text2[i]", text2[i])
+            #print("text2[i]", text2[i])
             oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
     for i in range(len(textRsts)):
         print(textRsts[i].pq)

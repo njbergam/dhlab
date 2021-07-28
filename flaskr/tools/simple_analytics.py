@@ -171,7 +171,7 @@ def cleanText2(words):
     stop_words = set(stopwords.words("english"))
     filteredDict = []
     for w in words:
-        if w not in stop_words and len(w) > 3:
+        if w not in stop_words:
             w = lem.lemmatize(w, "v")
             w = s.stem(w)
             filteredDict.append(w)
@@ -543,6 +543,7 @@ def oneTextPlotChronoMap(text, wordlists, title):
     y = []
     x = list(range(int(len(text) / numWordsPerSection) + 1))
     print("x", x)
+    print("wordlists", wordlists)
     #print("text", text)
     for i in range(len(wordlists)):
         #print (i)
