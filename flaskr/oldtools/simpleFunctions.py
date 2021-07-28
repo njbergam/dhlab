@@ -128,7 +128,7 @@ def cleanText(fileName):
 # Return the tokenized array
 def cleanText2(words):
 	lem = WordNetLemmatizer()
-	s = PorterStemmer()
+	#s = PorterStemmer()
 	stop_words=set(stopwords.words("english"))
 	filteredDict = []
 	for w in words:

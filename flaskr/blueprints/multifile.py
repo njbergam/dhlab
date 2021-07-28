@@ -124,21 +124,15 @@ def multiReport():
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
     if "tfidf" in dict:
         print("creating tf-idf")
-
         corpus = [] #generating the corpus from our stock
-
         path = 'flaskr/blueprints/corpus'
         for filename in os.listdir(path):
             corpus.append(simpleTokenize('flaskr/blueprints/corpus/' + filename))
             print(filename)
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
-        print(wordsToBeTfIDFed)
         wordsNoSpaces = []
         for currWord in wordsToBeTfIDFed:
-            print(currWord[0:1])
-            while currWord[0:1] == " ":
-                currWord = currWord[1:]
-            wordsNoSpaces.append(currWord)
+            wordsNoSpaces.append(currWord.replace(" ", ""))
         print(wordsToBeTfIDFed)
         print(wordsNoSpaces)
         tfIdfResults = {}
@@ -150,9 +144,11 @@ def multiReport():
                 result = tfidf(word, simpleTokenize('flaskr/uploads/' + currFile), corpus)
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
-            textRsts[i].tfidf = currScores
-            textRsts[i].tfidf_words = wordsToBeTfIDFed
-
+            tfIdfResults[currFile] = currScores
+        print(tfIdfResults)
+        textRsts[i].tfidf = tfIdfResults #currScores
+        textRsts[i].tfidf_words = wordsToBeTfIDFed
+        print(currScores)
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
     if "POS" in dict:
@@ -189,19 +185,26 @@ def multiReport():
                 overlapInfo.append(temp)
     else:
         overlapCharts.append("1")
-    # if "WordProg" in dict:
-    #     print("creating word progression chart")
-    #     for i in range(len(session['files'])):
-    #         textRsts[i].wp = ''.join(
-    #             random.choices(string.ascii_uppercase + string.digits, k=10))
-    #         arr = dict["WordProgWords"].replace(" ", "").split(';')
-    #         groups = []
-    #         for j in range(len(arr)):
-    #             groups.append(arr[j].split(','))
-    #         oneTextPlotChronoMap(text2[i], groups, textRsts[i].wp)
-    # for i in range(len(textRsts)):
-    #     print(textRsts[i].pq)
-    #     print("a")
+    if "WordProg" in dict:
+        print("creating word progression chart")
+        print(dict["WordProgWords"])
+        cleanedInput = []
+        for i in range(len(session['files'])):
+            textRsts[i].wp = ''.join(
+                random.choices(string.ascii_uppercase + string.digits, k=10))
+            arr = dict["WordProgWords"].replace(" ", "").split(';')
+            print("arr", arr)
+            groups = []
+            for j in range(len(arr)):
+                groups.append(arr[j].split(','))
+            print("groups", groups)
+            for subarray in groups:
+                cleanedInput.append(cleanText2(subarray))
+            print("cleanedInput", cleanedInput)
+            oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
+    for i in range(len(textRsts)):
+        print(textRsts[i].pq)
+        print("a")
 
     selectionsList = list(dict.keys())
 
