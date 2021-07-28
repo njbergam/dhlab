@@ -734,3 +734,29 @@ def tfidf(word, text, corpus):
     print("tf for " + word + " = " + str(tf))
     print("idf for " + word + " = " + str(idf))
     return round(tf * idf, 3)
+
+def createTfidfGraph(data, words):
+    print("in tfidf")
+    print(data)
+    print(words)
+
+    labels = words
+    x = np.arange(len(labels))  # the label locations
+    width = 0.1  # the width of the bars
+
+    fig, ax = plt.subplots();
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('tf-idf')
+    ax.set_title('tf-idf over a five-novel corpus')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+
+    for key,val in data.items():
+        rects1 = ax.bar(x - 2*width, val, width, label=key)
+        ax.bar_label(rects1, padding=3)
+
+    fig.tight_layout()
+
+    plt.savefig("demo.png")
