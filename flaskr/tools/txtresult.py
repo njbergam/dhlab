@@ -6,3 +6,6 @@ class txtResult:
         self.wp = wp
         self.pos = pos
         self.top = top
+        # Key: book, value: list of tfidf values
+        self.tfidf = {}
+        self.tfidf_words = []

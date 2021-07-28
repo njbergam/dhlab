@@ -150,9 +150,10 @@ def multiReport():
                 result = tfidf(word, simpleTokenize('flaskr/uploads/' + currFile), corpus)
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
-            tfIdfResults[currFile] = currScores
-        print(tfIdfResults)
-        textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
+            textRsts[i].tfidf = currScores
+            textRsts[i].tfidf_words = wordsToBeTfIDFed
+
+        # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
     if "POS" in dict:
         print("creating pos chart in multi")
@@ -188,19 +189,19 @@ def multiReport():
                 overlapInfo.append(temp)
     else:
         overlapCharts.append("1")
-    if "WordProg" in dict:
-        print("creating word progression chart")
-        for i in range(len(session['files'])):
-            textRsts[i].wp = ''.join(
-                random.choices(string.ascii_uppercase + string.digits, k=10))
-            arr = dict["WordProgWords"].replace(" ", "").split(';')
-            groups = []
-            for j in range(len(arr)):
-                groups.append(arr[j].split(','))
-            oneTextPlotChronoMap(text2[i], groups, textRsts[i].wp)
-    for i in range(len(textRsts)):
-        print(textRsts[i].pq)
-        print("a")
+    # if "WordProg" in dict:
+    #     print("creating word progression chart")
+    #     for i in range(len(session['files'])):
+    #         textRsts[i].wp = ''.join(
+    #             random.choices(string.ascii_uppercase + string.digits, k=10))
+    #         arr = dict["WordProgWords"].replace(" ", "").split(';')
+    #         groups = []
+    #         for j in range(len(arr)):
+    #             groups.append(arr[j].split(','))
+    #         oneTextPlotChronoMap(text2[i], groups, textRsts[i].wp)
+    # for i in range(len(textRsts)):
+    #     print(textRsts[i].pq)
+    #     print("a")
 
     selectionsList = list(dict.keys())
 
