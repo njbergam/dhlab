@@ -1,59 +1,97 @@
-<style>
-.column {
-  float: left;
-  width: 50%;
-
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.purp-box{
-  background-color: af6ef0;
-  height:6%
-}
-</style>
-
 {% extends 'layout.html' %}
 
-{% block body %}
+{% block content %}
+
+<div class="container p-3">
+  <div class="row">
+    <div class="col-sm-8">
+      <h3> The Do's and Dont's of DHLAB</h3>
+      <h5 class="text-muted mb-3"> Here are some tips to help you get started</h5>
+      <dl class="row">
+        <dt class="col-sm-3">DO find patterns and explore them!</dt>
+        <dd class="col-sm-9">Critical writing is all about looking at patterns and making conclusions based on those patterns. The beauty of DHLab is that it makes the search for these patterns much easier. Take advantage of that!</dd>
+        <dt class="col-sm-3">DON’T rely too heavily on text statistics in your essays.</dt>
+        <dd class="col-sm-9">Numbers aren’t going to do the heavy lifting of your analysis––you are!
+          For example, if you assert that an author uses the dichotomy between light and dark to
+          compare two characters, all our algorithms can do is show the prevalence of these themes
+           and help you find passages about them. It’s up to you to actually analyze those passages
+           on a deeper level.</dd>
+        <dt class="col-sm-3">DO make sure your input file (.txt) is clean</dt>
+        <dd class="col-sm-9">Sometimes there are recurring pieces of text in certain .txt files,
+          like the title of the novel or page numbers. You don’t want those. These
+           can mess up some of your statistics.</dd>
+        <dt class="col-sm-3">DON’T put statistics about your essay in your essay</dt>
+        <dd class="col-sm-9">The statistics you get from thesis analysis should be for your personal writing purposes. Treat the data given to you as a coach's feedback, which you can use to make your writing better.
+          Don’t try flexing the quantitative complexity of your work!</dd>
+        <dt class="col-sm-3">DO tell the development team if you have any questions!</dt>
+        <dd class="col-sm-9">We're open to suggestions! Email us at lstrelecky2022@pingry.org, nbergam2021@pingry.org, swexler2022@pingry.org, or ewen2023@pingry.org.</dd>
+      </dl>
+    </div>
+    <div class="col-sm-4">
+      <img src="../static/howto_pics/gatsbycover.jpeg" alt="The Great Gatsby" class="img-fluid m-auto h-auto">
+    </div>
+
+  </div>
+    <h4> Some examples of where text statistics can come in handy.</h4>
+    <h6>Example use of a DHLab feature to prove a quick point: </h6>
+    <p>Throughout his novel, McCarthy almost incessantly uses the verb “watching” to note the observational
+    role of various characters (Fig. 1).</p>
+
+    <p>In its most general sense, the founding goal of the DHLab is to bring computational methods to bear in humanities classrooms and research projects: hence, the digital humanities. We believe that quantitative and qualitative reasoning go hand-in-hand, and that treating them as mutually exclusive paradigms––one “belonging” to science and math and the other to the humanities––creates unnecessary barriers that can hinder creative thought.</p>
+
+    <p>Within the broad interdisciplinary frontier of the digital humanities, we are most concerned with developing easy-access tools related to natural language processing (NLP), in which computers read, decipher, and seek to understand human language. As such, our primary end user is the English student. We aim to encourage and enable English students to adapt statistical thinking into their critical essay writing process. Of course, this is a rather abstract goal. Let us walk through some concrete examples of how the DHLab can actually come to use.</p>
+
+    <p>One of the easiest yet most powerful descriptive statistics provided by the DHLab is a measure of the most common, non-trivial words in a given text. Words are designated as “trivial” in our model if they belong to the top 500 most common words in the English language. We also use special techniques to group together different inflections of the same word (see Section VI for more details).</p>
 
 
-  <h4> The Do's and Don't's of DHLab for critical essays: <h4> <br><br>
+    <div class="container m-auto">
+      <img src="../static/howto_pics/g1.jpeg" class="img-fluid" style="width: 33%;">
+      <img src="../static/howto_pics/g2.jpeg" class="img-fluid" style="width: 33%;">
+      <img src="../static/howto_pics/g3.jpeg" class="img-fluid" style="width: 33%;">
+    </div>
 
-  <h6>DO find patterns and explore them! </h6><br>
-  <p>Critical writing is all about looking at patterns and making conclusions based on those patterns.
-     The beauty of DHLab is that it makes the search for these patterns much easier. Take advantage of that! </p>
-  <br><br><h6>DON’T rely too heavily on text statistics in your essays.</h6><br>
-  <p>Numbers aren’t going to do the heavy lifting of your analysis––you are!
-    For example, if you assert that an author uses the dichotomy between light and dark to
-    compare two characters, all our algorithms can do is show the prevalence of these themes
-     and help you find passages about them. It’s up to you to actually analyze those passages
-     on a deeper level. </p>
-  <br><br><h6>DO make sure your input file (.txt) is clean</h6><br>
-  <p>Sometimes there are recurring pieces of text in certain .txt files,
-    like the title of the novel or page numbers. You don’t want those. These
-     can mess up some of your statistics.</p>
-  <br><br><h6>DON’T put statistics about your essay in your essay</h6><br>
-  <p>The statistics you get from Thesis Analysis should be for your personal writing purposes.
-    Don’t try flexing the quantitative complexity of your work!</p>
-  <br><br><h6>DO let us know if you have ideas for more algorithms to put on the website!</h6><br>
-  <p>Email nbergam2021@pingry.org, jli2021@pingry.org, or jlee2021@pingry.org</p>
+    <p class="fst-italic text-center w-50 m-auto mb-2">Figure 1: Three word frequency charts quickly generated by the DHLab. From left to right: Moby Dick, by Herman Melville; Jane Eyre, by Charlotte Brontë; and Beloved, by Toni Morrison.</p>
 
-  <br><br>
-  <h4> Some examples of where text statistics can come in handy.</h4>
+    <p>In the digital humanities, as in all subjects, the first thing one should ask whenever faced with a new set of information is: so what? How can this lead us to an interesting conclusion or interpretation? When it comes to word counts, there are two options: we can take a large word count as evidence of the prevalence of a certain theme, or we can start looking at the distribution and the context of these common words. The former is okay, if somewhat underwhelming; the latter is ideal.</p>
+
+    <p>We examine word distributions using what we like to call “word progression” plots. These can help us see the shape of our word count data, which in turn offers us a sort of roadmap with which to navigate a given theme.</p>
+
+    <div class="container m-auto d-flex justify-content-center align-items-center">
+      <img src="../static/howto_pics/wordprog1.jpeg" class="img-fluid" style="width: 33%;">
+      <img src="../static/howto_pics/wordprog2.jpeg" class="img-fluid" style="width: 33%;">
+    </div>
+    <p class="fst-italic text-center w-50 m-auto mb-2">Figure 2: Examples of word progression plots for James Baldwin’s Go Tell it On the Mountain (left) and Cormac McCarthy’s Blood Meridian (right).</p>
+
+    <p>What kind of statements can these graphs support? Left: “The theme of darkness is spread rather evenly throughout the novel, while the theme of light shines through in specific moments with a forceful frequency.” Right: “Throughout his novel, McCarthy almost incessantly uses the verb ‘watching’ to note the observational role of various characters.</p>
 
 
- <h6>Example use of a DHLab feature to prove a quick point: </h6>
-  Throughout his novel, McCarthy almost incessantly uses the verb “watching” to note the observational
-  role of various characters (Fig. 1).
+    <p>A tool that goes hand-in-hand with word progression plots is the passage sampling feature. This tool allows the reader to locate specific passages in which a word of interest shows up. This feature is very good at bringing the reader from the large-scale quantitative pattern perspective to the traditional deep-reading perspective of the English student. Think of it like a time machine that takes you on a guided tour across a story.</p>
+
+    <p>Oftentimes, word counts alone are not enough to justify the relevance of a given theme. For example, the word “nobody” seems to show up quite often in Morrison’s Beloved––but maybe it shows up just as often in other texts. There is a method by which to get a more powerful reading on word relevance, and it is called term frequency, inverse document frequency, or tf-idf for short. Read more about this method in Section VI.</p>
+
+
+    <div class="container m-auto d-flex justify-content-center align-items-center">
+      <img src="../static/howto_pics/tfidf.png" class="img-fluid" style="width: 33%;">
+    </div>
+    <p class="fst-italic text-center w-50 m-auto mb-2">Figure 3: The tf-idf scores of various words in a corpus of three novels.</p>
+    <p>Different scores for words like “whale,” “marry,” and “woman” make sense in the context of the novels and serve as a sort of sanity check for the model. Meanwhile, score differences in words like “nobody” and “smile” are less obvious, and can lead to some interesting investigations.</p>
+
+    <div class="container m-auto d-flex justify-content-center align-items-center">
+      <img src="../static/howto_pics/vector1.png" class="img-fluid" style="width: 33%;">
+      <img src="../static/howto_pics/vector2.png" class="img-fluid" style="width: 33%;">
+    </div>
+    <p class="fst-italic text-center w-50 m-auto mb-2">Figure 4: “Thematic vectorization” using tf-idf scores.</p>
+    <p> These are done by defining themes as lists of words, and then calculating the “relevance” of a theme to a given text by summing the tf-idf of all words in the theme. This allows us to plot novels in “theme space,” which opens us up to machine learning algorithms like k-means clustering.</p>
+
+    <p>The DHLab as it exists now is a lab in the sense that it enables numerical experimentation and analysis of text. However, as the project progresses, we envision a more literal manifestation of a lab, as in a research collective. We want the DHLab to help facilitate research projects and curricular initiatives; to become a sort of student consulting group for interdisciplinary research</p>
+    </p>
 
 
 
 
+
+
+
+</div>
 
 {% endblock %}

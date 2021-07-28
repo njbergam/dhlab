@@ -140,7 +140,7 @@ def cleanText(fileName):
     stop_words = set(stopwords.words("english"))
     filteredDict = []
     for w in words:
-        if w not in stop_words:
+        if w not in stop_words and len(w) > 3:
             w = lem.lemmatize(w, "v")
             w = s.stem(w)
             filteredDict.append(w)
@@ -171,7 +171,7 @@ def cleanText2(words):
     stop_words = set(stopwords.words("english"))
     filteredDict = []
     for w in words:
-        if w not in stop_words:
+        if w not in stop_words and len(w) > 3:
             w = lem.lemmatize(w, "v")
             w = s.stem(w)
             filteredDict.append(w)
@@ -340,7 +340,7 @@ def senlenStats(text):
         arr.append(statistics.stdev(senlen))
     except:
         arr = [-1, -1, -1, -1]
-    return round(statistics.mean(senlen), 3), round(statistics.stdev(senlen), 3)
+    return statistics.mean(senlen), statistics.stdev(senlen)
     #return arr[1], arr[3]
 
 
@@ -540,7 +540,6 @@ def wpReport(text, firstgen, secgen, numTop):
 
 
 def oneTextPlotChronoMap(text, wordlists, title):
-    print("wordlists", wordlists)
     y = []
     x = list(range(int(len(text) / numWordsPerSection) + 1))
     print("x", x)
