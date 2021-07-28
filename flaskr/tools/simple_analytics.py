@@ -709,3 +709,10 @@ def tfidf(word, text, corpus):
     print("tf for " + word + " = " + str(tf))
     print("idf for " + word + " = " + str(idf))
     return round(tf * idf, 3)
+
+def tfidf_vectorization(words, corpus, title):
+
+
+
+    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.close()
