@@ -133,20 +133,20 @@ def multiReport():
             print(filename)
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
         print(wordsToBeTfIDFed)
+        wordsNoSpaces = []
         for currWord in wordsToBeTfIDFed:
             print(currWord[0:1])
-            print(currWord.isspace())
-            while currWord.isspace():
-                # currWord = currWord[1:]
+            while currWord[0:1] == " ":
                 currWord = currWord[1:]
-                print(currWord)
+            wordsNoSpaces.append(currWord)
         print(wordsToBeTfIDFed)
+        print(wordsNoSpaces)
         tfIdfResults = {}
         for i in range(len(session['files'])):
             currFile = session['files'][i]
             print("FINDING TF-IDF FOR: " + currFile)
             currScores = []
-            for word in wordsToBeTfIDFed:
+            for word in wordsNoSpaces:
                 result = tfidf(word, simpleTokenize('flaskr/uploads/' + currFile), corpus)
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
