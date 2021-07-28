@@ -15,6 +15,7 @@ from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
 import random
 import math
+import string
 
 from .vars import ALLOWED_EXTENSIONS
 
@@ -67,6 +68,13 @@ def removeProperNouns(text):
             del text[maxLen - i]
     return text
 
+def removePunctuation(text):
+    noPuncText = []
+    punct = [',', ';', ':', "''", "``" , '-', '—', '(',')' , '...']
+    for word in text:
+        if word not in string.punctuation and word not in punct:
+            noPuncText.append(word)
+    return noPuncText
 
 def text_extractor(pdfFile):
     with open(pdfFile, 'rb') as f:
@@ -134,9 +142,22 @@ def cleanText(fileName):
     for w in words:
         if w not in stop_words and len(w) > 3:
             w = lem.lemmatize(w, "v")
-            #w = s.stem(w)
+            w = s.stem(w)
             filteredDict.append(w)
     return filteredDict
+
+# def cleanText(fileName):
+#     lem = WordNetLemmatizer()
+#     #stem = PorterStemmer()
+#     file = open(fileName, "r")
+#     words = nltk.word_tokenize(file.read())
+#     stop_words = set(stopwords.words("english"))
+#     filteredDict = []
+#     for w in words:
+#         if w not in stop_words:
+#             w = lem.lemmatize(w, "v")
+#             filteredDict.append(w)
+#     return filteredDict
 
 
 # This function should, given a fileName, 1) tokenize the text file
@@ -150,12 +171,25 @@ def cleanText2(words):
     stop_words = set(stopwords.words("english"))
     filteredDict = []
     for w in words:
-        if w not in stop_words and len(w) > 3:
+        if w not in stop_words:
             w = lem.lemmatize(w, "v")
-            #w = s.stem(w)
+            w = s.stem(w)
             filteredDict.append(w)
     return filteredDict
 
+def cleanTextRemovePunc(fileName):
+    lem = WordNetLemmatizer()
+    s = PorterStemmer()
+    file = open(fileName, "r")
+    words = nltk.word_tokenize(file.read())
+    stop_words = set(stopwords.words("english"))
+    filteredDict = []
+    for w in words:
+        if w not in stop_words and w not in string.punctuation:
+            w = lem.lemmatize(w, "v")
+            w = s.stem(w)
+            filteredDict.append(w)
+    return filteredDict
 
 # Tokenizes a comma-delimited string into a list
 def deList(str):
@@ -179,6 +213,8 @@ def detokenize(text):
 def saveTopWords(text, title):
     text = removeProperNouns(text)
     text = txtToLower(text)
+    text = removePunctuation(text)
+    print("TEXT NO PUNC", text)
     wfDict = getWordFreqDict(
         500)  #ignore the most common 500 words: never display them
     counts = Counter(text)
@@ -266,7 +302,8 @@ def POSDensity(array):
 
 # Returns array of the length of each sentence
 def sentenceLength(tokenizedText):
-    punct = [',', ';', ':', "''", "``", '-', '—', '(', ')', '...']
+    #punct = [',', ';', ':', "''", "``", '-', '—', '(', ')', '...']
+    punct = ['.', "?", "!"]
     lens = []
     senlen = 0
     i = 0
@@ -304,7 +341,7 @@ def senlenStats(text):
         arr.append(statistics.stdev(senlen))
     except:
         arr = [-1, -1, -1, -1]
-    return statistics.mean(senlen), statistics.stdev(senlen)
+    return round(statistics.mean(senlen),1), round(statistics.stdev(senlen),1)
     #return arr[1], arr[3]
 
 
@@ -408,20 +445,6 @@ def wordProgression(text, words):
     return occurences
 
 
-def cleanText(fileName):
-    lem = WordNetLemmatizer()
-    stem = PorterStemmer()
-    file = open(fileName, "r")
-    words = nltk.word_tokenize(file.read())
-    stop_words = set(stopwords.words("english"))
-    filteredDict = []
-    for w in words:
-        if w not in stop_words and len(w) > 3:
-            w = lem.lemmatize(w, "v")
-            filteredDict.append(w)
-    return filteredDict
-
-
 # Generates a list of a list of related words, based on wikipedia page
 # for the given list
 # Given ogWords=[yellow, fish] and numWords = 2
@@ -520,6 +543,9 @@ def wpReport(text, firstgen, secgen, numTop):
 def oneTextPlotChronoMap(text, wordlists, title):
     y = []
     x = list(range(int(len(text) / numWordsPerSection) + 1))
+    print("x", x)
+    print("wordlists", wordlists)
+    #print("text", text)
     for i in range(len(wordlists)):
         #print (i)
         y.append(wordProgression(txtToLower(text), wordlists[i]))
@@ -710,9 +736,50 @@ def tfidf(word, text, corpus):
     print("idf for " + word + " = " + str(idf))
     return round(tf * idf, 3)
 
-def tfidf_vectorization(words, corpus, title):
+def createTfidfGraph(data, words):
+    print("in tfidf")
+    print(data)
+    print(words)
 
+    labels = words
+    x = np.arange(len(labels))  # the label locations
+    width = 0.1  # the width of the bars
 
+    fig, ax = plt.subplots();
 
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('tf-idf')
+    ax.set_title('tf-idf over a five-novel corpus')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+#mpatches?
+    for key,val in data.items():
+        rects1 = ax.bar(x - 2*width, val, width, label=key)
+        ax.bar_label(rects1, padding=3)
+
+    fig.tight_layout()
+    plt.show()
+    plt.savefig("demo.png")
+
+"""
+    y = []
+    x = list(range(int(len(text) / numWordsPerSection) + 1))
+    print("x", x)
+    print("wordlists", wordlists)
+    #print("text", text)
+    for i in range(len(wordlists)):
+        #print (i)
+        y.append(wordProgression(txtToLower(text), wordlists[i]))
+        #print (y)
+        #plt.title("Word Group Progressions through Novel")
+        plt.ylabel("Num occurances per 100 words")
+        plt.xlabel("Progression of novel (by every 100 words)")
+        lbl = str(wordlists[i][0])
+        for j in range(1, len(wordlists[i])):
+            lbl += ", " + str(wordlists[i][j])
+        plt.bar(x, y[i], label=lbl)
+        plt.legend()
     plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
+"""

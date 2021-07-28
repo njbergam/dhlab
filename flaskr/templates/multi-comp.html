@@ -63,7 +63,7 @@
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="WordProg" id="wordProgBox">
           <label for="wordProgBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Plots frequency of given group(s) of words over the course of the novel."">Word Progression</label>
-          <input type="text" class="form-control" name="WordProgWords" id="WordProgWords" placeholder="Enter words for WP (seperated with commas)." data-bs-trigger="focus" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" title="this is a title" data-bs-content="this kid has no idea what hes doing with flask">
+          <input type="text" class="form-control" name="WordProgWords" id="WordProgWords" placeholder="Enter words for WP" data-bs-trigger="focus" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" title="How to use:" data-bs-content="Track multiple words in the same theme by separating them with commas. Separate themes (or unrelated words) with semicolons. Ex: theme1Word, theme1Word; theme2. NOTE: input words are stemmed into root form" autocomplete="off">
         </div>
 
         <!-- Term frequency-inverse document frequency <br> <br>
@@ -71,7 +71,7 @@
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="tfidf" id="TfIdfBox">
           <label for="TfIdfBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Provides a measure for how important a word is to a certain text in a corpus.">Word Relevance (using TF-IDF)</label>
-          <input type="text" class="form-control" name="TfIdfWords" id="TfIdfWords" placeholder="Enter words for tf-idf (seperated with commas).">
+          <input type="text" class="form-control" name="TfIdfWords" id="TfIdfWords" placeholder="Enter words for tf-idf (separated with commas)." autocomplete="off">
         </div>
         <!-- TfIdfWords box id and name -->
 

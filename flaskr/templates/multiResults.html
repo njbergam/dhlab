@@ -2,23 +2,123 @@
 {% block content %}
 <div class="p-3 w-75 h-75 m-auto">
 
-  <h1> Results of Multi-Text Analysis </h1>
+  <h1 class="mb-2"> Results of Multi-Text Analysis </h1>
 
-  {% if "SLength" in selections %}
-  <h3> Sentence Length Statistics </h3>
-  <div class = "div2" id = "senID">
-    {% for result in results %}
-    <p style="text-align:left">
-
-      <div class = "div2" id = "senID">
-        <b> Sentence Length Statistics of {{result.name}} </b>
-        <p> Mean: {{ result.sen_avg }} </p>
-        <p> Standard Deviation: {{ result.sen_stdv }} </p>
+    <div class="accordion" id="accordionExample">
+      <!-- Sentence length results -->
+      {% if "SLength" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#slength" aria-expanded="true" aria-controls="collapseOne">
+            Sentence Length Statistics
+          </button>
+        </h2>
+        <div id="slength" class="accordion-collapse collapse show" aria-labelledby="headingOne" >
+          <div class="accordion-body">
+            {% for result in results %}
+              <div class = "div2" id = "senID">
+                <b> Sentence Length Statistics of {{result.name}} </b>
+                <p> Mean: {{ result.sen_avg }} </p>
+                <p> Standard Deviation: {{ result.sen_stdv }} </p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
+      {% endif %}
 
-    {% endfor %}
-  </div>
-  {% endif %}
+      <!-- Part of speech results -->
+      {% if "POS" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pos" aria-expanded="true" aria-controls="collapseOne">
+            Part of Speech Distribution
+          </button>
+        </h2>
+        <div id="pos" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            {% for result in results %}
+              <h6> Part of Speech Distribution for {{result.name}} </h6>
+              <img src = {{ '/static/graphs/' + result.pos + '.png'  }} width = 55% alt = 'figure' >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Top words results -->
+      {% if "TopWords" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#topwords" aria-expanded="true" aria-controls="collapseOne">
+            Graph of Top Words
+          </button>
+        </h2>
+        <div id="topwords" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            {% for result in results %}
+              <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Overlap words results -->
+      {% if "over" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#overlap" aria-expanded="true" aria-controls="collapseOne">
+            Graph of Overlapped Words
+          </button>
+        </h2>
+        <div id="overlap" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            {% for result in overlap %}
+              <h6> Graph of Overlap for {{result[0]}} </h6>
+              <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Word progresison results -->
+      {% if "WordProg" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#wordprog" aria-expanded="true" aria-controls="collapseOne">
+            Graph of Word Progression
+          </button>
+        </h2>
+        <div id="wordprog" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            {% for result in results %}
+              <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- TFIDF progresison results -->
+      {% if "tfidf" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tfidf" aria-expanded="true" aria-controls="collapseOne">
+            TF-IDF data
+          </button>
+        </h2>
+        <div id="tfidf" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            {% for result in results %}
+              <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
 
   <script>
     function displayNum(divID,val) {
@@ -33,45 +133,7 @@
     displayNum(senID,{{results[0].sen}});
   </script>
 
-  {% if "POS" in selections %}
-  <div class = "div2" id = "posID" style = "width:80%">
-    <h3 style> Part of Speech Distribution </h3>
-    {% for result in results %}
-    <h6> Part of Speech Distribution for {{result.name}} </h6>
-    <img src = {{ '/static/graphs/' + result.pos + '.png'  }} width = 55% alt = 'figure' >
-    {% endfor %}
-  </div>
-  {% endif %}
 
-  {% if "TopWords" in selections %}
-  <div class = "div2" id = "topID" style = "width:80%">
-    <h3 style> Graph of Top Words </h3>
-    {% for result in results %}
-    <h6> Graph of Top Words for {{result.name}} </h6>
-    <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  {% if "over" in selections %}
-  <div class = "div2" id = "overID" style = "width:80%">
-    <h3 style> Graph of Overlapped Words </h3>
-    {% for result in overlap %}
-    <h6> Graph of Overlap for {{result[0]}} </h6>
-    <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  {% if "WordProg" in selections %}
-  <div class = "div2" id = "wpID" style = "width:80%">
-    <h3 style> Graph of Word Progression </h3>
-    {% for result in results %}
-    <h6> Graph of Word Progression for {{result.name}} </h6>
-    <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
-    {% endfor %}
-  </div>
-  {% endif %}
 
   <script>
   function displayGraph(divID,val) {
