@@ -136,20 +136,19 @@ def multiReport():
             wordsNoSpaces.append(currWord.replace(" ", ""))
 
         tfIdfResults = {}
-        for i in range(len(session['files'])):
-            currFile = session['files'][i]
-            print("FINDING TF-IDF FOR: " + currFile)
+        for word in wordsNoSpaces:
             currScores = []
-            for word in wordsNoSpaces:
-                result = tfidf(word, simpleTokenize('flaskr/uploads/' + currFile), corpus)
+            for i in range(len(session['files'])):
+                result = tfidf(word, simpleTokenize('flaskr/uploads/' + session['files'][i]), corpus)
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
-            tfIdfResults[currFile] = currScores
+            tfIdfResults[word] = currScores
+        print(session['files'])
 
-            textRsts[i].tfidf = tfIdfResults #currScores
-            textRsts[i].tfidf_words = wordsToBeTfIDFed
+        textRsts[i].tfidf = tfIdfResults #currScores
+        textRsts[i].books = session['files']
 
-        createTfidfGraph(tfIdfResults, wordsToBeTfIDFed)
+        createTfidfGraph(tfIdfResults, textRsts[i].books)
 
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
