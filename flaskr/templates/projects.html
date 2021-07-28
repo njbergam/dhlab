@@ -1,51 +1,44 @@
 {% extends 'layout.html' %}
 
-{% block body %}
+{% block content %}
 
+<div class="p-5 m-auto">
+  <div class="mb-3">
+    <h3> The Digital Humanities Lab is dedicated to helping facilitate innovative humanities research and curricula at Pingry and beyond.</h3>
+    <h5 class="text-muted">Here are a few of the projects we would like to showcase. </h5>
+  </div>
 
-<head>
-  <title> Projects - DHLAB </title>
-  <meta charset="UTF-8" lang="en">
-</head>
+  <div class="d-flex justify-content-around flex-wrap" id="allProjects">
 
+    {#
 
-<body>
-
-  <img src="static/logo.png" alt="Logo" width="30%" height="auto">
-  <h5> The Digital Humanities Lab is dedicated to helping facilitate innovative
-    humanities research and curricula at Pingry and beyond. Here are just a few of the projects
-  we would like to showcase. </h5>
-  <br>
-
-
-<div id="allProjects">
-
-  {#
-
-    <!-- Template for a project card -->
-  <div class="card mb-3" style="max-width: 840px;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img
-          src=""
-          alt="..."
-          class="img-fluid"
-        />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <p class="card-text"></p>
-          <p class="card-text">
-            <small class="text-muted"></small>
-          </p>
+      <!-- Template for a project card -->
+    <div class="card mb-3" style="max-width: 840px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            src=""
+            alt="..."
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text"></p>
+            <p class="card-text">
+              <small class="text-muted"></small>
+            </p>
+          </div>
         </div>
       </div>
     </div>
+
+    #}
   </div>
-  #}
+</div>ß
+
 
 <script type="text/javascript" src="{{ url_for("static", filename="/script/projects.js")}}"></script>
 
-</body>
 {% endblock %}
