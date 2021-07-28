@@ -752,11 +752,33 @@ def createTfidfGraph(data, words):
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.legend()
-
+#mpatches?
     for key,val in data.items():
         rects1 = ax.bar(x - 2*width, val, width, label=key)
         ax.bar_label(rects1, padding=3)
 
     fig.tight_layout()
-
+    plt.show()
     plt.savefig("demo.png")
+
+"""
+    y = []
+    x = list(range(int(len(text) / numWordsPerSection) + 1))
+    print("x", x)
+    print("wordlists", wordlists)
+    #print("text", text)
+    for i in range(len(wordlists)):
+        #print (i)
+        y.append(wordProgression(txtToLower(text), wordlists[i]))
+        #print (y)
+        #plt.title("Word Group Progressions through Novel")
+        plt.ylabel("Num occurances per 100 words")
+        plt.xlabel("Progression of novel (by every 100 words)")
+        lbl = str(wordlists[i][0])
+        for j in range(1, len(wordlists[i])):
+            lbl += ", " + str(wordlists[i][j])
+        plt.bar(x, y[i], label=lbl)
+        plt.legend()
+    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.close()
+"""
