@@ -32,14 +32,13 @@
     </div>
 
   </div>
-    <h4> Some examples of where text statistics can come in handy.</h4>
-    <h6>Example use of a DHLab feature to prove a quick point: </h6>
-    <p>Throughout his novel, McCarthy almost incessantly uses the verb “watching” to note the observational
-    role of various characters (Fig. 1).</p>
+    <h4> How to use DHLab in the English class </h4>
 
-    <p>In its most general sense, the founding goal of the DHLab is to bring computational methods to bear in humanities classrooms and research projects: hence, the digital humanities. We believe that quantitative and qualitative reasoning go hand-in-hand, and that treating them as mutually exclusive paradigms––one “belonging” to science and math and the other to the humanities––creates unnecessary barriers that can hinder creative thought.</p>
 
-    <p>Within the broad interdisciplinary frontier of the digital humanities, we are most concerned with developing easy-access tools related to natural language processing (NLP), in which computers read, decipher, and seek to understand human language. As such, our primary end user is the English student. We aim to encourage and enable English students to adapt statistical thinking into their critical essay writing process. Of course, this is a rather abstract goal. Let us walk through some concrete examples of how the DHLab can actually come to use.</p>
+    <p>In its most general sense, the founding goal of the DHLab is to bring computational methods to bear in humanities classrooms and research projects:
+      hence, the <b> digital humanities (DH)</b>. We believe that quantitative and qualitative reasoning go hand-in-hand, and that treating them as mutually exclusive paradigms––one “belonging” to science and math and the other to the humanities––creates unnecessary barriers that can hinder creative thought.</p>
+
+    <p>Within the broad interdisciplinary frontier of the digital humanities, we are most concerned with developing easy-access tools related to <b>natural language processing (NLP)</b>, in which computers read, decipher, and seek to understand human language. As such, our primary end user is the English student. We aim to encourage and enable English students to adapt statistical thinking into their critical essay writing process. Of course, this is a rather abstract goal. Let us walk through some concrete examples of how the DHLab can actually come to use.</p>
 
     <p>One of the easiest yet most powerful descriptive statistics provided by the DHLab is a measure of the most common, non-trivial words in a given text. Words are designated as “trivial” in our model if they belong to the top 500 most common words in the English language. We also use special techniques to group together different inflections of the same word (see Section VI for more details).</p>
 
@@ -67,14 +66,22 @@
 
     <p>A tool that goes hand-in-hand with word progression plots is the passage sampling feature. This tool allows the reader to locate specific passages in which a word of interest shows up. This feature is very good at bringing the reader from the large-scale quantitative pattern perspective to the traditional deep-reading perspective of the English student. Think of it like a time machine that takes you on a guided tour across a story.</p>
 
-    <p>Oftentimes, word counts alone are not enough to justify the relevance of a given theme. For example, the word “nobody” seems to show up quite often in Morrison’s Beloved––but maybe it shows up just as often in other texts. There is a method by which to get a more powerful reading on word relevance, and it is called term frequency, inverse document frequency, or tf-idf for short. Read more about this method in Section VI.</p>
+    <p>Oftentimes, word counts alone are not enough to justify the relevance of a given theme. For example, the word “nobody” seems to show up quite often in Morrison’s Beloved––but maybe it shows up just as often in other texts. There is a method by which to get a more powerful reading on word relevance, and it is called <b>term frequency, inverse document frequency (tf-idf)</b>. tf-idf is a basic measure of how relevant a word is to a document relative to a whole corpus. It is rather intuitive––it takes into account the number of times a word shows up in a given text (“tf”) as well as how often it shows up in the greater corpus (“idf”). It is the product of tf and idf, which are calculated as follows. </p>
+
+    <div class="container m-auto d-flex justify-content-center align-items-center">
+      <img src="../static/howto_pics/tfidf_equation.png" class="img-fluid" style="width: 33%;">
+    </div>
+
+    <p> tf-idf opens the door to a new level of analysis. It gives us a more rigorous perspective on the word choice of certain authors. It allows us to think of texts as gigantic, easily comparable vectors, where each entry of the vector is the tf-idf of a word in the vocabulary. That would be very clunky to handle, of course, but it's a start (and vectorization of complex, ineffable things
+      is what data science is all about, after all).
+    </p>
 
 
     <div class="container m-auto d-flex justify-content-center align-items-center">
       <img src="../static/howto_pics/tfidf.png" class="img-fluid" style="width: 33%;">
     </div>
     <p class="fst-italic text-center w-50 m-auto mb-2">Figure 3: The tf-idf scores of various words in a corpus of three novels.</p>
-    <p>Different scores for words like “whale,” “marry,” and “woman” make sense in the context of the novels and serve as a sort of sanity check for the model. Meanwhile, score differences in words like “nobody” and “smile” are less obvious, and can lead to some interesting investigations.</p>
+    <p> We can handpick certain words and certain texts and compare the relevance of certain words across them. See Figure 3 above. Different scores for words like “whale,” “marry,” and “woman” make sense in the context of the novels and serve as a sort of sanity check for the model. Meanwhile, score differences in words like “nobody” and “smile” are less obvious, and can lead to some interesting investigations.</p>
 
     <div class="container m-auto d-flex justify-content-center align-items-center">
       <img src="../static/howto_pics/vector1.png" class="img-fluid" style="width: 33%;">
@@ -84,7 +91,6 @@
     <p> These are done by defining themes as lists of words, and then calculating the “relevance” of a theme to a given text by summing the tf-idf of all words in the theme. This allows us to plot novels in “theme space,” which opens us up to machine learning algorithms like k-means clustering.</p>
 
     <p>The DHLab as it exists now is a lab in the sense that it enables numerical experimentation and analysis of text. However, as the project progresses, we envision a more literal manifestation of a lab, as in a research collective. We want the DHLab to help facilitate research projects and curricular initiatives; to become a sort of student consulting group for interdisciplinary research</p>
-    </p>
 
 
 

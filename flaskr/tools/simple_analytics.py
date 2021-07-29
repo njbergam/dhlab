@@ -16,6 +16,7 @@ from PyPDF2 import PdfFileReader
 import random
 import math
 import string
+import matplotlib.patches as mpatches
 
 from .vars import ALLOWED_EXTENSIONS
 
