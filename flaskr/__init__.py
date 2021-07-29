@@ -123,20 +123,21 @@ def create_app(test_config=None):
     # Landing page for passage sampling
     @app.route('/passage', methods=['GET', 'POST'])
     def passage():
+        print(session["files"])
         session['priorUrl'] = '/passage'
         if "fnameDisplay" not in session:
             fnameDisplay = ''
         else:
             fnameDisplay = session['fnameDisplay']
         session['fnameDisplay'] = ''
-        return render_template('passage.html', fname=fnameDisplay)
+        return render_template('passage.html', files=session["files"])
 
     @app.route('/passage-results', methods=['GET', 'POST'])
     def passageResults():
         dict = request.form.to_dict()
         print(dict)
         passages, numFound = samplePassage(
-            simpleTokenize("flaskr/uploads/" + fname), dict["term"],
+            simpleTokenize("flaskr/uploads/" + session["files"][0]), dict["term"],
             dict["numSamp"], dict["wordCount"], dict["firstpage"],
             dict["lastpage"])
         return render_template('passageResults.html',

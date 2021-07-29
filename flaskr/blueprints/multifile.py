@@ -59,13 +59,14 @@ def upload_multifile():
             if file and file.filename != "" and allowed_file(file.filename):
                 files.append(secure_filename(file.filename))
 
-                print("Now saving file" + file.filename)
+                print("Now saving file: " + file.filename)
 
                 file.save(
                     os.path.join(UPLOAD_FOLDER,
                                  secure_filename(file.filename)))
 
         session["files"] = files
+        print(session["files"])
         return redirect(session["priorUrl"])
 
     session['failedMulti'] = 1
@@ -77,14 +78,10 @@ def removefile(filename):
     # Get the parameter
     print("Received delete request: " + filename)
 
-    print(session["files"])
-
     session["files"].remove(filename)
     session.modified = True
 
-    print(session["files"])
-
-    return redirect('/analytics')
+    return redirect(session["priorUrl"])
 
 
 @multifile.route('/reportMulti', methods=['GET', 'POST'])

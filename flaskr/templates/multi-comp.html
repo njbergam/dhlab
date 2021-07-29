@@ -4,34 +4,8 @@
 
 <!-- Outer flex container for two columns -->
 <div class="w-75 h-75 p-3 m-auto d-flex flex-row justify-content-around align-items-start">
-  <!-- Left column containing upload information -->
-  <div class="p-3">
-    <form id="fileupload" method="POST" enctype="multipart/form-data" action="/upload_multifile">
-      <!-- Internal flex column container for form data -->
-        <div class="d-flex flex-column justify-content-around">
-          <div class="mb-2">
-            <label for="files1" class="form-label h3">File Upload</label>
-            <input type="file" name="file[]" class="form-control files" id="files1" multiple="">
-          </div>
-          <input button class="btn btn-primary" type="submit" value="Upload">
 
-          <!-- Only show the uploaded files if there are any -->
-          <div class="mt-2">
-            {% if files %}
-            <h5>Uploaded Files</h5>
-
-            <ul class="mt-sm">
-                {% for item in files%}
-                    <li>{{item}} <a class="removeFile" href = {{ url_for("multifile.removefile", filename=item) }}>Remove</a></li>
-                {% endfor %}
-            </ul>
-
-            {% endif %}
-          </div>
-        </div>
-
-    </form>
-  </div>
+  {% include "./includes/_uploadmulti.html" %}
 
   <div class="p-3">
     <div class="mb-3">
