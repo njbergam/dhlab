@@ -123,7 +123,6 @@ def create_app(test_config=None):
     # Landing page for passage sampling
     @app.route('/passage', methods=['GET', 'POST'])
     def passage():
-        fname = session['fname']
         session['priorUrl'] = '/passage'
         if "fnameDisplay" not in session:
             fnameDisplay = ''
@@ -134,8 +133,6 @@ def create_app(test_config=None):
 
     @app.route('/passage-results', methods=['GET', 'POST'])
     def passageResults():
-        fname = session['fname']
-        print(fname)
         dict = request.form.to_dict()
         print(dict)
         passages, numFound = samplePassage(
