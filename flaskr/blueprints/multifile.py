@@ -105,7 +105,7 @@ def multiReport():
 
     # Loop through each of the files and extract it into an array containing the text
     for i in range(len(session['files'])):
-        print("Currently processing file: " + session['files'][i])
+        print("[Report] Currently processing file: " + session['files'][i])
 
         if session['files'][i][-4:] == '.pdf':
             text.append(text_extractor('flaskr/uploads/' +
