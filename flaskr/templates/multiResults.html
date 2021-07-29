@@ -109,16 +109,17 @@
             TF-IDF data
           </button>
         </h2>
-        <div id="tfidf" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+        <div id="tfidf" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
           <div class="accordion-body">
             {% for result in results %}
-              <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
+              <p>{{result.tfidf}}</p>
             {% endfor %}
           </div>
         </div>
       </div>
       {% endif %}
     </div>
+
 
   <script>
     function displayNum(divID,val) {
