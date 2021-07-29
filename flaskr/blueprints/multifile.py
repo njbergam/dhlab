@@ -36,7 +36,6 @@ def multi():
         files = []
         session['files'] = []
     else:
-        print(session["files"])
         files = session['files']
 
     deleteGraphFolder()
@@ -45,9 +44,6 @@ def multi():
 
 # Helper method to delete all files in the graph folder.
 def deleteGraphFolder():
-    print("deleting")
-    print(os.path.dirname(__file__))
-
     currDir = os.path.dirname(__file__)
     relativePath = "/../static/graphs"
 
@@ -70,7 +66,7 @@ def upload_multifile():
             if file and file.filename != "" and allowed_file(file.filename):
                 files.append(secure_filename(file.filename))
 
-                print("Now saving file" + file.filename)
+                print("[Upload] Now saving file" + file.filename)
 
                 file.save(
                     os.path.join(UPLOAD_FOLDER,
@@ -86,7 +82,7 @@ def upload_multifile():
 @multifile.route('/removefile/<filename>', methods=['GET'])
 def removefile(filename):
     # Get the parameter
-    print("Received delete request: " + filename)
+    print("[Delete] Received delete request: " + filename)
     session["files"].remove(filename)
     session.modified = True
     return redirect('/analytics')
@@ -94,7 +90,7 @@ def removefile(filename):
 
 @multifile.route('/reportMulti', methods=['GET', 'POST'])
 def multiReport():
-    print("in multiReport() in multifile.py")
+    print("[Report] Computing results...")
 
     # Make sure that there are files that the user uploaded
     if len(session['files']) == 0:
@@ -123,7 +119,7 @@ def multiReport():
 
     # Average sentence length throughout the app
     if "SLength" in dict:
-        print("creating sentence length chart")
+        print("[Results] Computing sentence length stats")
 
         for i in range(len(session['files'])):
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
@@ -158,25 +154,23 @@ def multiReport():
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
     if "POS" in dict:
-        print("creating pos chart in multi")
+        print("[Results] Computing POS distribution")
         for i in range(len(session['files'])):
             textRsts[i].pos = ''.join(
                 random.choices(string.ascii_uppercase + string.digits,
                                k=10))  #title of the generated chart
             savePOSPiChart(text2[i], textRsts[i].pos)
     if "TopWords" in dict:
-        print("creating top words chart")
+        print("[Results] Creating top words chart")
         for i in range(len(session['files'])):
             textRsts[i].top = ''.join(
                 random.choices(string.ascii_uppercase + string.digits, k=10))
             saveTopWords(text2[i], textRsts[i].top)
 
-        print("TEXT RESULTS")
-        print(textRsts[i].top)
     overlapCharts = []
     overlapInfo = []
     if "over" in dict:
-        print("creating overlap chart")
+        print("[Results] Creating overlap chart")
         k = int(len(session['files']) * (len(session['files']) - 1) / 2 + 0.5)
         for i in range(k):
             overlapCharts.append(''.join(
@@ -195,11 +189,10 @@ def multiReport():
     else:
         overlapCharts.append("1")
     if "WordProg" in dict:
-        print("creating word progression chart")
-        print(dict["WordProgWords"])
+        print("[Results]")
         for i in range(len(session['files'])):
             cleanedInput = []
-            print("working on", session['files'][i])
+
             textRsts[i].wp = ''.join(
                 random.choices(string.ascii_uppercase + string.digits, k=10))
             arr = dict["WordProgWords"].replace(" ", "").split(';')
@@ -208,12 +201,9 @@ def multiReport():
                 groups.append(arr[j].split(','))
             for subarray in groups:
                 cleanedInput.append(cleanText2(subarray))
-            print("cleanedInput", cleanedInput)
-            #print("text2[i]", text2[i])
+
             oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
-    for i in range(len(textRsts)):
-        print(textRsts[i].pq)
-        print("a")
+
 
     selectionsList = list(dict.keys())
 
