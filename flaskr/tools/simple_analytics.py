@@ -786,3 +786,26 @@ def createTfidfGraph(data, words):
     plt.close()
 """
 
+# Returns a dataframe where rows are words and columns are
+def tfidf_matrix(words, corpus, titles):
+    idf = np.array()
+    for word in words:
+        x = 0
+        for text in corpus:
+            if word in text:
+                x += 1
+        idf.append( math.log( 1 + len(corpus) / x ) )
+
+    tf = np.array()
+    for i in range(len(words)):
+        for j in range(len(corpus)):
+            x = 0
+            for word in corpus[j]:
+                if word == words[i]:
+                    x += 1
+            tf.append(log(1 + tf[i]))
+
+    matrix = np.outer(tf, idf)
+    final = pd.dataFrame(matrix, columns = titles, index = words)
+    print(final)
+    return final
