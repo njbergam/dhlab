@@ -212,6 +212,7 @@ def detokenize(text):
 
 # Creates and saves a bar graph of the most common words in a text
 def saveTopWords(text, title):
+    print("TITLE" + title)
     text = removeProperNouns(text)
     text = txtToLower(text)
     text = removePunctuation(text)
@@ -784,3 +785,4 @@ def createTfidfGraph(data, words):
     plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
 """
+

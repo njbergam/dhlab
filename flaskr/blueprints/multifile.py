@@ -33,15 +33,27 @@ def multi():
     session['priorUrl'] = '/analytics'
 
     if 'files' not in session:
-        print("empty files")
         files = []
         session['files'] = []
     else:
         print(session["files"])
         files = session['files']
 
+    deleteGraphFolder()
+
     return render_template('multi-comp.html', files=files, fail=fail)
 
+# Helper method to delete all files in the graph folder.
+def deleteGraphFolder():
+    print("deleting")
+    print(os.path.dirname(__file__))
+
+    currDir = os.path.dirname(__file__)
+    relativePath = "/../static/graphs"
+
+    for file in os.listdir(currDir + relativePath):
+        print("[Clearing Graphs] Deleting " + file + ".")
+        os.remove(currDir + relativePath + "/" + file)
 
 @multifile.route("/upload_multifile", methods=["POST"])
 def upload_multifile():
@@ -51,7 +63,6 @@ def upload_multifile():
             return redirect(session["priorUrl"])
 
         uploadedFiles = request.files.getlist("file[]")
-        print(uploadedFiles)
 
         files = []
 
@@ -76,14 +87,8 @@ def upload_multifile():
 def removefile(filename):
     # Get the parameter
     print("Received delete request: " + filename)
-
-    print(session["files"])
-
     session["files"].remove(filename)
     session.modified = True
-
-    print(session["files"])
-
     return redirect('/analytics')
 
 
@@ -165,6 +170,9 @@ def multiReport():
             textRsts[i].top = ''.join(
                 random.choices(string.ascii_uppercase + string.digits, k=10))
             saveTopWords(text2[i], textRsts[i].top)
+
+        print("TEXT RESULTS")
+        print(textRsts[i].top)
     overlapCharts = []
     overlapInfo = []
     if "over" in dict:
