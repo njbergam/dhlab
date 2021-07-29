@@ -7,10 +7,12 @@
 <textCenter><h1> Results of Single-Text Analysis </h1></textCenter>
 
 <div class = "div2" id = "pqID">
-  <p> Percent Quotes: {{result.pq}} </p>
+  <p> About {{result.pq}}% of the text is in quotes (presumably dialogue). </p>
 </div>
 <div class = "div2" id = "senID">
-  <p> Average Sentence Length: {{result.sen}} </p>
+  <b> Sentence Length Statistics </b>
+  <p> Mean: {{ result.sen_avg }} </p>
+  <p> Standard Deviation: {{ result.sen_stdv }} </p>
 </div>
 <script>
 function displayNum(divID,val) {
@@ -24,7 +26,7 @@ function displayNum(divID,val) {
 displayNum(pqID,{{result.pq}});
 </script>
 <script>
-displayNum(senID,{{result.sen}});
+displayNum(senID,{{result.sen_avg}});
 </script>
 <div class = "div2" id = "posID" style = "width:80%">
   <h3 style> Part of Speech Distribution </h3>

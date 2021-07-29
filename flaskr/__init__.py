@@ -17,6 +17,9 @@ import nltk
 #from .tools.TOOLS import *
 from .tools1 import *
 
+
+
+
 #branch = "/Users/mirobergam/Desktop/dhlab/flaskr"
 branch = "/var/www/html/dhlab/flaskr"
 # ^ CHANGE THIS WHEN YOU RUN ON YOUR LOCAL DEVICE
@@ -24,15 +27,6 @@ UPLOAD_FOLDER = branch + '/uploads'
 GRAPHS_FOLDER = branch + '/templates/static/graphs'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-csp = {
-    'default-src': [
-        '\'self\'',
-        '\'unsafe-inline\'',
-        'stackpath.bootstrapcdn.com',
-        'code.jquery.com',
-        'cdn.jsdelivr.net'
-    ]
-}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -41,8 +35,6 @@ def allowed_file(filename):
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    talisman = Talisman(app, content_security_policy=csp)
-    Talisman(app)
 
     app.config.from_mapping(
         SECRET_KEY='password',
@@ -160,7 +152,7 @@ def create_app(test_config=None):
             textRst.pq = percentQuotes(text)
             print("getting percent quotes")
         if "SLength" in dict:
-            textRst.sen = senlenStats(text)
+            textRst.sen_avg, textRst.sen_stdv = senlenStats(text)
             print("sentence length")
         if "POS" in dict:
             print("creating pos chart")
@@ -261,13 +253,14 @@ def create_app(test_config=None):
         textRsts = []
         for i in range(len(session['files'])):
             print("HOLLAA")
-            print(session['fname'][i])
-            if session['fname'][i][-4:] == '.pdf':
+            print(session['files'])
+            print(session['files'][i])
+            if session['files'][i][-4:] == '.pdf':
                 text.append(text_extractor( 'flaskr/uploads/' + session['files'][i] ))
                 text2.append(cleanText2( 'flaskr/uploads/' + session['files'][i] ))
             else:
-                text.append(simpleTokenize( 'flaskr/uploads/' + session['fname'][i] ))
-                text2.append(cleanText( 'flaskr/uploads/' + session['fname'][i] ))
+                text.append(simpleTokenize( 'flaskr/uploads/' + session['files'][i] ))
+                text2.append(cleanText( 'flaskr/uploads/' + session['files'][i] ))
             textRsts.append(txtResult(session['files'][i],-1,-1,"1","1","1"))
         if "PercentQuotes" in dict:
             for i in range(len(session['files'])):
@@ -340,8 +333,8 @@ def create_app(test_config=None):
         print (fname)
         dict = request.form.to_dict()
         print (dict)
-        passages = samplePassage(simpleTokenize("flaskr/uploads/" + fname), dict["term"], dict["numSamp"], dict["wordCount"])
-        return render_template('passageResults.html', passages = passages)
+        passages, numFound = samplePassage(simpleTokenize("flaskr/uploads/" + fname), dict["term"], dict["numSamp"], dict["wordCount"], dict["firstpage"],dict["lastpage"])
+        return render_template('passageResults.html', passages = passages, numFound = numFound)
 
     @app.route('/thesis-result', methods = ['GET', 'POST'])
     def result():
@@ -444,7 +437,7 @@ def create_app(test_config=None):
         #flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret.json',scopes=['https://www.googleapis.com/auth/drive.metadata.readonly'],code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
         #flow.redirect_uri = 'http://localhost:5000/oauth_callback'
         oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file('flaskr/client_secret.json',scopes=['https://www.googleapis.com/auth/drive.file'])
-        flow = google_auth_oauthlib.flow.Flow(oauth2_session, client_type='web', client_config=client_config, redirect_uri='http://localhost:5000/oauth_callback', code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
+        flow = google_auth_oauthlib.flow.Flow(oauth2_session, client_type='web', client_config=client_config, redirect_uri='http://dhlab.pingry.org:8000/oauth_callback', code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
         authorization_url, state = flow.authorization_url(access_type='offline')# Enable offline access so that you can refresh an access token without re-prompting the user for permission. Recommended for web server apps.#,include_granted_scopes='true'
         print("state:")
         print(state)
@@ -454,8 +447,8 @@ def create_app(test_config=None):
     @app.route('/oauth_callback')
     def oauth_callback():
         #state = session['state']
-        oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file('client_secret.json',scopes=['https://www.googleapis.com/auth/drive.file'])
-        flow = google_auth_oauthlib.flow.Flow(oauth2_session, client_type='web', client_config=client_config, redirect_uri='dhlab.pingry.org:8000/oauth_callback', code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
+        oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file('flaskr/client_secret.json',scopes=['https://www.googleapis.com/auth/drive.file'])
+        flow = google_auth_oauthlib.flow.Flow(oauth2_session, client_type='web', client_config=client_config, redirect_uri='http://dhlab.pingry.org:8000/oauth_callback', code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
         authorization_response = request.url
         flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials

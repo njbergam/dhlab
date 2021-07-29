@@ -261,12 +261,17 @@ def sentenceLength(tokenizedText):
 # Returns an array of different one-variable parameters regarding sentence length
 def senlenStats(text):
 	senlen = sentenceLength(text)
-	#arr = []
-	#arr.append( statistics.mean(senlen) )
-	#arr.append( statistics.median(senlen) )
-	#arr.append( statistics.mode(senlen) )
-	#arr.append( statistics.stdev(senlen) )
-	return statistics.mean(senlen)
+	try:
+		arr = []
+		arr.append( statistics.mean(senlen) )
+		arr.append( statistics.median(senlen) )
+		arr.append( statistics.mode(senlen) )
+		arr.append( statistics.stdev(senlen) )
+	except:
+		arr = [-1,-1,-1,-1]
+	return arr[1],arr[3]
+
+
 
 # Returns the percent of a given text that is within quotes
 def percentQuotes(array):
@@ -554,11 +559,11 @@ def phw(words):
             count+=1
     return round(count*100.0/len(words),3)
 
-# Randomly n text samples of word length l,
+# Random n text samples of word length l,
 # of passage surrounding character char in given text
 
-#sorry that this code is shit - justin li '2021
-def samplePassage(text, term, n, l):
+# Sorry that this code is shit - justin li '2021
+def samplePassage(text, term, n, l, firstpage, lastpage):
 	n = int(n)
 	l = int(l)
 	indices = []
@@ -567,8 +572,9 @@ def samplePassage(text, term, n, l):
 			indices.append(i)
 	if n>len(indices):
 		n = len(indices)
-	print (n)
+	numFound = len(indices)
 	master = []
+	avg_chars_per_page = len(text)/(int(lastpage) - int(firstpage) + 1)
 	while n > 0 and len(indices) > 0:
 		x = indices[ random.randint(0, len(indices)-1 ) ]
 		start  = int(x-l/2)
@@ -580,20 +586,30 @@ def samplePassage(text, term, n, l):
 		new = []
 		i=0
 		while i + start < len(text) and i + start < end:
-			new.append(text[i + start])
+			if text[i+start] == term:
+				new.append(term.upper())
+			else:
+				new.append(text[i + start])
 			i+=1
 
 		while i + start < len(text) and text[i+start] != '.' and text[i+ start] != '?' and text[i+ start] != '!':
 			new.append(text[i + start])
 			i+=1
 		new.append('.')
+		new.append('\n\n APPROXIMATE PAGE NUMBER: ' + str( int( x/(avg_chars_per_page) + int(firstpage))) )
 		master.append(new)
 		n = n-1
 		indices.remove( x )
+
 
 	for i in range(len(master)): 		#detokenize() adds '\' before some quotes, taking them out manually
 		passage=detokenize(master[i])
 		master[i]=passage
 		if master[i][0] == "\\":
 			master[i] = master[i][1::]
-	return master
+
+	return master, numFound
+
+
+def tf_idf(texts):
+	wfDict = getWordFreqDict(500)
