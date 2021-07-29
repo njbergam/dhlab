@@ -101,6 +101,7 @@ def compareFreq(text, words):
     wordFreqs = []
     for word in words:
         wordFreqs.append(findFreq(text, word))
+    print(wordFreqs)
     plt.bar(words, wordFreqs)
     plt.show()
 
@@ -211,11 +212,10 @@ def detokenize(text):
 
 # Creates and saves a bar graph of the most common words in a text
 def saveTopWords(text, title):
-
     text = removeProperNouns(text)
     text = txtToLower(text)
     text = removePunctuation(text)
-
+    print("TEXT NO PUNC", text)
     wfDict = getWordFreqDict(
         500)  #ignore the most common 500 words: never display them
     counts = Counter(text)
@@ -251,7 +251,7 @@ def POSColor(thesis):
     tagged = nltk.pos_tag(words)
     simplifiedTags = [(word, nltk.map_tag('en-ptb', 'universal', tag))
                       for word, tag in tagged]
-
+    print(simplifiedTags)
     colorTags = []
     for i in range(len(simplifiedTags)):
         word = []
@@ -333,7 +333,7 @@ def sentenceLength(tokenizedText):
 # Returns an array of different one-variable parameters regarding sentence length
 def senlenStats(text):
     senlen = sentenceLength(text)
-
+    print(senlen)
     try:
         arr = []
         arr.append(statistics.mean(senlen))
@@ -544,7 +544,9 @@ def wpReport(text, firstgen, secgen, numTop):
 def oneTextPlotChronoMap(text, wordlists, title):
     y = []
     x = list(range(int(len(text) / numWordsPerSection) + 1))
-
+    print("x", x)
+    print("wordlists", wordlists)
+    #print("text", text)
     for i in range(len(wordlists)):
         #print (i)
         y.append(wordProgression(txtToLower(text), wordlists[i]))
@@ -731,7 +733,8 @@ def tfidf(word, text, corpus):
     if N == 0 or count == 0:
         return "ERROR"
     idf = math.log(N / count)
-
+    print("tf for " + word + " = " + str(tf))
+    print("idf for " + word + " = " + str(idf))
     return round(tf * idf, 3)
 
 def createTfidfGraph(data, words):
@@ -805,3 +808,24 @@ def tfidf_matrix(words, corpus, titles):
     final = pd.dataFrame(matrix, columns = titles, index = words)
     print(final)
     return final
+
+# Themes are lists of words
+# corpus is  a list of tokenized texts
+def tfidf_pointcloud_grapher(themes, corpus, titles):
+    mat = tfidf_matrix(np.flatten(np.array(themes)), corpus, titles)
+    color = ['red', 'green']
+    h = []
+    for i in range(len(corpus)):
+        x = mpatches.Patch(color=color[i], label=titles[i])
+        h.append(x)
+    plt.legend(handles=h)
+    for i in range(len(mat)):
+        xs = mat2[i][0]
+        ys = mat2[i][1]
+    ax.set_xlabel('theme1')
+    ax.set_ylabel('theme2')
+    ax.set_title("Theme plot between " + str(len(corpus)) + "texts")
+    ax.scatter(xs, ys, marker='o')
+    plt.legend(handles=h)
+    plt.savefig('flaskr/static/graphs/POINTCLOUD.png')
+    plt.close()
