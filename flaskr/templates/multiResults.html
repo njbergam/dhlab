@@ -9,9 +9,9 @@
       {% if "SLength" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#slength" aria-expanded="true" aria-controls="collapseOne">
+          <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#slength" aria-expanded="true" aria-controls="collapseOne">
             Sentence Length Statistics
-          </button>
+          </div>
         </h2>
         <div id="slength" class="accordion-collapse collapse show" aria-labelledby="headingOne" >
           <div class="accordion-body">
@@ -31,9 +31,9 @@
       {% if "POS" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pos" aria-expanded="true" aria-controls="collapseOne">
+          <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pos" aria-expanded="true" aria-controls="collapseOne">
             Part of Speech Distribution
-          </button>
+          </div>
         </h2>
         <div id="pos" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
@@ -50,12 +50,13 @@
       {% if "TopWords" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#topwords" aria-expanded="true" aria-controls="collapseOne">
+          <div class="accordion-button w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#topwords" aria-expanded="true" aria-controls="collapseOne">
             Graph of Top Words
-          </button>
+          </div>
         </h2>
         <div id="topwords" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
+            <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="popover" title="Stemming & Our Labels" data-bs-content="Our language processing utilizes stemming, the process of taking words and removing their suffixes, leaving just the stem or root form. For example, the words eating, eaten, and eats would all be reduced down to their base word: eat. In the labels on the x-axis, you will find stemmed words, which is why they may appear incorrect or weird looking.">Why do my words look weird?</button>
             {% for result in results %}
               <h6>Most Frequent Words Graph for {{ result.name }}.</h6>
               <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
@@ -69,9 +70,9 @@
       {% if "over" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#overlap" aria-expanded="true" aria-controls="collapseOne">
+          <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#overlap" aria-expanded="true" aria-controls="collapseOne">
             Graph of Overlapped Words
-          </button>
+          </div>
         </h2>
         <div id="overlap" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
@@ -122,22 +123,6 @@
       {% endif %}
     </div>
 
-
-  <script>
-    function displayNum(divID,val) {
-      var x = document.getElementById(divID.id);
-      if (val  > -0.1){
-        x.style.display = "block";
-      }  else{
-        x.style.display = "none";
-      }
-    }
-    displayNum(pqID,{{results[0].pq}});
-    displayNum(senID,{{results[0].sen}});
-  </script>
-
-
-
   <script>
   function displayGraph(divID,val) {
     var x = document.getElementById(divID.id);
@@ -148,15 +133,6 @@
     }
   }
   </script>
-
-{#
-<!--
-// <script>displayGraph(posID,{{results[0].pos}});</script>
-// <script>displayGraph(topID,{{results[0].top}});</script>
-// <script>displayGraph(wpID,{{results[0].wp}});</script>
-// <script>displayGraph(overID,{{overlap[0][1]}});</script>
--->
-#}
 
 {% endblock %}
 
