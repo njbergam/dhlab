@@ -123,7 +123,8 @@ def create_app(test_config=None):
     # Landing page for passage sampling
     @app.route('/passage', methods=['GET', 'POST'])
     def passage():
-        print(session["files"])
+        if not session["files"]:
+            session["files"] = []
         session['priorUrl'] = '/passage'
         if "fnameDisplay" not in session:
             fnameDisplay = ''
