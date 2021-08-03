@@ -135,6 +135,8 @@ def create_app(test_config=None):
 
     @app.route('/passage-results', methods=['GET', 'POST'])
     def passageResults():
+        fname = session['fname']
+        print(fname)
         dict = request.form.to_dict()
         print(dict)
         passages, numFound = samplePassage(

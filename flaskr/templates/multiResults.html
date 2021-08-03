@@ -57,7 +57,7 @@
         <div id="topwords" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
             {% for result in results %}
-              <h5>Most Frequent Words Graph for {{ result.name }}.</h5>
+              <h6>Most Frequent Words Graph for {{ result.name }}.</h6>
               <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
             {% endfor %}
           </div>
@@ -95,6 +95,7 @@
         <div id="wordprog" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
             {% for result in results %}
+              <h6>Word Progression Theme Analysis Graph for {{ result.name }}.</h6>
               <img src = {{ '/static/graphs/' + result.wp + '.png'  }} width = 55% alt = 'figure' >
             {% endfor %}
           </div>
