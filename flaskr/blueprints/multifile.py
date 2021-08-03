@@ -126,10 +126,6 @@ def multiReport():
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
     if "tfidf" in dict:
         print("creating tf-idf")
-        corpus = [] #generating the corpus from our stock
-        path = 'flaskr/blueprints/corpus'
-        # for filename in os.listdir(path):
-        #     corpus.append(simpleTokenize('flaskr/blueprints/corpus/' + filename))
 
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
         wordsNoSpaces = []
@@ -151,10 +147,13 @@ def multiReport():
             tfIdfResults[word] = currScores
         print(session['files']) """
 
-        textRsts[i].tfidf = matrix #currScores
-        textRsts[i].books = session['files']
-
-        createTfidfGraph(matrix)
+        #textRsts[i].tfidf = matrix #currScores
+        #textRsts[i].books = session['files']
+        print("results", textRsts)
+        textRsts[0].tfidf = ''.join(
+            random.choices(string.ascii_uppercase + string.digits, k=10))
+        print(textRsts[0].tfidf)
+        createTfidfGraph(matrix, textRsts[0].tfidf)
 
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data

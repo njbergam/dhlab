@@ -117,9 +117,7 @@
         </h2>
         <div id="tfidf" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
           <div class="accordion-body">
-            {% for result in results %}
-              <p>{{result.tfidf}}</p>
-            {% endfor %}
+            <img src = {{ '/static/graphs/' + results[0].tfidf + '.png'  }} width = 55% alt = 'figure' >
           </div>
         </div>
       </div>

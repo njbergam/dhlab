@@ -735,7 +735,7 @@ def tfidf(word, text, corpus):
 
     return round(tf * idf, 3)
 
-def createTfidfGraph(results):
+def createTfidfGraph(results, title):
     print("in tfidf")
     print(results)
 
@@ -750,7 +750,7 @@ def createTfidfGraph(results):
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('tf-idf')
-    ax.set_title('tf-idf graph')
+    ax.set_title('TF-IDF data')
     ax.set_xticks(x)
     ax.set_xticklabels(words)
     ax.legend()
@@ -765,7 +765,8 @@ def createTfidfGraph(results):
         x = x + width
     #fig.tight_layout()
     plt.legend()
-    plt.savefig("demo.png", bbox_inches='tight')
+
+    plt.savefig('flaskr/static/graphs/' + title + '.png', bbox_inches='tight')
     plt.show()
 
 
@@ -825,23 +826,3 @@ def tfidf_matrix(words, corpus, titles): #corpus = list of lists that contains t
     final = pd.DataFrame(matrix, columns = titles, index = words)
     print(final)
     return final
-
-
-
-    # print("words", words)
-    # #print("corpus", corpus)
-    #
-    #
-    # tf = np.array([])
-    # print("range ", range(len(corpus)))
-    # for i in range(len(corpus)):
-    #     for j in range(len(words)):
-    #         x = 0
-    #         for word in corpus[i]:
-    #             if word == words[j]:
-    #                 x += 1
-    #         tf = np.append(tf, [math.log(1 + x)])
-    # print(tf)
-    # print(idf)
-    # #print(final)
-    # return 0
