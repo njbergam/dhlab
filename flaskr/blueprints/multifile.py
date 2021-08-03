@@ -194,7 +194,7 @@ def multiReport():
     else:
         overlapCharts.append("1")
     if "WordProg" in dict:
-        print("[Results]")
+        print("[Results] Creating word progression chart.")
         for i in range(len(session['files'])):
             cleanedInput = []
 

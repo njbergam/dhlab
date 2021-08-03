@@ -2,7 +2,11 @@
 {% block content %}
 <div class="p-3 w-75 h-75 m-auto">
 
-  <h1 class="mb-2"> Results of Multi-Text Analysis </h1>
+  <div class="mb-2 d-flex justify-content-between align-items-center">
+    <p class="h1">Results of Multi-Text Analysis</p>
+    <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="popover" title="Stemming & Our Labels" data-bs-content="Our language processing utilizes stemming, the process of taking words and removing their suffixes, leaving just the stem or root form. For example, the words eating, eaten, and eats would all be reduced down to their base word: eat. In the labels on the x-axis, you will find stemmed words, which is why they may appear incorrect or weird looking.">Why do my words look weird?</button>
+  </div>
+
 
     <div class="accordion" id="accordionExample">
       <!-- Sentence length results -->
@@ -56,7 +60,6 @@
         </h2>
         <div id="topwords" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
-            <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="popover" title="Stemming & Our Labels" data-bs-content="Our language processing utilizes stemming, the process of taking words and removing their suffixes, leaving just the stem or root form. For example, the words eating, eaten, and eats would all be reduced down to their base word: eat. In the labels on the x-axis, you will find stemmed words, which is why they may appear incorrect or weird looking.">Why do my words look weird?</button>
             {% for result in results %}
               <h6>Most Frequent Words Graph for {{ result.name }}.</h6>
               <img src = {{ '/static/graphs/' + result.top + '.png'  }} width = 55% alt = 'figure' >
