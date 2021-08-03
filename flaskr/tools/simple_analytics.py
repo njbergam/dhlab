@@ -17,6 +17,7 @@ import random
 import math
 import string
 import matplotlib.patches as mpatches
+import pandas as pd
 
 from .vars import ALLOWED_EXTENSIONS
 
@@ -734,31 +735,39 @@ def tfidf(word, text, corpus):
 
     return round(tf * idf, 3)
 
-def createTfidfGraph(data, words):
+def createTfidfGraph(results):
     print("in tfidf")
-    print(data)
-    print(words)
+    print(results)
 
-    labels = words
-    x = np.arange(len(labels))  # the label locations
+    words = results.index
+    books = results.columns
+    print("books", books)
+    print("words", words)
+    x = np.arange(len(words))  # the label locations
     width = 0.1  # the width of the bars
 
     fig, ax = plt.subplots();
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('tf-idf')
-    ax.set_title('tf-idf over a five-novel corpus')
+    ax.set_title('tf-idf graph')
     ax.set_xticks(x)
-    ax.set_xticklabels(labels)
+    ax.set_xticklabels(words)
     ax.legend()
 #mpatches?
-    for key,val in data.items():
-        rects1 = ax.bar(x - 2*width, val, width, label=key)
-        ax.bar_label(rects1, padding=3)
-
-    fig.tight_layout()
+    j = 0
+    print(len(books))
+    for i in range(len(books)):
+        print("went in", i)
+        print(results[books[i]].tolist())
+        #print(results.iloc[[i]].to_numpy()[0])
+        plt.bar(x, results[books[i]].tolist(), width = width, label = books[i])
+        x = x + width
+    #fig.tight_layout()
+    plt.legend()
+    plt.savefig("demo.png", bbox_inches='tight')
     plt.show()
-    plt.savefig("demo.png")
+
 
 """
     y = []
@@ -783,25 +792,56 @@ def createTfidfGraph(data, words):
 """
 
 # Returns a dataframe where rows are words and columns are
-def tfidf_matrix(words, corpus, titles):
-    idf = np.array()
-    for word in words:
-        x = 0
-        for text in corpus:
-            if word in text:
-                x += 1
-        idf.append( math.log( 1 + len(corpus) / x ) )
-
-    tf = np.array()
+def tfidf_matrix(words, corpus, titles): #corpus = list of lists that contains tokenzied text for each story
+#titles = filenames of the books to be analyzed
+#words = words to calculate the tf-idf of in each story
+    matrix = np.zeros((len(words), len(corpus)))
+    print("matrix", matrix)
     for i in range(len(words)):
         for j in range(len(corpus)):
             x = 0
             for word in corpus[j]:
                 if word == words[i]:
                     x += 1
-            tf.append(log(1 + tf[i]))
+            matrix[i,j] = math.log(1 + x)
+            # input the tf into the array
 
-    matrix = np.outer(tf, idf)
-    final = pd.dataFrame(matrix, columns = titles, index = words)
+    idf = np.array([])
+    for word in words:
+        x = 0
+        for text in corpus:
+            if word in text:
+                x += 1
+        print("x", x)
+        if x == 0:
+            idf = np.append(idf, 0)
+        else:
+            idf = np.append( idf, [math.log( 1 + len(corpus) / x )] )
+
+    for i in range(len(idf)):
+        matrix[i] *= idf[i]
+
+
+    final = pd.DataFrame(matrix, columns = titles, index = words)
     print(final)
     return final
+
+
+
+    # print("words", words)
+    # #print("corpus", corpus)
+    #
+    #
+    # tf = np.array([])
+    # print("range ", range(len(corpus)))
+    # for i in range(len(corpus)):
+    #     for j in range(len(words)):
+    #         x = 0
+    #         for word in corpus[i]:
+    #             if word == words[j]:
+    #                 x += 1
+    #         tf = np.append(tf, [math.log(1 + x)])
+    # print(tf)
+    # print(idf)
+    # #print(final)
+    # return 0

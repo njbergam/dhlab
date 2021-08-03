@@ -128,8 +128,8 @@ def multiReport():
         print("creating tf-idf")
         corpus = [] #generating the corpus from our stock
         path = 'flaskr/blueprints/corpus'
-        for filename in os.listdir(path):
-            corpus.append(simpleTokenize('flaskr/blueprints/corpus/' + filename))
+        # for filename in os.listdir(path):
+        #     corpus.append(simpleTokenize('flaskr/blueprints/corpus/' + filename))
 
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
         wordsNoSpaces = []
@@ -137,7 +137,11 @@ def multiReport():
         for currWord in wordsToBeTfIDFed:
             wordsNoSpaces.append(currWord.replace(" ", ""))
 
-        tfIdfResults = {}
+        print("words:", wordsNoSpaces)
+
+        matrix = tfidf_matrix(wordsNoSpaces, text2, session['files'])
+
+        """tfIdfResults = {}
         for word in wordsNoSpaces:
             currScores = []
             for i in range(len(session['files'])):
@@ -145,12 +149,12 @@ def multiReport():
                 currScores.append(result)
                 print("tf-idf score for " + word + ": " + str(result))
             tfIdfResults[word] = currScores
-        print(session['files'])
+        print(session['files']) """
 
-        textRsts[i].tfidf = tfIdfResults #currScores
+        textRsts[i].tfidf = matrix #currScores
         textRsts[i].books = session['files']
 
-        createTfidfGraph(tfIdfResults, textRsts[i].books)
+        createTfidfGraph(matrix)
 
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
     # Part of speech data
