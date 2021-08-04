@@ -91,6 +91,9 @@ def create_app(test_config=None):
     from .blueprints.projects import p
     app.register_blueprint(p)
 
+    from .blueprints.writerly import writerly
+    app.register_blueprint(writerly)
+
     # Mainpage route that contains basic information about the app
     @app.route('/', methods=['GET', 'POST'])
     def home():
@@ -120,32 +123,7 @@ def create_app(test_config=None):
     def student():
         return render_template('thesis.html')
 
-    # Landing page for passage sampling
-    @app.route('/passage', methods=['GET', 'POST'])
-    def passage():
-        if not session["files"]:
-            session["files"] = []
-        session['priorUrl'] = '/passage'
-        if "fnameDisplay" not in session:
-            fnameDisplay = ''
-        else:
-            fnameDisplay = session['fnameDisplay']
-        session['fnameDisplay'] = ''
-        return render_template('passage.html', files=session["files"])
 
-    @app.route('/passage-results', methods=['GET', 'POST'])
-    def passageResults():
-        fname = session['fname']
-        print(fname)
-        dict = request.form.to_dict()
-        print(dict)
-        passages, numFound = samplePassage(
-            simpleTokenize("flaskr/uploads/" + session["files"][0]), dict["term"],
-            dict["numSamp"], dict["wordCount"], dict["firstpage"],
-            dict["lastpage"])
-        return render_template('passageResults.html',
-                               passages=passages,
-                               numFound=numFound)
 
     @app.route('/thesis-result', methods=['GET', 'POST'])
     def result():

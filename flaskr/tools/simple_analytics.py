@@ -392,7 +392,7 @@ def savePOSPiChart(text, title):
             colors=colors,
             autopct='%1.1f%%',
             shadow=True)
-    #plt.title('Part of Speech Density')
+    plt.title('Part of Speech Density')
     plt.tight_layout()
     plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()

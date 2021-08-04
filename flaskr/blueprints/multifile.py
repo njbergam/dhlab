@@ -164,6 +164,8 @@ def multiReport():
                 random.choices(string.ascii_uppercase + string.digits,
                                k=10))  #title of the generated chart
             savePOSPiChart(text2[i], textRsts[i].pos)
+
+        print("POS TITLE: " + textRsts[i].pos)
     if "TopWords" in dict:
         print("[Results] Creating top words chart")
         for i in range(len(session['files'])):
