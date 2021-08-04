@@ -654,10 +654,11 @@ def phw(words):
     hard meaning --> (3+ syllables, not proper, not compound/hyphen of easy words, verbs with added -es/-ed)
     """
     count = 0
+    words = nltk.pos_tag(words)
     for word in words:
-        if syllable_count(word) >= 3 and nltk.pos_tag(word)[0][1] != 'NNP':
+        if syllable_count(word[0]) >= 3 and word[1] != 'NNP':
             count += 1
-    return round(count * 100.0 / len(words), 3)
+    return round((count * 100.0) / len(words), 3) 
 
 
 # Random n text samples of word length l,
