@@ -1,4 +1,5 @@
 import os
+import re, string
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -6,12 +7,16 @@ from nltk.stem.porter import PorterStemmer
 import collections
 from collections import Counter
 from nltk.tokenize.treebank import TreebankWordDetokenizer
+from nltk.sentiment import SentimentIntensityAnalyzer
+from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.corpus import stopwords
+from nltk.tag import pos_tag
+
 import statistics
 import matplotlib
 matplotlib.use('Agg') # Increased support for newer osx versions
 import matplotlib.pyplot as plt, mpld3
 import numpy as np
-from nltk.corpus import stopwords
 from PyPDF2 import PdfFileReader
 import random
 import math
@@ -658,7 +663,7 @@ def phw(words):
     for word in words:
         if syllable_count(word[0]) >= 3 and word[1] != 'NNP':
             count += 1
-    return round((count * 100.0) / len(words), 3) 
+    return round((count * 100.0) / len(words), 3)
 
 
 # Random n text samples of word length l,
@@ -848,3 +853,29 @@ def tfidf_matrix(words, corpus, titles): #corpus = list of lists that contains t
     final = pd.DataFrame(matrix, columns = titles, index = words)
     print(final)
     return final
+
+def sentiment_analysis_score(filename, graphlocation):
+    # Intialize sentiment analyzer
+    sia = SentimentIntensityAnalyzer()
+
+    # Clean text and then detokenize into a string
+    tokens = simpleTokenize("flaskr/uploads/" + filename)
+    tokenizedText = cleanText2(tokens)
+    text = detokenize(tokenizedText)
+
+    # Compute score -- returned as: {'neg': 0.134, 'neu': 0.77, 'pos': 0.096, 'compound': -1.0}
+    scores = sia.polarity_scores(text)
+
+    # Format pie chart data
+    labels = ["Negative", "Neutral", "Positive"]
+    sizes = [abs(value) for key,value in scores.items() if key != "compound"]
+
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+
+    plt.title("Sentiment Analysis for " + filename)
+
+    plt.savefig('flaskr/static/graphs/' + graphlocation + '.png')
+    plt.close()
+
+    return scores

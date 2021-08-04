@@ -91,7 +91,7 @@ def removefile(filename):
 
 @multifile.route('/reportMulti', methods=['GET', 'POST'])
 def multiReport():
-    print("[Report] Computing results...")
+    print("[ReportMulti] Computing results...")
 
     # Make sure that there are files that the user uploaded
     if len(session['files']) == 0:
@@ -106,7 +106,7 @@ def multiReport():
 
     # Loop through each of the files and extract it into an array containing the text
     for i in range(len(session['files'])):
-        print("[Report] Currently processing file: " + session['files'][i])
+        print("[ReportMulti] Currently processing file: " + session['files'][i])
 
         if session['files'][i][-4:] == '.pdf':
             text.append(text_extractor('flaskr/uploads/' +
@@ -120,12 +120,12 @@ def multiReport():
 
     # Average sentence length throughout the app
     if "SLength" in dict:
-        print("[Results] Computing sentence length stats")
+        print("[Results] Computing sentence length stats.")
 
         for i in range(len(session['files'])):
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
     if "tfidf" in dict:
-        print("creating tf-idf")
+        print("[Results] Computing TF-IDF scores.")
 
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
         wordsNoSpaces = []
@@ -156,9 +156,17 @@ def multiReport():
         createTfidfGraph(matrix, textRsts[0].tfidf)
 
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
+
+    if "sentiment" in dict:
+        print("[Results] Computing sentiment analysis.")
+
+        for index, elem in enumerate(session["files"]):
+            textRsts[index].polarity_sentiment_graph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+            textRsts[index].polarity_sentiment_score = sentiment_analysis_score(elem, textRsts[index].polarity_sentiment_graph)
+
     # Part of speech data
     if "POS" in dict:
-        print("[Results] Computing POS distribution")
+        print("[Results] Computing POS distribution.")
         for i in range(len(session['files'])):
             textRsts[i].pos = ''.join(
                 random.choices(string.ascii_uppercase + string.digits,
@@ -167,7 +175,7 @@ def multiReport():
 
         print("POS TITLE: " + textRsts[i].pos)
     if "TopWords" in dict:
-        print("[Results] Creating top words chart")
+        print("[Results] Creating top words chart.")
         for i in range(len(session['files'])):
             textRsts[i].top = ''.join(
                 random.choices(string.ascii_uppercase + string.digits, k=10))
@@ -176,7 +184,7 @@ def multiReport():
     overlapCharts = []
     overlapInfo = []
     if "over" in dict:
-        print("[Results] Creating overlap chart")
+        print("[Results] Creating overlap chart.")
         k = int(len(session['files']) * (len(session['files']) - 1) / 2 + 0.5)
         for i in range(k):
             overlapCharts.append(''.join(

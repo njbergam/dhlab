@@ -106,6 +106,25 @@
         </div>
       </div>
       {% endif %}
+      <!-- Word progresison results -->
+      {% if "sentiment" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#wordprog" aria-expanded="true" aria-controls="collapseOne">
+            Sentiment Analysis Results
+          </button>
+        </h2>
+        <div id="wordprog" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            {% for result in results %}
+              <h6>Word Progression Theme Analysis Graph for {{ result.name }}.</h6>
+              <img src = {{ '/static/graphs/' + result.polarity_sentiment_graph + '.png'  }} width = 55% alt = 'figure'>
+              <p>{{result.polarity_sentiment_score}}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
 
       <!-- TFIDF progresison results -->
       {% if "tfidf" in selections %}
