@@ -768,6 +768,7 @@ def createTfidfGraph(results, title):
 
     plt.savefig('flaskr/static/graphs/' + title + '.png', bbox_inches='tight')
     plt.show()
+    plt.close()
 
 
 """
