@@ -728,7 +728,7 @@ def samplePassage(files, term, n, w):
                 else:
                     currentSample.append(sentEnd)
 
-            master.append(" ".join(currentSample))
+            master.append(detokenize(currentSample))
             indices.remove(x)
             numSamp -= 1
 

@@ -2,12 +2,17 @@
 
 {% block content %}
 
-{% for filename,result in results.items() %}
+<div class="container p3 ">
+  {% for filename,result in results.items() %}
 
-  <h3> Passage Sampling Results for {{filename}}.</h3>
-  {% for sample in result %}
-    <p> {{sample}}</p>
+    <h3> Passage Sampling Results for {{filename}}.</h3>
+    <h6 class="text-muted">{{result|length}} results found.</h6>
+
+    {% for sample in result %}
+      <p> {{sample}}</p>
+    {% endfor %}
+
   {% endfor %}
+</div>
 
-{% endfor %}
 {% endblock %}
