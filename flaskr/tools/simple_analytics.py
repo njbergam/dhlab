@@ -392,7 +392,7 @@ def savePOSPiChart(text, title):
             colors=colors,
             autopct='%1.1f%%',
             shadow=True)
-    plt.title('Part of Speech Density')
+
     plt.tight_layout()
     plt.savefig('flaskr/static/graphs/' + title + '.png')
     plt.close()
@@ -665,56 +665,77 @@ def phw(words):
 
 
 # Sorry that this code is shit - justin li '2021
-def samplePassage(text, term, n, l, firstpage, lastpage):
-    n = int(n)
-    l = int(l)
-    indices = []
-    for i in range(len(text)):
-        if text[i] == term:
-            indices.append(i)
-    if n > len(indices):
-        n = len(indices)
-    numFound = len(indices)
-    master = []
-    avg_chars_per_page = len(text) / (int(lastpage) - int(firstpage) + 1)
-    while n > 0 and len(indices) > 0:
-        x = indices[random.randint(0, len(indices) - 1)]
-        start = int(x - l / 2)
-        while text[start - 1] != '.' and text[start - 1] != '?' and text[
-                start - 1] != '!':
-            start -= 1
-        if start < 0:
-            start = 0
-        end = int(x + l / 2)
-        new = []
-        i = 0
-        while i + start < len(text) and i + start < end:
-            if text[i + start] == term:
-                new.append(term.upper())
-            else:
-                new.append(text[i + start])
-            i += 1
+def samplePassage(files, term, n, w):
+    # Confirm that these are ints
+    storedNumSamp = int(n)
+    storedWordCount = int(w)
 
-        while i + start < len(text) and text[i + start] != '.' and text[
-                i + start] != '?' and text[i + start] != '!':
-            new.append(text[i + start])
-            i += 1
-        new.append('.')
-        new.append('\n\n APPROXIMATE PAGE NUMBER: ' +
-                   str(int(0.42 * x / (avg_chars_per_page) + int(firstpage))))
-        master.append(new)
-        n = n - 1
-        indices.remove(x)
+    finalResults = {}
 
-    for i in range(
-            len(master)
-    ):  #detokenize() adds '\' before some quotes, taking them out manually
-        passage = detokenize(master[i])
-        master[i] = passage
-        if master[i][0] == "\\":
-            master[i] = master[i][1::]
+    for f in files:
+        wordCount = storedWordCount
+        numSamp = storedNumSamp
 
-    return master, numFound
+        text = simpleTokenize("flaskr/uploads/" + f)
+
+        print(text)
+
+        # Get the indicies of the word to be found
+        indices = []
+        for i, w in enumerate(text):
+            if w == term:
+                indices.append(i)
+
+        # Cut off indicies if the user wants less words than what we found
+        if numSamp > len(indices):
+            numSamp = len(indices)
+
+        # Total number of occurences found
+        numFound = len(indices)
+
+        # Data stored here
+        master = []
+
+        # Keep looping until either variables runs out
+        while numSamp > 0 and len(indices) > 0:
+            # Pick a random index
+            x = indices[random.randint(0, len(indices) - 1)]
+
+            # Starting point of the current sample
+            start = int(x - wordCount / 2)
+            while text[start - 1] != '.' and text[start - 1] != '?' and text[
+                    start - 1] != '!':
+                start -= 1
+
+            # Reset start to beginning if there aren't enough words before the keyword
+            if start < 0:
+                start = 0
+
+            # Loop through the sample --> keyword should be somewhere near the middle
+            end = int(x + wordCount / 2)
+            currentSample = []
+            for currWord in text[start:end]:
+                if currWord == term:
+                    currentSample.append(currWord.upper())
+                else:
+                    currentSample.append(currWord)
+
+            # Continue looping until the end of a sentence
+            for sentEnd in text[end:]:
+                if sentEnd == "?" or sentEnd == "!" or sentEnd == ".":
+                    currentSample.append(sentEnd)
+                    break
+                else:
+                    currentSample.append(sentEnd)
+
+            master.append(" ".join(currentSample))
+            indices.remove(x)
+            numSamp -= 1
+
+        finalResults[f] = master
+
+    print("FINAL RESULTS" + str(finalResults))
+    return finalResults
 
 def tfidf(word, text, corpus):
     freq = 0

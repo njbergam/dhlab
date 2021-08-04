@@ -26,12 +26,9 @@ writerly = Blueprint("writerly", __name__, template_folder="templates")
 def passage():
     if not session["files"]:
         session["files"] = []
+
     session['priorUrl'] = '/passage'
-    if "fnameDisplay" not in session:
-        fnameDisplay = ''
-    else:
-        fnameDisplay = session['fnameDisplay']
-    session['fnameDisplay'] = ''
+
     return render_template('passage.html', files=session["files"])
 
 # Page for displaying the results of passage sampling
@@ -39,10 +36,6 @@ def passage():
 def passageResults():
     dict = request.form.to_dict()
 
-    passages, numFound = samplePassage(
-        simpleTokenize("flaskr/uploads/" + session["files"][0]), dict["term"],
-        dict["numSamp"], dict["wordCount"], dict["firstpage"],
-        dict["lastpage"])
+    results = samplePassage(session["files"], dict["term"],dict["numSamp"], dict["wordCount"])
     return render_template('passageResults.html',
-                            passages=passages,
-                            numFound=numFound)
+                            results=results)

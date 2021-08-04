@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h1>Results</h1>
-<br>
-In total, {{numFound}} occurences of the word were found.
-<br><br>
-  {% for passage in passages %}
-    <p> {{passage}} </p>
-    <br>
+{% for filename,result in results.items() %}
+
+  <h3> Passage Sampling Results for {{filename}}.</h3>
+  {% for sample in result %}
+    <p> {{sample}}</p>
   {% endfor %}
+
+{% endfor %}
 {% endblock %}

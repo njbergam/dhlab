@@ -9,36 +9,34 @@
   This is also good for randomly sampling a character and the contexts in which their name shows up.
   Play around and brainstorm!<p>
 
+
   <div>
     {% include "./includes/_uploadmulti.html" %}
   </div>
 
+
   <form action = '/passage-results' method="POST" enctype=multipart/form-data>
 
-  <label for="term"> Please enter your keyword/n-gram: </label>
-  <input id="term" type="input" class = "form-control mb-2" name="term" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
+    <label for="term"> Please enter your keyword/n-gram: </label>
+    <input id="term" type="input" class = "form-control mb-2" name="term" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
 
-  <div class="row mb-2">
-    <div class="col">
-      <label for="numSamp"> Number of Samples: </label>
-      <input id="numSamp" type="input" class = "form-control" name="numSamp" placeholder = "Number of samples" style ="width = 100%" id = "wordProgWords">
+    <div class="row mb-2">
+      <div class="col">
+        <label for="numSamp"> Number of Samples: </label>
+        <input id="numSamp" type="input" class = "form-control" name="numSamp" placeholder = "Number of samples" style ="width = 100%" id = "wordProgWords">
+      </div>
+      <div class="col">
+        <label for="wordCount"> Word Count of Samples: </label>
+        <input id="wordCount" type="input" class = "form-control" name="wordCount" placeholder = "Word count of samples" style ="width = 100%" id = "wordProgWords">
+      </div>
     </div>
-    <div class="col">
-      <label for="wordCount"> Word Count of Samples: </label>
-      <input id="wordCount" type="input" class = "form-control" name="wordCount" placeholder = "Word count of samples" style ="width = 100%" id = "wordProgWords">
+
+    <div class="text-center">
+      <input type="submit" value="Submit" class="btn btn-primary w-50 mt-2">
     </div>
-  </div>
-
-  <label for="firstpage"> First Page of Novel: </label>
-  <input id="firstpage" type="input" class = "form-control mb-2" name="firstpage" placeholder = "What page is the first line of the novel?" style ="width = 50%" id = "wordProgWords">
-
-  <label for="lastpage"> Final Page of Novel: </label>
-  <input id="lastpage" type="input" class = "form-control mb-2" name="lastpage" placeholder = "What page is the last line of the novel?" style ="width = 50%" id = "wordProgWords">
-
-  <p class="fs-6 fw-light fst-italic">*Note: The last two questions allow us to give you an approximation of where each passage is in your edition of the novel.</p>
-  <input type="submit" value="Submit">
 
   </form>
 </div>
+
 
 {% endblock %}
