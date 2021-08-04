@@ -734,7 +734,6 @@ def samplePassage(files, term, n, w):
 
         finalResults[f] = master
 
-    print("FINAL RESULTS" + str(finalResults))
     return finalResults
 
 def tfidf(word, text, corpus):
