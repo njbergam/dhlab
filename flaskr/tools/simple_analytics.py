@@ -1,6 +1,14 @@
 import os
 import re, string
 import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('universal_tagset')
+nltk.download('vader_lexicon')
+# nltk.download('porter')
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.stem.porter import PorterStemmer
@@ -9,8 +17,9 @@ from collections import Counter
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.corpus import stopwords
 from nltk.tag import pos_tag
+from gensim.models.ldamodel import LdaModel
+from gensim.corpora import Dictionary
 
 import statistics
 import matplotlib
@@ -247,7 +256,7 @@ def saveTopWords(text, title):
     #if os.path.isfile('templates/static/graphs/' + title + '.png'):
     #	print("asdufb3oewj")
     #	os.remove('templates/static/graphs/' + title + '.png')
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', dpi=300)
     plt.close()
     #return fig
 
@@ -396,10 +405,10 @@ def savePOSPiChart(text, title):
             labels=labels,
             colors=colors,
             autopct='%1.1f%%',
-            shadow=True)
+            shadow=False)
 
     plt.tight_layout()
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', dpi=300)
     plt.close()
 
 
@@ -556,14 +565,14 @@ def oneTextPlotChronoMap(text, wordlists, title):
         y.append(wordProgression(txtToLower(text), wordlists[i]))
         #print (y)
         #plt.title("Word Group Progressions through Novel")
-        plt.ylabel("Num occurances per 100 words")
+        plt.ylabel("Num occurrences per 100 words")
         plt.xlabel("Progression of novel (by every 100 words)")
         lbl = str(wordlists[i][0])
         for j in range(1, len(wordlists[i])):
             lbl += ", " + str(wordlists[i][j])
         plt.bar(x, y[i], label=lbl)
         plt.legend()
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', dpi=300)
     plt.close()
 
 
@@ -575,7 +584,7 @@ def saveChronoMap(text, firstgen, secgen, title):
     y = wordProgression(text, firstgen, secgen)
     x = list(range(int(len(text) / numWordsPerSection) + 1))
     plt.plot(x, y)
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', dpi=300)
     plt.close()
 
 
@@ -792,7 +801,7 @@ def createTfidfGraph(results, title):
     #fig.tight_layout()
     plt.legend()
 
-    plt.savefig('flaskr/static/graphs/' + title + '.png', bbox_inches='tight')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', bbox_inches='tight', dpi=300)
     plt.show()
     plt.close()
 
@@ -815,7 +824,7 @@ def createTfidfGraph(results, title):
             lbl += ", " + str(wordlists[i][j])
         plt.bar(x, y[i], label=lbl)
         plt.legend()
-    plt.savefig('flaskr/static/graphs/' + title + '.png')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', dpi=300)
     plt.close()
 """
 
@@ -854,7 +863,39 @@ def tfidf_matrix(words, corpus, titles): #corpus = list of lists that contains t
     print(final)
     return final
 
-def sentiment_analysis_score(filename, graphlocation):
+def overlap(filename1, filename2, graphLocation):
+    # tokens1 = simpleTokenize("flaskr/uploads/" + filename1)
+    # tokens2 = simpleTokenize("flaskr/uploads/" + filename2)
+    text1 = cleanText("flaskr/uploads/" + filename1)
+    text2 = cleanText("flaskr/uploads/" + filename2)
+    intersect = set(text1).intersection(set(text2))
+    topCnts = {}
+    wfDict = getWordFreqDict(500)  #ignore the most common 500 words: never display them
+
+    # add all words and their overlap counts to the dictionary
+    for word in intersect:
+        if word not in wfDict:
+            topCnts[word] = min(text1.count(word), text2.count(word))
+    # sort by overlap count and use the top 20 words
+    topCnts = sorted(topCnts.items(), key=lambda x: x[1], reverse=True)
+    topCnts = np.array(topCnts[:20]) 
+    
+    # get labels, values from topCnts
+    labels = topCnts[:, 0]
+    values = topCnts[:, 1].astype(np.int64)
+    indexes = np.arange(len(labels))
+
+    bar_width = 0.35
+    plt.bar(indexes, values)
+    plt.ylim([0, np.max(values) + 1])
+
+    # add labels
+    plt.xticks(indexes + bar_width, labels, rotation='vertical')
+    plt.tight_layout()
+    plt.savefig('flaskr/static/graphs/' + graphLocation + '.png', bbox_inches='tight', dpi=300)
+    plt.close()
+
+def sentiment_analysis_score(filename, graphLocation):
     # Intialize sentiment analyzer
     sia = SentimentIntensityAnalyzer()
 
@@ -871,11 +912,56 @@ def sentiment_analysis_score(filename, graphlocation):
     sizes = [abs(value) for key,value in scores.items() if key != "compound"]
 
     fig, ax = plt.subplots()
-    ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=False, startangle=90)
 
     plt.title("Sentiment Analysis for " + filename)
 
-    plt.savefig('flaskr/static/graphs/' + graphlocation + '.png')
+    plt.savefig('flaskr/static/graphs/' + graphLocation + '.png', dpi=300)
     plt.close()
 
     return scores
+
+def modelTopics(filenames, graphLocation):
+    # get all texts from their files
+    texts = []
+    for filename in filenames:
+        texts.append(cleanText("flaskr/uploads/" + filename))
+    
+    # use gensim dictionary to create a "bag-of-words" representation of the texts
+    corpus_dict = Dictionary(texts)
+    corpus = [corpus_dict.doc2bow(text) for text in texts]
+
+    # initialize gensim unsupervised LDA model
+    n_topics = 10
+    lda = LdaModel(corpus, num_topics=n_topics, random_state=23, id2word=corpus_dict)
+
+    # get the top topics across the corpus and sort them by the most relevant
+    topics = lda.show_topics(num_topics=n_topics, num_words=5, formatted=False)
+    topics = sorted(topics, key=lambda x: int(x[0]))
+
+    # display graph of topics
+    bar_width = 0.35
+    wordTopics = []
+    percentages = []
+    # get lists of words for each topic, as well as the sum of their weights
+    # this piece of code makes it so we can display the words in the graph separately from their weights
+    for topic in topics:
+        newTopic = []
+        weightSum = 0
+        # append each word to the list and add the weight to the sum
+        for word in topic[1]:
+            newTopic.append(word[0])
+            weightSum += word[1]
+        wordTopics.append(newTopic)
+        percentages.append(weightSum * 100)
+
+    # create a bar graph that displays the top words for each topic, and the topics' weight sums
+    plt.figure(figsize=(6, 3))
+    plt.bar(range(n_topics), percentages)
+    print("wordTopics", wordTopics)
+    plt.xticks(np.arange(n_topics) + bar_width, wordTopics, rotation='vertical')
+    plt.xlabel("Top 5 Words for Each Topic")
+    plt.ylabel("Relevance of Topic in Corpus (%)")
+    plt.tight_layout()
+    plt.savefig('flaskr/static/graphs/' + graphLocation + '.png', bbox_inches='tight', dpi=300)
+    plt.close()

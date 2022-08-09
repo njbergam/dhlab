@@ -3,7 +3,7 @@
 <div class="p-3 w-75 h-75 m-auto">
 
   <div class="mb-2 d-flex justify-content-between align-items-center">
-    <p class="h1">Results of Multi-Text Analysis</p>
+    <p class="h1">Results of Text Analysis</p>
     <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="popover" data-bs-trigger="focus" title="Stemming & Our Labels" data-bs-content="Our language processing utilizes stemming, the process of taking words and removing their suffixes, leaving just the stem or root form. For example, the words eating, eaten, and eats would all be reduced down to their base word: eat. In the labels on the x-axis, you will usually find stemmed words, which is why they may appear incorrect or weird looking.">Why do my words look weird?</button>
   </div>
 
@@ -21,7 +21,7 @@
           <div class="accordion-body">
             {% for result in results %}
               <div class = "div2" id = "senID">
-                <b> Sentence Length Statistics of {{result.name}} </b>
+                <b> Sentence Length Statistics of {{result.name}} (# words) </b>
                 <p> Mean: {{ result.sen_avg }} </p>
                 <p> Standard Deviation: {{ result.sen_stdv }} </p>
               </div>
@@ -117,9 +117,9 @@
         <div id="wordprog" class="accordion-collapse collapse show" aria-labelledby="headingOne">
           <div class="accordion-body">
             {% for result in results %}
-              <h6>Word Progression Theme Analysis Graph for {{ result.name }}.</h6>
+              <h6>Sentiment Analysis Graph for {{ result.name }}.</h6>
               <img src = {{ '/static/graphs/' + result.polarity_sentiment_graph + '.png'  }} width = 55% alt = 'figure'>
-              <p>{{result.polarity_sentiment_score}}</p>
+              <!-- <p>{{result.polarity_sentiment_score}}</p> -->
             {% endfor %}
           </div>
         </div>
@@ -131,7 +131,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tfidf" aria-expanded="true" aria-controls="collapseOne">
-            TF-IDF data
+            TF-IDF Results
           </button>
         </h2>
         <div id="tfidf" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
@@ -141,8 +141,39 @@
         </div>
       </div>
       {% endif %}
-    </div>
 
+      <!-- Thematic Vectorization results -->
+      {% if "tvect" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tvect" aria-expanded="true" aria-controls="collapseOne">
+            Thematic Vectorization
+          </button>
+        </h2>
+        <div id="tvect" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
+          <div class="accordion-body">
+            <img src = {{ '/static/graphs/' + results[0].tv + '.png'  }} width = 55% alt = 'figure' >
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Topic Modeling Results -->
+      {% if "topicmodeling" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#topicmodeling" aria-expanded="true" aria-controls="collapseOne">
+            Graph of Common Themes
+          </div>
+        </h2>
+        <div id="tvect" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
+          <div class="accordion-body">
+            <img src = {{ '/static/graphs/' + results[0].topicmodeling + '.png'  }} width = 55% alt = 'figure' >
+          </div>
+        </div> 
+      </div>
+      {% endif %}
+    </div>
   <script>
   function displayGraph(divID,val) {
     var x = document.getElementById(divID.id);

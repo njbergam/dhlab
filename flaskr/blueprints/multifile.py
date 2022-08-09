@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 # Used for security reasons - has much more use we aren't currently tapping into
 # from flask_talisman import Talisman
 from flask_session.__init__ import Session
-import matplotlib.pyplot as plt, mpld3
+import matplotlib.pyplot as plt
 import random
 import string
 import json
@@ -66,14 +66,29 @@ def upload_multifile():
             if file and file.filename != "" and allowed_file(file.filename):
                 files.append(secure_filename(file.filename))
 
-                print("[Upload] Now saving file" + file.filename)
+                print("[Upload] Now saving file: " + file.filename)
 
                 file.save(
                     os.path.join(UPLOAD_FOLDER,
                                  secure_filename(file.filename)))
 
-        session["files"] = files
-        print(session["files"])
+        # if "files" in session:
+        #     for file in files:
+        #         if file not in session["files"]:
+        #             session["files"].append(file)
+        # else:
+        #     session["files"] = files
+        print("Before adding new files: ", session["files"])
+
+        # add new files while keeping the old ones there
+        if "files" not in session:
+            session["files"] = []
+        arr = session["files"]
+        for file in files:
+            if file not in arr:
+                arr.append(file)
+        session["files"] = arr
+        print("After adding new files: ", session["files"])
         return redirect(session["priorUrl"])
 
     session['failedMulti'] = 1
@@ -158,6 +173,8 @@ def multiReport():
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
 
     if "sentiment" in dict:
+        # structure: create randomized graph names for each file, then create a graph for each file and pass 
+        # the text and graph name to the renderer
         print("[Results] Computing sentiment analysis.")
 
         for index, elem in enumerate(session["files"]):
@@ -181,18 +198,22 @@ def multiReport():
                 random.choices(string.ascii_uppercase + string.digits, k=10))
             saveTopWords(text2[i], textRsts[i].top)
 
-    overlapCharts = []
+    overlapCharts = [] # contains the names of the overlap data charts
     overlapInfo = []
     if "over" in dict:
+        # structure: create randomized graph names, create graphs and save them at locations in static, then 
+        # create a list of the graph names and the graph objects, which is passed to the renderer
         print("[Results] Creating overlap chart.")
         k = int(len(session['files']) * (len(session['files']) - 1) / 2 + 0.5)
         for i in range(k):
             overlapCharts.append(''.join(
                 random.choices(string.ascii_uppercase + string.digits, k=10)))
-        overlap(text2, overlapCharts)
+        
         l = 0
         for i in range(len(session['files'])):
             for j in range(i + 1, len(session['files'])):
+                # for every pair of files, create a new overlapInfo object and add it to the list
+                overlap(session['files'][i], session['files'][j], overlapCharts[l]) # calculate overlap and save charts
                 temp = []
                 temp.append(
                     str(session['files'][i]) + " and " +
@@ -203,6 +224,8 @@ def multiReport():
     else:
         overlapCharts.append("1")
     if "WordProg" in dict:
+        # structure: create randomized graph names, create graphs and save them at locations in static, then
+        # pass the graph names and graph objects to the renderer
         print("[Results] Creating word progression chart.")
         for i in range(len(session['files'])):
             cleanedInput = []
@@ -217,10 +240,19 @@ def multiReport():
                 cleanedInput.append(cleanText2(subarray))
 
             oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
+    if "topicmodeling" in dict:
+        print("[Results] Computing topic modeling.")
+        textRsts[0].topicmodeling = ''.join(
+            random.choices(string.ascii_uppercase + string.digits, k=10))
+        modelTopics(session['files'], textRsts[0].topicmodeling)
 
+    # if "tvect" in dict:
+        
 
     selectionsList = list(dict.keys())
 
+    # at this point, all graphs and statistics have been created, so we can give the text names and graph locations
+    # to the renderer which will display them on the page
     return render_template('multiResults.html',
                            results=textRsts,
                            overlap=overlapInfo,

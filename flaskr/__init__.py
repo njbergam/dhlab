@@ -124,7 +124,7 @@ def create_app(test_config=None):
         return render_template('thesis.html')
 
 
-
+    # Landing page for essay help, displayed with color coded essay text
     @app.route('/thesis-result', methods=['GET', 'POST'])
     def result():
         raw_text = request.form.to_dict()
