@@ -221,7 +221,7 @@ pyerfa==2.0.0
 pyflakes==2.5.0
 PyGetWindow==0.0.9
 Pygments==2.11.2
-PyJWT==2.1.0
+PyJWT==2.4.0
 pylint==2.12.2
 pyls-spyder==0.4.0
 PyMsgBox==1.0.9
