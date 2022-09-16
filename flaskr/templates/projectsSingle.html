@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<body>
+
+    <h5 id="title"></h5>
+    <p id="desc"></p>
+    <p id="org"></p>
+
+  {#
+
+    <!-- Template for a project card -->
+  <div class="card mb-3" style="max-width: 840px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          src=""
+          alt="..."
+          class="img-fluid"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p class="card-text"></p>
+          <p class="card-text">
+            <small class="text-muted"></small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  #}
+
+<script type="text/javascript" src="{{ url_for("static", filename="/script/projectsSingle.js")}}"></script>
+<script>getData("{{id}}")</script>
+
+</body>
+{% endblock %}

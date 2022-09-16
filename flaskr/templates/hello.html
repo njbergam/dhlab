@@ -1,26 +1,6 @@
-<style>
-.column {
-  float: left;
-  width: 50%;
-
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.purp-box{
-  background-color: af6ef0;
-  height:6%
-}
-</style>
-
 {% extends 'layout.html' %}
 
-{% block body %}
+{% block content %}
 
 <!--
   <div class="row">
@@ -34,6 +14,7 @@
 
 -->
 
+<<<<<<< HEAD
 
   <img src='/static/front.png' width=100% ></img>
 
@@ -43,32 +24,37 @@
   capacity to make interesting connections and see large scale patterns through objective, numerical analyses. As such, the capability of computers in regards to text analysis
   should be available to everyone. We designed these algorithms in order to bridge the gap,
   to allow all readers and writers to witness for themselves the potential of language processing. </p>
+=======
+>>>>>>> c607935872faa9bdccc2115020610dad9b09040a
+
+  <img src='/static/front.png' width=100% ></img>
 
 
+  <div class="p-3 w-75 h-75 m-auto">
+    <h2> Why mix words and numbers? </h2>
+      <p> The brilliance of the computational perspective is often
+      hidden from the general population of writers and readers. While, of course, a computer can never read and analyze text to the extent that a human can, it has the
+      capacity to make interesting connections and see large scale patterns through objective, numerical analyses. As such, the capability of computers in regards to text analysis
+      should be available to everyone. We designed these algorithms in order to bridge the gap,
+      to allow all readers and writers to witness for themselves the potential of language processing. </p>
+      <p>In short, spreading these concepts to a general audience is the mission of this website.</p>
 
 
-  <br><p></p>
-  In short, spreading these concepts to a general audience is the mission of this website.
-  <br><br
+      <div class="">
+        <div class="column">
+          <h3> Digital Humanities (DH): </h3>
+          <p> the application of coding and statistical tools in the context of humanities fields such as history, literature, art, anthropology, and music.  </p>
+        </div>
 
-  <div class="row">
-
-    <div class="column" > <b> Natural Language Processing (NLP): </b><p> the science of looking at large amounts of
-    "natural language" (spoken and written word) with computers. It powers search engines, online translators, voice assistants,
-    and much, much more.
-      </p></div>
-      <div class="column"> <b> Digital Humanities (DH): </b> <p> the application of coding and statistical tools in the
-      context of humanities fields, most notably literature, philosophy, and history. </p>
-      <br>
+        <div class="column" >
+          <h3> Natural Language Processing (NLP): </h3>
+          <p> the subset of digital humanities concerned specifically with computer interaction with human language. This is the science that powers search engines, automatic translators, chatbots, voice assistants,
+            and more. </p>
+        </div>
       </div>
-      <br>
+      <div class="text-center">
+        <a href='https://github.com/nbergam2021/AmericanModernism'>Want to see our code? Here's the link to our GitHub </a>
+      </div>
   </div>
-
-  <br><br><br><br><br><br>
-
-  <p> Want to see our code? Here's the
-  <a href = 'https://github.com/nbergam2021/AmericanModernism'> link to our GitHub </a>
-  </p>
-
 
 {% endblock %}

@@ -1,0 +1,1 @@
+web: gunicorn flaskr:app
