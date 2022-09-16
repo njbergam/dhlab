@@ -479,6 +479,16 @@ def wikipediaWords(ogWords, numWords):
             list.append([])
     return list
 
+def removeBadWords(df):
+    words = df.index
+    books = df.columns
+    vals = df.values.tolist()
+    print(vals)
+    for i in range(len(vals)):
+        if vals[i].count(0) == len(books):
+            print("found bad word: " + words[i])
+            df.drop(words[i], axis = 0, inplace = True)
+    return df
 
 # Default finder of first generation words
 # Randomly samples
@@ -964,4 +974,29 @@ def modelTopics(filenames, graphLocation):
     plt.ylabel("Relevance of Topic in Corpus (%)")
     plt.tight_layout()
     plt.savefig('flaskr/static/graphs/' + graphLocation + '.png', bbox_inches='tight', dpi=300)
+    plt.close()
+
+#corpus = list of lists that contains tokenzied text for each story
+#titles = filenames of the books to be analyzed
+#themeWords = words to calculate the importance of in each story
+def createThemeVectorGraph(matrix1, matrix2, title, origThemes):
+    books = matrix1.columns
+    matrix1 = removeBadWords(matrix1)
+    matrix2 = removeBadWords(matrix2)
+    for i in range(len(books)):
+        xPoint = statistics.mean(matrix1[books[i]].tolist())
+        yPoint = statistics.mean(matrix2[books[i]].tolist())
+        # xVals = matrix1[books[i]].tolist()
+        # xPoint = sum(xVals) / ( len(xVals) - xVals.count(0.000000))
+        # yVals = matrix2[books[i]].tolist()
+        # yPoint = sum(yVals) / ( len(yVals) - yVals.count(0.000000))
+        plt.scatter(xPoint, yPoint, label = books[i])
+    print(matrix1)
+    print(matrix2)
+    plt.legend(books)
+    plt.xlabel(origThemes[0].upper())
+    plt.ylabel(origThemes[1].upper())
+    plt.title(origThemes[0] + " vs. " + origThemes[1])
+    plt.axline((0, 0), (1, 1), linewidth=1, color='black', label= 'y=x')
+    plt.savefig('flaskr/static/graphs/' + title + '.png', bbox_inches='tight')
     plt.close()
