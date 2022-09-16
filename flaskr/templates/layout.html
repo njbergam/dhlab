@@ -1,39 +1,34 @@
 <!DOCTYPE html>
-
-<style>
-
-center {
-  margin-right: 120px;
-  margin-left: 120px;
-}
-.div2 {
-  border-radius: 5px;
-  background-color: #DBFBFD;
-  padding: 20px;
-  margin: auto;
-  width:50%;
-  margin-top:40px;
-}
-{% block style%} {% endblock %}
-
-</style>
-
 <html>
   <head>
-    <meta charset = 'utf-8' lang='en'>
+    <meta charset='utf-8' lang='en'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title> Digital Humanities Pingry </title>
-    <link rel='stylesheet' href = 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
-    {% include '/includes/_navbar.html' %}
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
 
 <body >
+  {% include '/includes/_navbar.html' %}
+  {% block content %}{% endblock %}
 
-  <center>
-  {% block body%} {% endblock %}
-  </center>
-    {% block body2%} {% endblock %}
-  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
-  <font color="white">.</font>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <!-- Register the popovers -->
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    });
+  </script>
 </body>
 
 </html>

@@ -1,42 +1,42 @@
 {% extends 'layout.html' %}
 
-{% block body %}
+{% block content %}
+
+<div class="p-3 w-50 h-50 m-auto">
+
   <h1> Passage Sampling </h1>
   <p> This method is meant to allow you to sample passages of your text by certain keywords and themes.
-   This is also good for randomly sampling a character and the contexts in which their name shows up.
- Play around and brainstorm!<p>
+  This is also good for randomly sampling a character and the contexts in which their name shows up.
+  Play around and brainstorm!<p>
 
 
-   <div class = "div2">
-     {% include '/includes/_upload.html' %}
-   </div>
+  <div>
+    {% include "./includes/_uploadmulti.html" %}
+  </div>
 
 
-  <form action = '/passage-results' method=post enctype=multipart/form-data>
+  <form action = '/passage-results' method="POST" enctype=multipart/form-data>
 
+    <label for="term"> Please enter your keyword/n-gram: </label>
+    <input id="term" type="input" class = "form-control mb-2" name="term" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
 
+    <div class="row mb-2">
+      <div class="col">
+        <label for="numSamp"> Number of Samples: </label>
+        <input id="numSamp" type="input" class = "form-control" name="numSamp" placeholder = "Number of samples" style ="width = 100%" id = "wordProgWords">
+      </div>
+      <div class="col">
+        <label for="wordCount"> Word Count of Samples: </label>
+        <input id="wordCount" type="input" class = "form-control" name="wordCount" placeholder = "Word count of samples" style ="width = 100%" id = "wordProgWords">
+      </div>
+    </div>
 
-  <br> <h5> Please enter your keyword/n-gram: </h5>
-  <input type="input" class = "long" name="term" placeholder = "Put words to be examined, separated by commas" style ="width = 100%" id = "wordProgWords">
-
-  <br><br><h5> Number of Samples: </h5>
-  <input type="input" class = "long" name="numSamp" placeholder = "Number of samples" style ="width = 100%" id = "wordProgWords">
-
-  <br><br><h5> Word Count of Samples: </h5>
-  <input type="input" class = "long" name="wordCount" placeholder = "Word count of samples" style ="width = 100%" id = "wordProgWords">
-
-  <br><br><h5> First Page of Novel: </h5>
-  <input type="input" class = "long" name="firstpage" placeholder = "What page is the first line of the novel?" style ="width = 50%" id = "wordProgWords">
-
-  <br><br><h5> Final Page of Novel: </h5>
-  <input type="input" class = "long" name="lastpage" placeholder = "What page is the last line of the novel?" style ="width = 50%" id = "wordProgWords">
-<br><br>
-  * Note: The last two questions allow us to give you an approximation of <br> where each passage is in your edition of the novel.
-
-
-  <br><br>
-  <input type="submit" value="Submit">
+    <div class="text-center">
+      <input type="submit" value="Submit" class="btn btn-primary w-50 mt-2">
+    </div>
 
   </form>
+</div>
+
 
 {% endblock %}

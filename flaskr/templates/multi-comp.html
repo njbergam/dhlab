@@ -1,144 +1,81 @@
 {% extends 'layout.html' %}
 
-{% block style %}
+{% block content %}
 
-input[type=text], select {
-  margin: 100px 0;
-}
-#wordProgWords {
-    display:none;
-}
-#TfIdfWords {
-  display:none;
-}
-#wordProgBox:checked ~ #wordProgWords {
-    display:block;
-}
-#TfIdfBox:checked ~ #TfIdfWords {
-    display:block;
-}
-.div2 {
-  border-radius: 5px;
-  background-color: #DBFBFD;
-  padding: 20px;
-  margin: auto;
-  width:50%;
-  margin-top:40px;
-}
-textCenter {
-  text-align:center;
-}
-.long {
-  width: 100%;
-}
-.description {
-  width: 100%;
-  background-color: lightblue;
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-top:10px;
-  margin-bottom:10px;
-}
-{% endblock %}
-{% block body2 %}
-<textCenter>
-<div class = "div2">
-  <h1> Multi-text Comparison </h1>
-  <p> Across multiple texts, compare: <br>
-  - Sentence Length <br>
-  - Percent Quotes <br>
-  - Part of Speech Distribution <br>
-  - Frequent Words <br>
-  - Word Progression <br>
-  - Vocabulary Overlap <p>
+<!-- Outer flex container for two columns -->
+<div class="w-75 h-75 p-3 m-auto d-flex flex-row justify-content-around align-items-start">
 
+  {% include "./includes/_uploadmulti.html" %}
+
+  <div class="p-3">
+    <div class="mb-3">
+      <h3> Select Text Analytics </h3>
+      <h5 class="text-muted">Please tokenize any typed inputs with commas</h5>
+    </div>
+
+    <form class="" action='/reportMulti' method="POST">
+        <h6> Requires 1 or more text: </h6>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="SLength" id="SLength">
+          <label class="form-check-label" for="SLength" data-bs-toggle="tooltip" data-bs-html="true" title="Determines the average sentence length in a given corpus.">Sentence Length</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="POS" id="POS">
+          <label for="POS" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a pi chart for the distribution of the parts of speeches in the text.">Part of Speech Distribution</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="TopWords" id="TopWords">
+          <label for="TopWords" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with frequently used words in the novel and their corresponding frequencies.">Frequent Words</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="sentiment" id="sentiment">
+          <label for="sentiment" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Determines the mood of a given piece of text: either positive, negative, or neutral.">Sentiment Analysis</label>
+        </div>
+
+        <!--
+            1. words in the same group should be separated by commas.<br>
+            2. words in different groups should be separated by semi-colons. -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="WordProg" id="wordProgBox">
+          <label for="wordProgBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Plots frequency of given group(s) of words over the course of the novel."">Word Progression</label>
+          <input type="text" class="form-control" name="WordProgWords" id="WordProgWords" placeholder="Enter words for WP" data-bs-trigger="focus" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" title="How to use:" data-bs-content="Track multiple words in the same theme by separating them with commas. Separate themes (or unrelated words) with semicolons. Ex: theme1Word, theme1Word; theme2. NOTE: input words are stemmed into root form" autocomplete="off">
+        </div>
+
+        <!-- Term frequency-inverse document frequency <br> <br>
+            Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="tfidf" id="TfIdfBox">
+          <label for="TfIdfBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Provides a measure for how important a word is to a certain text in a corpus.">Word Relevance (using TF-IDF)</label>
+          <input type="text" class="form-control" name="TfIdfWords" id="TfIdfWords" placeholder="Enter words for tf-idf (separated with commas)." autocomplete="off">
+        </div>
+        <!-- TfIdfWords box id and name -->
+
+        <h6 class="mt-3"> Requires 2 or more texts: </h6>
+
+        <!-- Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are. -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="over" id="ovre">
+          <label for="over" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with words that appear in all provided texts.">Overlap</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="topicmodeling" id="topicmodeling">
+          <label for="topicmodeling" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays common themes throughout a work of literature.">Topic Modeling (using Latent Dirichlet Allocation)</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="tvect" id="tvect">
+          <label for="tvect" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Measures how relevant a word is to a set of documents.">Thematic Vectorization (using TF-IDF)</label>
+          <input type="text" class="form-control" name="TVectWords" id="TVectWords" placeholder="Enter words for Thematic Vectorization (separated with commas)." autocomplete="off">
+        </div>
+
+        <input class="mt-2 btn btn-primary w-100" type="submit">
+    </form>
+  </div>
 </div>
-<div class = "div2">
-  {% include '/includes/_uploadmulti.html' %}
-</div>
-<style>
-#myDIV {
-  width: 100%;
-  padding: 50px 0;
-  text-align: center;
-  background-color: lightblue;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-</style>
 
-<script>
-function displayDesc(bID, divID) {
-  console.log("Hello world!");
-  var x = document.getElementById(divID.id);
-  var btnText = document.getElementById(bID.id);
-  if (x.style.display == "none") {
-    btnText.innerHTML = "-";
-    x.style.display = "block";
-  } else {
-    btnText.innerHTML = "+";
-    x.style.display = "none";
-  }
-}
-</script>
-
-</textCenter>
-<div class = "div2">
-  <textCenter>
-  <h3 style> Reader-Responsible Information </h3>
-  <p style>  *please tokenize answers below with commas* <br> </p>
-  </textCenter>
-  <!--<p> Major Characters: </p> <p>   <input type="text" name="char"  style="width:400px; height:50px;">  <br> </p>
-  <p> First Generation Words: </p> <p>   <input type="text" name="gen"  style="width:400px; height:50px;">  <br> </p>-->
-  <form action = '/reportMulti' method = "POST" style = "margin-left: 4%;">
-      <p> Choose tests: </p>
-      <input type="checkbox" name="SLength"> Sentence Length
-      <button type="button" onclick="displayDesc(aBtn,SLengthID)" id="aBtn">+</button> <br>
-      <div class = "description" id="SLengthID" style = "display: none" >
-          Finds the average sentence length for every sentence in the text.
-      </div>
-
-      <input type="checkbox" name="PercentQuotes"> Percent Quotes
-      <button type="button" onclick="displayDesc(bBtn,PercentQuotesID)" id="bBtn">+</button> <br>
-      <div class = "description" id="PercentQuotesID" style = "display: none">
-          Finds the percent of the text that is in quotes.
-      </div>
-      <input type="checkbox" name="POS"> Part of Speech Distribution
-      <button type="button" onclick="displayDesc(cBtn,POSID)" id="cBtn">+</button> <br>
-      <div class = "description" id="POSID" style = "display: none" >
-          Displays a pi chart for the distribution of the parts of speeches in the text.
-      </div>
-      <input type="checkbox" name="TopWords"> Frequent Words
-      <button type="button" onclick="displayDesc(dBtn,TopWordsID)" id="dBtn">+</button> <br>
-      <div class = "description" id="TopWordsID" style = "display: none" >
-          Displays a bar graph with frequently used words in the novel and their corresponding frequencies.
-      </div>
-      <input type="checkbox" name="over"> Overlap
-      <button type="button" onclick="displayDesc(eBtn,overID)" id="eBtn">+</button> <br>
-      <div class = "description" id="overID" style = "display: none" >
-          Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are.
-      </div>
-      <input type="checkbox" name="WordProg" id = "wordProgBox"> Word Progression
-      <button type="button" onclick="displayDesc(eBtn,WordProgID)" id="fBtn">+</button> <br>
-      <div class = "description" id="WordProgID" style = "display: none" >
-          Plots frequency of given group(s) of words over the course of the novel. <br>
-          Put words to be examined: <br>
-          1. words in the same group should be separated by commas.<br>
-          2. words in different groups should be separated by semi-colons.
-      </div>
-      <input type="input" class = "long" name="WordProgWords" placeholder = "Put words to be examined(word progression), separated by commas" style ="width = 100%" id = "wordProgWords">
-      <input type="checkbox" name="tfidf" id = "TfIdfBox"> TF-IDF
-      <button type="button" onclick="displayDesc(fBtn,tfidfID)" id="tfidf">+</button>
-      <div class = "description" id="tfidfID" style = "display: none" >
-          Term frequency-inverse document frequency <br>
-          Provides a measure for how important a word is to a certain text in a corpus. <br>
-          Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document
-      </div>
-
-      <input type="input" class = "long" name="TfIdfWords" placeholder = "Put words to be examined(tf-idf), separated by commas" style ="width = 100%" id = "TfIdfWords"> <br>
-      <input type="submit" value="Submit"> <br>
-  </form>
-</div>
 {% endblock %}

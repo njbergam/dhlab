@@ -1,32 +1,36 @@
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
-<nav class="site-header sticky-top py-1">
-  <div style="width:2000px;height:20px;background-color: #ffffff;solid #000;margin-top:-10px;padding: 0px;"></div>
-  <div class="container d-flex flex-column flex-md-row justify-content-between" style = "background-color: #f2f2f2;solid #000;">
-    <a class="py-2" href="/">   <!-- logo -->
-      <img src='/static/best_purp.png' height = 30px width = 30px> </img>
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/">
+      <img src="/static/best_purp.png" alt="Logo" width="30px" height="30px" class="d-inline-block align-middle">
+      Digital Humanities Pingry
     </a>
-    <a class="py-2 d-none d-md-inline-block" href="/howTo">How to Use</a>
-
-    <!-- <a class="py-2 d-none d-md-inline-block" href="/"> Home </a> -->
-    <a class="py-2 d-none d-md-inline-block" href="/single">  Single Text </a>
-    <!-- Multi text dropdown -->
-     <a class="py-2 d-none d-md-inline-block" href="/multi-comp"> Multi Text </a>
-
-    <!-- Essay Analysis -->
-    <div class="btn-group">
-      <a class="nav-link dropdown-toggle" href="#" id="dropdownEssay" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Essay Help
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownEssay">
-        <a class="dropdown-item" href="/thesis">Thesis Analysis</a>
-        <a class="dropdown-item" href="/passage">Passage Finder</a>
-      </div>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="howTo">How to Use</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/analytics">Text Analytics</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/generative">Generative Models</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Writerly Help
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="/thesis">Thesis Analysis</a></li>
+            <li><a class="dropdown-item" href="/passage">Passage Finder</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/projects">Projects</a>
+        </li>
+      </ul>
     </div>
-    <!--  <a class="py-2 d-none d-md-inline-block" href="/downloads"> Pingry Texts </a> -->
-    <a class="py-2 d-none d-md-inline-block" href="/projects"> Projects </a>
   </div>
-
-
-</nav>
+</div>

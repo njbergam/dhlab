@@ -15,3 +15,7 @@ build/
 
 *.swo
 *.swp
+environment/*
+new-env/*
+flaskr/static/graphs/*
+flaskr/uploads/*

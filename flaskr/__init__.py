@@ -1,5 +1,3 @@
-# coding=utf-8
-
 import os
 import requests
 import google.oauth2.credentials
@@ -8,16 +6,16 @@ import googleapiclient.discovery
 from googleapiclient.discovery import build
 from werkzeug.utils import secure_filename
 from flask import Flask, session, flash, request, redirect, url_for, render_template
-# Used for security reasons - has much more use we aren't currently tapping into
-from flask_talisman import Talisman
+# Talisman is used for security reasons - has much more use we aren't currently tapping into
+# from flask_talisman import Talisman
 from flask_session.__init__ import Session
 import matplotlib.pyplot as plt, mpld3
 import random
 import string
 import json
 import nltk
-from .tools1 import *
 
+from .tools.simple_analytics import *
 from .tools.vars import branch, UPLOAD_FOLDER, GRAPHS_FOLDER, ALLOWED_EXTENSIONS
 from .tools.txtresult import txtResult
 
@@ -93,12 +91,15 @@ def create_app(test_config=None):
     from .blueprints.projects import p
     app.register_blueprint(p)
 
+    from .blueprints.writerly import writerly
+    app.register_blueprint(writerly)
+
     # Mainpage route that contains basic information about the app
     @app.route('/', methods=['GET', 'POST'])
     def home():
         return render_template('hello.html')
 
-    #---Multi Text
+    #--- Multi Text
 
     # Simply explaining what to do with the app and how it works.
     @app.route('/howTo')
@@ -110,6 +111,11 @@ def create_app(test_config=None):
     def allusions():
         return render_template('dev.html')
 
+    # TODO: make generative models work on the website
+    @app.route('/generative', methods=['GET', 'POST'])
+    def gen():
+        return render_template('generative.html')
+
     #---Thesis and Essay Help
 
     # Landing page for thesis help
@@ -117,32 +123,8 @@ def create_app(test_config=None):
     def student():
         return render_template('thesis.html')
 
-    # Landing page for passage sampling
-    @app.route('/passage', methods=['GET', 'POST'])
-    def passage():
-        fname = session['fname']
-        session['priorUrl'] = '/passage'
-        if "fnameDisplay" not in session:
-            fnameDisplay = ''
-        else:
-            fnameDisplay = session['fnameDisplay']
-        session['fnameDisplay'] = ''
-        return render_template('passage.html', fname=fnameDisplay)
 
-    @app.route('/passage-results', methods=['GET', 'POST'])
-    def passageResults():
-        fname = session['fname']
-        print(fname)
-        dict = request.form.to_dict()
-        print(dict)
-        passages, numFound = samplePassage(
-            simpleTokenize("flaskr/uploads/" + fname), dict["term"],
-            dict["numSamp"], dict["wordCount"], dict["firstpage"],
-            dict["lastpage"])
-        return render_template('passageResults.html',
-                               passages=passages,
-                               numFound=numFound)
-
+    # Landing page for essay help, displayed with color coded essay text
     @app.route('/thesis-result', methods=['GET', 'POST'])
     def result():
         raw_text = request.form.to_dict()

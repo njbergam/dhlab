@@ -15,12 +15,18 @@
             "id" : "UC"
         },
         {
+            "title" : "Versification of Spanish Poetry",
+            "desc" : "Using Guillermo Nájera's pyesia package, we examine the verse structures of Spanish poets Francisco de Quevedo, Luis de Gongora, and Sor Juana Ines de la Cruz. ",
+            "org" : "Rhea Kapur '21 - Advanced Topics Computer Science - 2021",
+            "imgPath" : "static/project_pics/spanish_vers.png",
+            "id" : "SP"
+        },
+        {
             "title" : "Landmark Papers in Computer Science",
             "desc" : "What makes a research paper great, in form and/or substance? How do new ideas enter the “canon” of computer science? How does one obtain immortality in the names of algorithms and theorems? These are the humanistic questions we ask in this unit. We approach groundbreaking computer science ideas related to industry, cryptography, and theory through their original publications, rather than polished, second-hand explanations. We will read and discuss landmark papers with an eye for both raw content and expository style. In essence, we will treat computer science research literature as literature, worth analyzing for aesthetic and historical reasons.",
-            "org" : "Pingry Computer Science Curriculum - 2021",
+            "org" : "Noah Bergam '21 - Pingry Computer Science Curriculum - 2021",
             "imgPath" : "static/project_pics/logo.png",
-            "id" : "AM"
+            "id" : "CS"
         }
-
     ]
 }

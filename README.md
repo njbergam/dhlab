@@ -1,5 +1,5 @@
 # dhlab
-This will hold the code for the Pingry's Digital Humanities suite and initial projects
+This will hold the code for the Pingry Digital Humanities suite and initial projects
 
 To run on your local server:
 

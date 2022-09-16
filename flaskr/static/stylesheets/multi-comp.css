@@ -1,0 +1,48 @@
+/* input[type=text],
+select {
+    margin: 100px 0;
+}
+
+#wordProgWords {
+    display: none;
+}
+
+#TfIdfWords {
+    display: none;
+}
+
+#wordProgBox:checked~#wordProgWords {
+    display: block;
+}
+
+#TfIdfBox:checked~#TfIdfWords {
+    display: block;
+}
+
+.div2 {
+    border-radius: 5px;
+    background-color: #DBFBFD;
+    padding: 20px;
+    margin: auto;
+    width: 50%;
+    margin-top: 40px;
+}
+
+textCenter {
+    text-align: center;
+}
+
+.long {
+    width: 100%;
+}
+
+.description {
+    width: 100%;
+    background-color: lightblue;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+} */
