@@ -22,3 +22,4 @@ environment/*
 new-env/*
 flaskr/static/graphs/*
 flaskr/uploads/*
+.DS_Store
