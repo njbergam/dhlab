@@ -13,9 +13,12 @@ dist/
 build/
 *.egg-info/
 
+environment/*
+new-env/*
+
 *.swo
 *.swp
-# environment/*
-# new-env/*
+environment/*
+new-env/*
 flaskr/static/graphs/*
 flaskr/uploads/*
