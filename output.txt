@@ -92,3 +92,15 @@ FileNotFoundError: [Errno 2] No such file or directory: 'client_secret.json'
 [2021-05-24 10:56:32 -0400] [14074] [INFO] Worker exiting (pid: 14074)
 [2021-05-24 10:56:32 -0400] [14077] [INFO] Worker exiting (pid: 14077)
 [2021-05-24 10:57:02 -0400] [14071] [INFO] Shutting down: Master
+[2022-09-16 22:05:55 -0400] [10635] [INFO] Starting gunicorn 20.0.4
+[2022-09-16 22:05:55 -0400] [10635] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2022-09-16 22:05:55 -0400] [10635] [ERROR] Retrying in 1 second.
+[2022-09-16 22:05:56 -0400] [10635] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2022-09-16 22:05:56 -0400] [10635] [ERROR] Retrying in 1 second.
+[2022-09-16 22:05:57 -0400] [10635] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2022-09-16 22:05:57 -0400] [10635] [ERROR] Retrying in 1 second.
+[2022-09-16 22:05:58 -0400] [10635] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2022-09-16 22:05:58 -0400] [10635] [ERROR] Retrying in 1 second.
+[2022-09-16 22:05:59 -0400] [10635] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2022-09-16 22:05:59 -0400] [10635] [ERROR] Retrying in 1 second.
+[2022-09-16 22:06:00 -0400] [10635] [ERROR] Can't connect to ('0.0.0.0', 8000)

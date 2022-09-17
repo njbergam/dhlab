@@ -1,4 +1,6 @@
-from .flaskr.__init__ import app
+from flaskr.__init__ import create_app
+
+app = create_app()
 
 csp = {
     'default-src': [
