@@ -240,11 +240,11 @@ def multiReport():
                 cleanedInput.append(cleanText2(subarray))
 
             oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
-    if "topicmodeling" in dict:
-        print("[Results] Computing topic modeling.")
-        textRsts[0].topicmodeling = ''.join(
-            random.choices(string.ascii_uppercase + string.digits, k=10))
-        modelTopics(session['files'], textRsts[0].topicmodeling)
+    # if "topicmodeling" in dict:
+    #     print("[Results] Computing topic modeling.")
+    #     textRsts[0].topicmodeling = ''.join(
+    #         random.choices(string.ascii_uppercase + string.digits, k=10))
+    #     modelTopics(session['files'], textRsts[0].topicmodeling)
 
     # if "tvect" in dict:
         
