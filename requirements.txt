@@ -8,7 +8,7 @@ click==7.1.2
 cycler==0.10.0
 Flask==1.1.2
 Flask-Session==0.3.2
-gensim==4.2.0
+gensim==3.7.1
 google==3.0.0
 google-api-core==1.26.1
 google-api-python-client==2.0.2
