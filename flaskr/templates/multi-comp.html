@@ -49,7 +49,7 @@
             Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="tfidf" id="TfIdfBox">
-          <label for="TfIdfBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Provides a measure for how important a word is to a certain text in a corpus.">Word Relevance (using TF-IDF)</label>
+          <label for="TfIdfBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Provides a measure for how important a word is to a certain text.">Word Relevance</label>
           <input type="text" class="form-control" name="TfIdfWords" id="TfIdfWords" placeholder="Enter words for tf-idf (separated with commas)." autocomplete="off">
         </div>
         <!-- TfIdfWords box id and name -->
@@ -58,13 +58,13 @@
 
         <!-- Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are. -->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="over" id="ovre">
-          <label for="over" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with words that appear in all provided texts.">Overlap</label>
+          <input class="form-check-input" type="checkbox" name="over" id="over">
+          <label for="over" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph for each pair of texts with words that appear in both texts.">Top Overlapping Words</label>
         </div>
 
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="topicmodeling" id="topicmodeling">
-          <label for="topicmodeling" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays common themes throughout a work of literature.">Topic Modeling (using Latent Dirichlet Allocation)</label>
+          <label for="topicmodeling" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays common themes throughout a work of literature.">Topic Modeling</label>
         </div>
 
         <!-- <div class="form-check">

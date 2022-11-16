@@ -931,7 +931,50 @@ def sentiment_analysis_score(filename, graphLocation):
 
     return scores
 
+def modelTopics(filenames, graphLocation):
+    # get all texts from their files
+    texts = []
+    for filename in filenames:
+        texts.append(cleanText("flaskr/uploads/" + filename))
+    
+    # use gensim dictionary to create a "bag-of-words" representation of the texts
+    corpus_dict = Dictionary(texts)
+    corpus = [corpus_dict.doc2bow(text) for text in texts]
 
+    # initialize gensim unsupervised LDA model
+    n_topics = 10
+    lda = LdaModel(corpus, num_topics=n_topics, random_state=23, id2word=corpus_dict)
+
+    # get the top topics across the corpus and sort them by the most relevant
+    topics = lda.show_topics(num_topics=n_topics, num_words=5, formatted=False)
+    topics = sorted(topics, key=lambda x: int(x[0]))
+
+    # display graph of topics
+    bar_width = 0.35
+    wordTopics = []
+    percentages = []
+    # get lists of words for each topic, as well as the sum of their weights
+    # this piece of code makes it so we can display the words in the graph separately from their weights
+    for topic in topics:
+        newTopic = []
+        weightSum = 0
+        # append each word to the list and add the weight to the sum
+        for word in topic[1]:
+            newTopic.append(word[0])
+            weightSum += word[1]
+        wordTopics.append(newTopic)
+        percentages.append(weightSum * 100)
+
+    # create a bar graph that displays the top words for each topic, and the topics' weight sums
+    plt.figure(figsize=(6, 3))
+    plt.bar(range(n_topics), percentages)
+    print("wordTopics", wordTopics)
+    plt.xticks(np.arange(n_topics) + bar_width, wordTopics, rotation='vertical')
+    plt.xlabel("Top 5 Words for Each Topic")
+    plt.ylabel("Relevance of Topic in Corpus (%)")
+    plt.tight_layout()
+    plt.savefig('flaskr/static/graphs/' + graphLocation + '.png', bbox_inches='tight', dpi=300)
+    plt.close()
 
 #corpus = list of lists that contains tokenzied text for each story
 #titles = filenames of the books to be analyzed
