@@ -57,6 +57,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # Allows OAuth to work with http instead of https
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
     ############################
     ###  SETUP LIBRARIES/BP  ###
     ############################
@@ -231,6 +234,7 @@ def create_app(test_config=None):
         if 'email' not in session:
             session['priorUrl'] = '/downloads'
             return redirect('/getUser')
+
         if session['email'][-10:] == "pingry.org":
             return render_template('downloads.html',
                                    ninthTexts=ninthTexts,
@@ -265,7 +269,6 @@ def create_app(test_config=None):
     @app.route('/authorize')
     def authorize():
         #flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret.json',scopes=['https://www.googleapis.com/auth/drive.metadata.readonly'],code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
-        #flow.redirect_uri = 'http://localhost:5000/oauth_callback'
         oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file(
             'flaskr/client_secret.json',
             scopes=['https://www.googleapis.com/auth/drive.file'])
@@ -276,6 +279,7 @@ def create_app(test_config=None):
             redirect_uri='http://dhlab.pingry.org:8000/oauth_callback',
             code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd'
         )
+        # flow.redirect_uri = 'http://localhost:5000/oauth_callback' # GET RID OF THIS LINE WHEN DEPLOYING
         authorization_url, state = flow.authorization_url(
             access_type='offline'
         )  # Enable offline access so that you can refresh an access token without re-prompting the user for permission. Recommended for web server apps.#,include_granted_scopes='true'
@@ -297,6 +301,7 @@ def create_app(test_config=None):
             redirect_uri='http://dhlab.pingry.org:8000/oauth_callback',
             code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd'
         )
+        # flow.redirect_uri = 'http://localhost:5000/oauth_callback' # GET RID OF THIS LINE WHEN DEPLOYING
         authorization_response = request.url
         flow.fetch_token(authorization_response=authorization_response)
         credentials = flow.credentials
