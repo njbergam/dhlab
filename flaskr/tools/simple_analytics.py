@@ -26,7 +26,7 @@ import matplotlib
 matplotlib.use('Agg') # Increased support for newer osx versions
 import matplotlib.pyplot as plt, mpld3
 import numpy as np
-from PyPDF2 import PdfFileReader
+from pypdf import PdfFileReader
 import random
 import math
 import string
