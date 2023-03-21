@@ -271,8 +271,8 @@ def create_app(test_config=None):
     def authorize():
         #flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret.json',scopes=['https://www.googleapis.com/auth/drive.metadata.readonly'],code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd')
         oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file(
-            'flaskr/client_secret.json')
-            # scopes=['https://www.googleapis.com/auth/drive.file'])
+            'flaskr/client_secret.json',
+            scopes=['https://www.googleapis.com/auth/drive.file'])
         flow = google_auth_oauthlib.flow.Flow(
             oauth2_session,
             client_type='web',
@@ -293,8 +293,8 @@ def create_app(test_config=None):
     def oauth_callback():
         #state = session['state']
         oauth2_session, client_config = google_auth_oauthlib.helpers.session_from_client_secrets_file(
-            'flaskr/client_secret.json')
-            # scopes=['https://www.googleapis.com/auth/drive.file'])
+            'flaskr/client_secret.json',
+            scopes=['https://www.googleapis.com/auth/drive.file'])
         flow = google_auth_oauthlib.flow.Flow(
             oauth2_session,
             client_type='web',
