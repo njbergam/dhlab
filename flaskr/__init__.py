@@ -235,6 +235,7 @@ def create_app(test_config=None):
             session['priorUrl'] = '/downloads'
             return redirect('/getUser')
 
+        # check if person has a pingry email
         if session['email'][-10:] == "pingry.org":
             return render_template('downloads.html',
                                    ninthTexts=ninthTexts,
@@ -276,7 +277,7 @@ def create_app(test_config=None):
             oauth2_session,
             client_type='web',
             client_config=client_config,
-            redirect_uri='http://dhlab.pingry.org:8000/oauth_callback',
+            redirect_uri='https://dhlab.pingry.org:8000/oauth_callback',
             code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd'
         )
         # flow.redirect_uri = 'http://localhost:5000/oauth_callback' # GET RID OF THIS LINE WHEN DEPLOYING
@@ -298,7 +299,7 @@ def create_app(test_config=None):
             oauth2_session,
             client_type='web',
             client_config=client_config,
-            redirect_uri='http://dhlab.pingry.org:8000/oauth_callback',
+            redirect_uri='https://dhlab.pingry.org:8000/oauth_callback',
             code_verifier='128buoABUFU01189fhUA021uAFHJA102810hf3rfsdboq031rfd'
         )
         # flow.redirect_uri = 'http://localhost:5000/oauth_callback' # GET RID OF THIS LINE WHEN DEPLOYING
