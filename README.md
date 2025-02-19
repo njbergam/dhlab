@@ -6,10 +6,10 @@ To run on your local server:
 > cd path/to/dhlab
 
 > python -m venv environment
-
-> pip install -r requirements.txt (this step may take a few minutes)
   
 > source environment/bin/activate (Windows: environment\Scripts\activate)
+
+> pip install -r requirements.txt (this step may take a few minutes)
   
 > export FLASK_APP=flaskr (Windows: set FLASK_APP=flaskr)
   
