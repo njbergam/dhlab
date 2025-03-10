@@ -26,7 +26,7 @@ import matplotlib
 matplotlib.use('Agg') # Increased support for newer osx versions
 import matplotlib.pyplot as plt, mpld3
 import numpy as np
-from pypdf import PdfFileReader
+from pypdf import PdfReader
 import random
 import math
 import string
@@ -94,7 +94,7 @@ def removePunctuation(text):
 
 def text_extractor(pdfFile):
     with open(pdfFile, 'rb') as f:
-        pdf = PdfFileReader(pdfFile)
+        pdf = PdfReader(pdfFile)
         text = ""
         for i in range(pdf.getNumPages()):
             page = pdf.getPage(i)
