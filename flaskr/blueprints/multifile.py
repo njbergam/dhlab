@@ -126,6 +126,8 @@ def multiReport():
     text2 = []
     textRsts = []
 
+    print(dict)
+
     # Loop through each of the files and extract it into an array containing the text
     for i in range(len(session['files'])):
         print("[ReportMulti] Currently processing file: " + session['files'][i])
@@ -146,7 +148,7 @@ def multiReport():
 
         for i in range(len(session['files'])):
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
-    if "tfidf" in dict:
+    if "TfIdf" in dict:
         print("[Results] Computing TF-IDF scores.")
 
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
@@ -259,11 +261,6 @@ def multiReport():
 
     # at this point, all graphs and statistics have been created, so we can give the text names and graph locations
     # to the renderer which will display them on the page
-
-    print("[Debug] Sentiment Graphs Passed to Template:")
-    for result in textRsts:
-        print(f"Graph: {result.polarity_sentiment_graph}")
-
 
     return render_template('multiResults.html',
                            results=textRsts,
