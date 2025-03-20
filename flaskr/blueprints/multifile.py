@@ -14,13 +14,12 @@ import random
 import string
 import json
 import nltk
-
+import os
 from ..tools.simple_analytics import *
 from ..tools.vars import branch, UPLOAD_FOLDER, GRAPHS_FOLDER, ALLOWED_EXTENSIONS
 from ..tools.txtresult import txtResult
 
 multifile = Blueprint("multifile", __name__, template_folder="templates")
-
 
 # Landing page for multi text comparison
 @multifile.route('/analytics')
@@ -43,13 +42,21 @@ def multi():
     return render_template('multi-comp.html', files=files, fail=fail)
 
 # Helper method to delete all files in the graph folder.
-def deleteGraphFolder():
-    currDir = os.path.dirname(__file__)
-    relativePath = "/../static/graphs"
 
-    for file in os.listdir(currDir + relativePath):
-        print("[Clearing Graphs] Deleting " + file + ".")
-        os.remove(currDir + relativePath + "/" + file)
+def deleteGraphFolder():
+    currDir = os.path.dirname(os.path.abspath(__file__))
+    relativePath = os.path.join(currDir, "..", "static", "graphs")
+    
+    # Ensure the directory exists
+    if not os.path.exists(relativePath):
+        os.makedirs(relativePath)
+
+    # Delete files inside the folder
+    for file in os.listdir(relativePath):
+        filePath = os.path.join(relativePath, file)
+        if os.path.isfile(filePath):  # Ensure it's a file before deleting
+            print(f"[Clearing Graphs] Deleting {file}.")
+            os.remove(filePath)
 
 @multifile.route("/upload_multifile", methods=["POST"])
 def upload_multifile():
@@ -119,6 +126,8 @@ def multiReport():
     text2 = []
     textRsts = []
 
+    print(dict)
+
     # Loop through each of the files and extract it into an array containing the text
     for i in range(len(session['files'])):
         print("[ReportMulti] Currently processing file: " + session['files'][i])
@@ -139,7 +148,7 @@ def multiReport():
 
         for i in range(len(session['files'])):
             textRsts[i].sen_avg, textRsts[i].sen_stdv = senlenStats(text[i])
-    if "tfidf" in dict:
+    if "TfIdf" in dict:
         print("[Results] Computing TF-IDF scores.")
 
         wordsToBeTfIDFed = dict["TfIdfWords"].split(",")
@@ -172,11 +181,10 @@ def multiReport():
 
         # textRsts[i].tfIdf = tfIdfResults #same index for valeus as words to be IDFed
 
-    if "sentiment" in dict:
+    if "Sentiment" in dict:
         # structure: create randomized graph names for each file, then create a graph for each file and pass 
         # the text and graph name to the renderer
         print("[Results] Computing sentiment analysis.")
-
         for index, elem in enumerate(session["files"]):
             textRsts[index].polarity_sentiment_graph = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
             textRsts[index].polarity_sentiment_score = sentiment_analysis_score(elem, textRsts[index].polarity_sentiment_graph)
@@ -240,11 +248,11 @@ def multiReport():
                 cleanedInput.append(cleanText2(subarray))
 
             oneTextPlotChronoMap(text2[i], cleanedInput, textRsts[i].wp)
-    # if "topicmodeling" in dict:
-    #     print("[Results] Computing topic modeling.")
-    #     textRsts[0].topicmodeling = ''.join(
-    #         random.choices(string.ascii_uppercase + string.digits, k=10))
-    #     modelTopics(session['files'], textRsts[0].topicmodeling)
+    if "topicmodeling" in dict:
+        print("[Results] Computing topic modeling.")
+        textRsts[0].topicmodeling = ''.join(
+            random.choices(string.ascii_uppercase + string.digits, k=10))
+        modelTopics(session['files'], textRsts[0].topicmodeling)
 
     # if "tvect" in dict:
         
@@ -253,6 +261,7 @@ def multiReport():
 
     # at this point, all graphs and statistics have been created, so we can give the text names and graph locations
     # to the renderer which will display them on the page
+
     return render_template('multiResults.html',
                            results=textRsts,
                            overlap=overlapInfo,

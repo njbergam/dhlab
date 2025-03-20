@@ -69,26 +69,7 @@
       </div>
       {% endif %}
 
-      <!-- Overlap words results -->
-      {% if "over" in selections %}
-      <div class="accordion-item">
-        <h2 class="accordion-header h5" id="headingOne">
-          <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#overlap" aria-expanded="true" aria-controls="collapseOne">
-            Graph of Overlapped Words
-          </div>
-        </h2>
-        <div id="overlap" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-          <div class="accordion-body">
-            {% for result in overlap %}
-              <h6> Graph of Overlap for {{result[0]}} </h6>
-              <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-      {% endif %}
-
-      <!-- Word progresison results -->
+      <!-- Word progression results -->
       {% if "WordProg" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
@@ -106,11 +87,11 @@
         </div>
       </div>
       {% endif %}
-      <!-- Word progresison results -->
-      {% if "sentiment" in selections %}
+      <!-- Sentiment Analysis results -->
+      {% if "Sentiment" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#wordprog" aria-expanded="true" aria-controls="collapseOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sentiment" aria-expanded="true" aria-controls="collapseOne">
             Sentiment Analysis Results
           </button>
         </h2>
@@ -127,7 +108,7 @@
       {% endif %}
 
       <!-- TFIDF progresison results -->
-      {% if "tfidf" in selections %}
+      {% if "TfIdf" in selections %}
       <div class="accordion-item">
         <h2 class="accordion-header h5" id="headingOne">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tfidf" aria-expanded="true" aria-controls="collapseOne">
@@ -153,6 +134,25 @@
         <div id="tvect" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
           <div class="accordion-body">
             <img src = {{ '/static/graphs/' + results[0].tv + '.png'  }} width = 55% alt = 'figure' >
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Overlap words results -->
+      {% if "over" in selections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header h5" id="headingOne">
+          <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#overlap" aria-expanded="true" aria-controls="collapseOne">
+            Graph of Overlapped Words
+          </div>
+        </h2>
+        <div id="overlap" class="accordion-collapse collapse show" aria-labelledby="headingOne" data>
+          <div class="accordion-body">
+            {% for result in overlap %}
+              <h6> Graph of Overlap for {{result[0]}} </h6>
+              <img src = {{ '/static/graphs/' + result[1] + '.png'  }} width = 55% alt = 'figure' >
+            {% endfor %}
           </div>
         </div>
       </div>

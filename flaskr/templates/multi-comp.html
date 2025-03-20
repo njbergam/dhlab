@@ -17,22 +17,22 @@
         <h6> Requires 1 or more text: </h6>
 
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="SLength" id="SLength">
+          <input class="form-check-input" type="checkbox" name="SLength" id="SLengthBox">
           <label class="form-check-label" for="SLength" data-bs-toggle="tooltip" data-bs-html="true" title="Determines the average sentence length in a given corpus.">Sentence Length</label>
         </div>
 
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="POS" id="POS">
+          <input class="form-check-input" type="checkbox" name="POS" id="POSBox">
           <label for="POS" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a pi chart for the distribution of the parts of speeches in the text.">Part of Speech Distribution</label>
         </div>
 
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="TopWords" id="TopWords">
+          <input class="form-check-input" type="checkbox" name="TopWords" id="TopWordsBox">
           <label for="TopWords" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with frequently used words in the novel and their corresponding frequencies.">Frequent Words</label>
         </div>
 
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="sentiment" id="sentiment">
+          <input class="form-check-input" type="checkbox" name="Sentiment" id="SentimentBox">
           <label for="sentiment" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Determines the mood of a given piece of text: either positive, negative, or neutral.">Sentiment Analysis</label>
         </div>
 
@@ -40,7 +40,7 @@
             1. words in the same group should be separated by commas.<br>
             2. words in different groups should be separated by semi-colons. -->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="WordProg" id="wordProgBox">
+          <input class="form-check-input" type="checkbox" name="WordProg" id="WordProgBox">
           <label for="wordProgBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Plots frequency of given group(s) of words over the course of the novel."">Word Progression</label>
           <input type="text" class="form-control" name="WordProgWords" id="WordProgWords" placeholder="Enter words for WP" data-bs-trigger="focus" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" title="How to use:" data-bs-content="Track multiple words in the same theme by separating them with commas. Separate themes (or unrelated words) with semicolons. Ex: theme1Word, theme1Word; theme2. NOTE: input words are stemmed into root form" autocomplete="off">
         </div>
@@ -48,7 +48,7 @@
         <!-- Term frequency-inverse document frequency <br> <br>
             Calculated by how many times the word appears in the text multiplied by the inverse document frequency of the word across a set of document -->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="tfidf" id="TfIdfBox">
+          <input class="form-check-input" type="checkbox" name="TfIdf" id="TfIdfBox">
           <label for="TfIdfBox" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Provides a measure for how important a word is to a certain text in a corpus.">Word Relevance (using TF-IDF)</label>
           <input type="text" class="form-control" name="TfIdfWords" id="TfIdfWords" placeholder="Enter words for tf-idf (separated with commas)." autocomplete="off">
         </div>
@@ -58,14 +58,14 @@
 
         <!-- Displays a bar graph with words that frequently appear in both texts. Words are weighted based on how common they are. -->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="over" id="ovre">
+          <input class="form-check-input" type="checkbox" name="Over" id="OverBox">
           <label for="over" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays a bar graph with words that appear in all provided texts.">Overlap</label>
         </div>
 
-        <!-- <div class="form-check">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" name="topicmodeling" id="topicmodeling">
-          <label for="topicmodeling" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays common themes throughout a work of literature.">Topic Modeling (using Latent Dirichlet Allocation)</label>
-        </div> -->
+          <label for="topicmodeling" class="form-check-label" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-html="true" title="Displays common themes throughout a set of documents (note: works best with many documents, otherwise the topics tend to be very similar).">Topic Modeling</label>
+        </div>
 
         <!-- <div class="form-check">
           <input class="form-check-input" type="checkbox" name="tvect" id="tvect">
