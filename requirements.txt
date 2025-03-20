@@ -56,6 +56,6 @@ six==1.15.0
 soupsieve==2.2
 tqdm==4.59.0
 uritemplate==3.0.1
-urllib3==1.26.3
+urllib3==1.26.19
 Werkzeug==2.2.3
 wikipedia==1.4.0
